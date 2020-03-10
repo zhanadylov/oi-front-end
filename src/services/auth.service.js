@@ -22,9 +22,6 @@ class AuthService {
     localStorage.removeItem('role');
   }
 
-  getCompanyReports() {
-    return axios.get('http://212.42.101.4:8769/api/reports/allreports', { headers: { Authorization: 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'Application/json' } })
-  }
 }
 
 export default new AuthService();

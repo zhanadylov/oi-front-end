@@ -6,18 +6,31 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(
-    (config) => {
+    (response) => {
         let token = localStorage.getItem('token')
 
         if (token) {
-            config.headers['Authorization'] = `Bearer ${token}`
+            response.headers['Authorization'] = `Bearer ${token}`
         }
 
-        return config
+        return response
     },
 
     (error) => {
       return error
+    }
+)
+
+instance.interceptors.response.use(
+    (response) => {
+        return response
+    },
+    (error) => {
+        if (error.response.status === 401) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('role')
+            window.location = "/login"
+        }
     }
 )
 
