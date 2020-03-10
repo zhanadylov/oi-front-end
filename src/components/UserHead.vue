@@ -23,7 +23,8 @@
         </li>
       </div>
 
-      <div v-if="currentUser" class="navbar-nav ml-auto">
+      <!-- <div v-if="currentUser" class="navbar-nav ml-auto"> -->
+        <div class="navbar-nav ml-auto">
         
         <li class="nav-item">
           <a class="nav-link" href @click.prevent="logOut">
