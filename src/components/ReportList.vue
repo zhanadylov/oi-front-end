@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-table :fields="reportList" bordered hover :items="items" head-variant="light">
-      <template #cell(status) = "row">
+      <template #cell(status)="row">
         <span v-if="row.item.status == 1">Редактирование</span>
         <span v-else-if="row.item.status == 2">Готов к отправке</span>
         <span v-else-if="row.item.status == 3">Принят</span>
@@ -11,14 +11,19 @@
           <a :href="`/report/${row.item.id}`">{{ row.item.typedoc }}</a>
         </span>
       </template>
-      <template #cell(refer)="row" v-if="isadmin">
-        <span v-if="row.item.typedoc !== 'KVIT01'">
-          <b-button
-            v-if="row.item.refer == null"
-            @click="confirm(row.item.id, row.item.sender)"
-          >Подтвердить</b-button>
-          <b-button v-else>Подтверждено</b-button>
-        </span>
+      <template #cell(refer)="row" >
+        <p v-if="isadmin">
+          <span v-if="row.item.typedoc !== 'KVIT01'">
+            <b-button
+              v-if="row.item.refer == null"
+              @click="confirm(row.item.id, row.item.sender)"
+            >Подтвердить</b-button>
+            <b-button v-else>Подтверждено</b-button>
+          </span>
+        </p>
+        <p v-else>
+          <b-button v-if="row.item.status == 2">Отправить</b-button>
+        </p>
       </template>
     </b-table>
   </div>

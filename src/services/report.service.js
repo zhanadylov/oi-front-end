@@ -46,8 +46,8 @@ class ReportService {
     getReportById(id) {
         return instance.get('/reports/' + id, { headers: { 'Content-Type': 'Application/json' } })
     }
-    insertReport(typedoc, xmldoc, sender, reciver) {
-        return instance.post('/reports', { typedoc, xmldoc, sender, reciver })
+    insertReport(typedoc, xmldoc, sender, reciver, status) {
+        return instance.post('/reports', { typedoc, xmldoc, sender, reciver, status })
     }
 
     getReportsFromAdmin() {

@@ -28,8 +28,9 @@ export default {
       let xmldoc = JSON.stringify(this.report)
       let sender = this.report.reportHead.kod
       let reciver = 'KSE00000'
+      let status = 1
       this.$store
-        .dispatch('insert', {typedoc, xmldoc, sender, reciver})
+        .dispatch('report/insert', {typedoc, xmldoc, sender, reciver, status})
         .then(response => {
           this.$router.push('/profile');
         })

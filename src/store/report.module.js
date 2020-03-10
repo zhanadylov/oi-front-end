@@ -9,8 +9,8 @@ export const report = {
     insert: false
   },
   actions: {
-    insert({ commit }, {typedoc, xmldoc, sender, reciver}) {
-      return ReportService.insertReport(typedoc, xmldoc, sender, reciver).then(
+    insert({ commit }, {typedoc, xmldoc, sender, reciver, status}) {
+      return ReportService.insertReport(typedoc, xmldoc, sender, reciver, status).then(
         () => {
           commit('insertSuccess');
           return Promise.resolve(true);
