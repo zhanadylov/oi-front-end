@@ -30,6 +30,8 @@ instance.interceptors.response.use(
             localStorage.removeItem('token');
             localStorage.removeItem('role')
             window.location = "/login"
+        } else {
+            console.log(error)
         }
     }
 )
@@ -56,6 +58,10 @@ class ReportService {
 
     confirmReport(id, interrefer) {
         return instance.put('/reports', { id, interrefer })
+    }
+
+    updateReport(id, doc) {
+        return instance.put('/reports/' + id, {id, doc})
     }
 }
 

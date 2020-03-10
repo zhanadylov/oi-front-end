@@ -1,9 +1,16 @@
 <template>
   <div>
-    <b-table :fields="reportList" bordered hover :items="items" head-variant="light">
+    <b-table :fields="reportList" bordered hover :items="items" selectable :select-mode="selectMode" head-variant="light">
+      <template #cell(createdate)="row">
+        <span>{{row.item.createdate}}</span> <br>
+        <b-button size="sm" @click="row.toggleDetails" class="mr-2">
+          {{ row.detailsShowing ? 'Скрыть' : 'Показать'}} Детали
+        </b-button>
+      </template>
+
       <template #cell(status)="row">
         <span v-if="row.item.status == 1">Редактирование</span>
-        <span v-else-if="row.item.status == 2">Готов к отправке</span>
+        <span v-else-if="row.item.status == 2">Отправлен</span>
         <span v-else-if="row.item.status == 3">Принят</span>
       </template>
       <template #cell(typedoc)="row">
@@ -22,8 +29,18 @@
           </span>
         </p>
         <p v-else>
-          <b-button v-if="row.item.status == 2">Отправить</b-button>
+          <b-button v-if="row.item.status == 1">Отправить</b-button>
         </p>
+      </template>
+      <template v-slot:row-details="row">
+        <b-card>
+          <b-row class="mb-2">
+            <b-col sm="3" class="text-sm-right"><b>Дата последнего изменения:</b></b-col>
+            <b-col>{{ row.item.updatedate }}</b-col>
+          </b-row>
+
+          <b-button size="sm" @click="row.toggleDetails">Скрыть</b-button>
+        </b-card>
       </template>
     </b-table>
   </div>
@@ -47,7 +64,7 @@ export default {
           label: 'Статус документа'
         },
         {
-          key: 'datedoc',
+          key: 'createdate',
           headerTitle: 'Дата регистрации',
           label: 'Дата регистрации'
         },
@@ -58,14 +75,6 @@ export default {
         },
         { key: 'refer', headerTitle: 'Подтвердить', label: 'Подтвердить' }
       ]
-      // items: [
-      //   {
-      //     aaa: 0,
-      //     ddd: '',
-      //     datedoc: '',
-      //     typedoc: 'ss'
-      //   }
-      // ]
     };
   },
   computed: {

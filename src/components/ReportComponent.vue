@@ -272,8 +272,6 @@
         ></b-form-textarea>
       </b-col>
     </b-row>
-
-    <h3>Id: {{$route.params.id }}</h3>
     {{result}}
   </div>
 </template>

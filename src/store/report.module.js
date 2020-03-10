@@ -6,7 +6,8 @@ export const report = {
   state: {
     list: [],
     confirm: false,
-    insert: false
+    insert: false,
+    updateReport: false
   },
   actions: {
     insert({ commit }, {typedoc, xmldoc, sender, reciver, status}) {
@@ -21,12 +22,24 @@ export const report = {
       );
     },
 
+    updateReport({ commit }, {id, doc}) {
+      return ReportService.updateReport(id, doc).then(
+        () => {
+          commit('updateReportStatus');
+          return true;
+        },
+        error => {
+          return Promise.reject(error);
+        }
+      );
+    },
+
     getList({commit}) {
       console.log('from store')
       return ReportService.getCompanyReports().then(
         (dates) => {
           commit('listStatus', dates.data)
-          return true
+          return Promise.resolve(true);
         },
         error => {
           return Promise.reject(error)
@@ -49,6 +62,9 @@ export const report = {
   mutations: {
     listStatus (state, dates) {
       state.list = dates
+    },
+    updateReportStatus (state) {
+      state.updateReport = true
     },
     confirmReport (state) {
       state.confirm = true
