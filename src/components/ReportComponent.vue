@@ -286,6 +286,13 @@ export default {
   },
   data() {
     return {
+      selected: 'RKV01',
+      options: [
+        { text: 'Квартальный отчет', value: 'RKV01' },
+        { text: 'Годовой отчет', value: 'RKV02' },
+        { text: 'Дивиденды', value: 'radio4', disabled: true },
+        { text: 'Собрание', value: 'radio5', disabled: true }
+      ],
       info: {
         name: '',
         opforma: '',
@@ -294,14 +301,6 @@ export default {
         owners: '',
         workers: ''
       },
-      selected: 'RKVT',
-      options: [
-        { text: 'Квартальный отчет', value: 'RKV01' },
-        { text: 'Годовой отчет', value: 'RKV02' },
-        { text: 'Квитанция', value: 'KVIT01', disabled: true },
-        { text: 'Дивиденды', value: 'radio4', disabled: true },
-        { text: 'Собрание', value: 'radio5', disabled: true }
-      ],
       editIndex: null,
       originalData: null,
       items: [{ code: '0', name: '0', description: '0', qty: '0' }],
@@ -597,5 +596,13 @@ a {
 
 textarea {
   margin: 10px 0;
+}
+
+table input {
+  text-align: center;
+}
+
+table {
+  text-align: center;
 }
 </style>

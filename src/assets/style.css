@@ -4794,10 +4794,11 @@
     z-index: 1040;
     width: 100vw;
     height: 100vh;
-    background-color: #000; }
-    .modal-backdrop.fade {
+    background-color: #000;
+    opacity: 0.5; }
+    .modal .fade {
       opacity: 0; }
-    .modal-backdrop.show {
+    .modal .show {
       opacity: 0.5; }
   
   .modal-header {
@@ -8243,10 +8244,9 @@
         color: rgba(255, 255, 255, 0.8);
         border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
         #sidebar ul li a:hover {
-          color: #f8b739; }
+          color: #0062cc; }
       #sidebar ul li.active > a {
-        background: transparent;
-        color: #f8b739; }
+        background: transparent; }
     @media (max-width: 991.98px) {
       #sidebar {
         margin-left: -300px; }
@@ -8276,13 +8276,6 @@
     -webkit-transition: all 0.3s;
     -o-transition: all 0.3s;
     transition: all 0.3s; }
-  
-  .btn.btn-primary {
-    background: #f8b739;
-    border-color: #f8b739; }
-    .btn.btn-primary:hover, .btn.btn-primary:focus {
-      background: #f8b739 !important;
-      border-color: #f8b739 !important; }
   
   .footer p {
     color: rgba(255, 255, 255, 0.5); }

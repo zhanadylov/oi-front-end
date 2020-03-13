@@ -39,30 +39,44 @@ instance.interceptors.response.use(
 
 class ReportService {
 
-    getInfoCompanyById() {
+    getInfoCompanyById() {  // Получение данных компании по токену, для заполнения шапки отчета
         return instance.get('/reports', { headers: { 'Content-Type': 'Application/json' } })
     }
-    getCompanyReports() {
+    getCompanyReports() {   // Получение всех отчетов компании по токену
         return instance.get('/reports/allreports', { headers: { 'Content-Type': 'Application/json' } })
     }
-    getReportById(id) {
+    getReportById(id) {     // Получение отчета по переданному id отчта
         return instance.get('/reports/' + id, { headers: { 'Content-Type': 'Application/json' } })
     }
-    insertReport(typedoc, xmldoc, sender, reciver, status) {
+    insertReport(typedoc, xmldoc, sender, reciver, status) {    // Добавить отчет
         return instance.post('/reports', { typedoc, xmldoc, sender, reciver, status })
     }
 
-    getReportsFromAdmin() {
+    getReportsFromAdmin() {     // Список отчетов со статусом отправлен, для админа
         return instance.get('/admin', { headers: { 'Content-Type': 'Application/json' } })
     }
 
-    confirmReport(id, interrefer) {
+    confirmReport(id, interrefer) {     // Квитовка отчета, для админа
         return instance.put('/reports', { id, interrefer })
     }
 
-    updateReport(id, doc) {
+    updateReport(id, doc) {     // Изменить отчет
         return instance.put('/reports/' + id, {id, doc})
+    }
+
+    sendReport (id) {   // Изменить статус отчета на отправлен
+        return instance.put('/reports/status/' + id)
     }
 }
 
 export default new ReportService();
+
+
+/*
+
+select * from tbldocuments, users, tblcompany 
+where users.idcompany=tblcompany.id and 
+(tbldocuments.sender= tblcompany.kod or tbldocuments.reciver= tblcompany.kod ) and
+ users.login='admin'
+
+*/

@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- <AdminHead  v-if="showAdminBoard"/>
     <UserHead  v-if="!showAdminBoard"/>-->
 
@@ -38,9 +41,9 @@
 
       <!-- Page Content  -->
       <div id="content" class="p-4 p-md-5">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light col-md-12">
           <div class="container-fluid">
-            <button type="button" id="sidebarCollapse" class="btn btn-primary">
+            <button type="button" id="sidebarCollapse" @click="sidebar" class="btn btn-primary">
               <i class="fa fa-bars"></i>
               <span class="sr-only">Toggle Menu</span>
             </button>
@@ -108,6 +111,10 @@ export default {
     logOut() {
       this.$store.dispatch('auth/logout');
       this.$router.push('/login');
+    },
+    sidebar() {
+      let element = document.getElementById('sidebar')
+      element.classList.toggle('active')
     }
   }
   // components: {
@@ -119,6 +126,6 @@ export default {
 
 <style>
 .js-fullheight {
-  height: 100vh;
+  height: 100%;
 }
 </style>

@@ -7,7 +7,8 @@ export const report = {
     list: [],
     confirm: false,
     insert: false,
-    updateReport: false
+    updateReport: false,
+    send: true
   },
   actions: {
     insert({ commit }, {typedoc, xmldoc, sender, reciver, status}) {
@@ -57,6 +58,18 @@ export const report = {
           return Promise.reject(error)
         }
       )
+    },
+
+    sendReport({commit}, id) {
+      return ReportService.sendReport(id).then(
+        () => {
+          commit('sendReport')
+          return Promise.resolve(true)
+        },
+        error => {
+          return Promise.reject(error)
+        }
+      )
     }
   },
   mutations: {
@@ -71,6 +84,9 @@ export const report = {
     },
     insertSuccess (state) {
       state.inser = true
+    },
+    sendReport (state) {
+      state.send = true
     }
   }
 };

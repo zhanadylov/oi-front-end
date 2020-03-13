@@ -1,11 +1,30 @@
 <template>
   <div>
-    <b-table :fields="reportList" bordered hover :items="items" selectable :select-mode="selectMode" head-variant="light">
+    <b-table
+      :fields="reportList"
+      bordered
+      hover
+      :items="items"
+      head-variant="light"
+    >
+      <template #cell(id)="row" v-if="isadmin">
+        {{row.item.sender}}
+      </template>
+
       <template #cell(createdate)="row">
-        <span>{{row.item.createdate}}</span> <br>
-        <b-button size="sm" @click="row.toggleDetails" class="mr-2">
-          {{ row.detailsShowing ? 'Скрыть' : 'Показать'}} Детали
-        </b-button>
+        <p v-if="isadmin">
+          {{row.item.datesend}}
+        </p>
+        <p v-else>
+          <span>{{row.item.createdate}}</span>
+        <br />
+        <b-button
+          size="sm"
+          @click="row.toggleDetails"
+          class="mr-2"
+        >{{ row.detailsShowing ? 'Скрыть' : 'Показать'}} Детали</b-button>
+        </p>
+        
       </template>
 
       <template #cell(status)="row">
@@ -14,35 +33,52 @@
         <span v-else-if="row.item.status == 3">Принят</span>
       </template>
       <template #cell(typedoc)="row">
-        <span>
-          <a :href="`/report/${row.item.id}`">{{ row.item.typedoc }}</a>
-        </span>
+        <router-link :to="`/report/${row.item.id}`" class="nav-link">
+         {{ row.item.typedoc }}
+        </router-link>
       </template>
-      <template #cell(refer)="row" >
+
+      <template #cell(refer)="row">
         <p v-if="isadmin">
           <span v-if="row.item.typedoc !== 'KVIT01'">
-            <b-button
+            <b-button variant="success"
               v-if="row.item.refer == null"
               @click="confirm(row.item.id, row.item.sender)"
             >Подтвердить</b-button>
-            <b-button v-else>Подтверждено</b-button>
+            <b-button variant="outline-primary" v-else>Подтверждено</b-button>
           </span>
         </p>
         <p v-else>
-          <b-button v-if="row.item.status == 1">Отправить</b-button>
+          <b-button v-if="row.item.status == 1" @click="sendReport(row.item.id)">Отправить</b-button>
+          <b-button @click="test(row.item.typedoc, row.item.confirmdate, row.item.name)" v-b-modal.modal-center v-else-if="row.item.status == 3" variant="success">Квитирован </b-button>
         </p>
       </template>
+
       <template v-slot:row-details="row">
         <b-card>
           <b-row class="mb-2">
-            <b-col sm="3" class="text-sm-right"><b>Дата последнего изменения:</b></b-col>
+            <b-col sm="3" class="text-sm-right">
+              <b>Дата последнего изменения:</b>
+            </b-col>
             <b-col>{{ row.item.updatedate }}</b-col>
+          </b-row>
+          <b-row class="mb-2">
+            <b-col sm="3" class="text-sm-right">
+              <b>Дата отправки:</b>
+            </b-col>
+            <b-col>{{ row.item.datesend }}</b-col>
           </b-row>
 
           <b-button size="sm" @click="row.toggleDetails">Скрыть</b-button>
         </b-card>
       </template>
     </b-table>
+    <b-modal id="modal-center" size="lg" centered title="Квитанция">
+    <p class="my-4">{{companyname}}</p>
+    <p class="my-4">Основание документа: {{doctype}}</p>
+    <p class="my-4">Дата: {{date}}</p>
+    <p class="my-4">Опубликовано на официальном сайте <a href="www.kse.kg"> ЗАО "Кыргызская Фондовая Биржа" </a> </p>
+  </b-modal>
   </div>
 </template>
 <script>
@@ -54,6 +90,10 @@ export default {
   },
   data() {
     return {
+      date: '',
+      doctype: '',
+      companyname: '',
+      result: [],
       reportList: [
         {
           key: 'id'
@@ -99,10 +139,27 @@ export default {
     confirm(id, interrefer) {
       this.$store
         .dispatch('report/confirm', { id, interrefer })
-        .then(response => {})
+        .then(response => {
+          this.getReportList()
+        })
         .catch(function(error) {
           console.log(error);
         });
+    },
+    sendReport(id) {
+      this.$store
+        .dispatch('report/sendReport', id)
+        .then(response => {
+          this.getReportList()
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+    test(type, date, name) {
+      this.date = date
+      this.doctype = type
+      this.companyname = name
     }
   }
 };
