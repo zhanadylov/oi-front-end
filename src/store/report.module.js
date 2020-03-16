@@ -11,8 +11,8 @@ export const report = {
     send: true
   },
   actions: {
-    insert({ commit }, {typedoc, xmldoc, sender, reciver, status}) {
-      return ReportService.insertReport(typedoc, xmldoc, sender, reciver, status).then(
+    insert({ commit }, {typedoc, xmldoc, sender, status}) {
+      return ReportService.insertReport(typedoc, xmldoc, sender, status).then(
         () => {
           commit('insertSuccess');
           return Promise.resolve(true);
@@ -36,7 +36,6 @@ export const report = {
     },
 
     getList({commit}) {
-      console.log('from store')
       return ReportService.getCompanyReports().then(
         (dates) => {
           commit('listStatus', dates.data)

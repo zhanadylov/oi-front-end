@@ -37,6 +37,7 @@ instance.interceptors.response.use(
 )
 
 
+
 class ReportService {
 
     getInfoCompanyById() {  // Получение данных компании по токену, для заполнения шапки отчета
@@ -48,8 +49,8 @@ class ReportService {
     getReportById(id) {     // Получение отчета по переданному id отчта
         return instance.get('/reports/' + id, { headers: { 'Content-Type': 'Application/json' } })
     }
-    insertReport(typedoc, xmldoc, sender, reciver, status) {    // Добавить отчет
-        return instance.post('/reports', { typedoc, xmldoc, sender, reciver, status })
+    insertReport(typedoc, xmldoc, sender, status) {    // Добавить отчет
+        return instance.post('/reports', { typedoc, xmldoc, sender, status })
     }
 
     getReportsFromAdmin() {     // Список отчетов со статусом отправлен, для админа

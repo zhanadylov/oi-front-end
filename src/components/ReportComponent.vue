@@ -24,7 +24,7 @@
           <strong class="text-danger">!</strong>
         </b-input-group-text>
       </template>
-      <b-form-input v-model="info.name"></b-form-input>
+      <b-form-input :disabled="1===1" v-model="info.name"></b-form-input>
     </b-input-group>
     <b-input-group prepend="организационно-правовая форма" class="mt-3">
       <template v-slot:append>
@@ -157,15 +157,20 @@
     <p>1) Сведения, включаемые в бухгалтерский баланс</p>
 
     <b-table
-      :fields="tblbalancefields"
       bordered
       hover
       :items="tblbalanceitems"
+      :fields="tblbalancefields"
       head-variant="light"
     >
       <template #cell(Start)="row">
         <span>
-          <input type="number" v-model="row.item.Start" />
+          <template v-if="row.item.Code==='050'">
+            <input type="number" v-model="summa"/>
+          </template>
+          <template v-else>
+            <input type="number" v-model="row.item.Start" />
+          </template>
         </span>
       </template>
       <template #cell(End)="row">
@@ -177,7 +182,7 @@
 
     <p>2) Сведения, включаемые в отчет о прибылях и убытках</p>
 
-    <b-table :fields="tblprofitfields" bordered hover :items="tblprofititems" head-variant="light">
+    <b-table bordered hover :items="tblprofititems" :fields="tblprofitfields" head-variant="light">
       <template #cell(Start)="row">
         <span>
           <input type="number" v-model="row.item.Start" />
@@ -193,10 +198,10 @@
     <p>3) Сведения, включаемые в отчет об изменениях в капитале</p>
 
     <b-table
-      :fields="tblcapitalfields"
       bordered
       hover
       :items="tblcapitalitems"
+      :fields="tblcapitalfields"
       head-variant="light"
     >
       <template #cell(Start)="row">
@@ -281,8 +286,7 @@ import Queries from '../services/report.service'; // axios запросы на �
 export default {
   name: 'ReportComponent',
   created() {
-    this.getInfoCompany(),
-    this.setinfo()
+    this.getInfoCompany(), this.setinfo();
   },
   data() {
     return {
@@ -337,7 +341,7 @@ export default {
         {
           Code: '050',
           TItle: 'Итого активы (010+020+030+040)',
-          Start: 0,
+          Start: this.summa,
           End: 0
         },
         { TItle: 'Обязательства и капитал' },
@@ -504,6 +508,18 @@ export default {
       props: ['input']
     };
   },
+  computed: {
+    summa: function() {
+      let input = this.tblbalanceitems[3].Start
+      return (
+        input = 
+        +this.tblbalanceitems[3].Start +
+        +this.tblbalanceitems[2].Start +
+        +this.tblbalanceitems[1].Start +
+        +this.tblbalanceitems[0].Start
+      );
+    }
+  },
   methods: {
     getInfoCompany() {
       return Queries.getInfoCompanyById()
@@ -518,6 +534,7 @@ export default {
       return Queries.getReportById(this.$route.params.id)
         .then(response => {
           //let xmldoc = JSON.parse(response.data.xmldoc)
+          
           this.result = response.data.doc;
           this.info = response.data.doc.reportHead;
           this.items = response.data.doc.tblOwners;

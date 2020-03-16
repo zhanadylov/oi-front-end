@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
 		
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- <AdminHead  v-if="showAdminBoard"/>
     <UserHead  v-if="!showAdminBoard"/>-->
 
@@ -89,11 +87,6 @@
 </template>
 
 <script>
-// document.getElementById('sidebarCollapse').onclick = function changeContent() {
-//   let element = document.getElementById('sidebar');
-//   element.classList.toggle('active');
-// }
-
 export default {
   computed: {
     showAdminBoard() {

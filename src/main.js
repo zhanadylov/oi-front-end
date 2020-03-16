@@ -7,7 +7,6 @@ import { router } from './router';
 import { BootstrapVue } from 'bootstrap-vue';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import VeeValidate from 'vee-validate';
 import './assets/style.css'
 
 
@@ -17,8 +16,6 @@ Vue.use(BootstrapVue)
 //Vue.use(IconsPlugin)
 
 Vue.config.productionTip = false;
-
-Vue.use(VeeValidate);
 
 Vue.use(Vuex);
 
