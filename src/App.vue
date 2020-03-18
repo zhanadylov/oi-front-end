@@ -14,13 +14,13 @@
                 data-toggle="collapse"
                 aria-expanded="false"
                 class="dropdown-toggle"
-              >Home</a>
+              >Профиль</a>
               <ul class="collapse list-unstyled" id="homeSubmenu">
                 <li>
-                  <a href="#">Home 1</a>
+                  <a href="#">Личные данные</a>
                 </li>
                 <li>
-                  <a href="#">Home 2</a>
+                  <a href="#">Данные компании</a>
                 </li>
                 <li>
                   <a href="#">Home 3</a>
@@ -28,7 +28,7 @@
               </ul>
             </li>
             <li class="nav-item">
-              <router-link to="/profile" class="nav-link">Профиль</router-link>
+              <router-link to="/reporting" class="nav-link">Отчетность</router-link>
             </li>
             <li class="nav-item">
               <router-link to="/report" class="nav-link">Создать отчет</router-link>

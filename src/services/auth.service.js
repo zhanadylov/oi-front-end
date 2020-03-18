@@ -5,7 +5,7 @@ const API_URL = 'http://212.42.101.4:8769/api/users/';
 class AuthService {
   async login(user) {
     const response = await axios
-      .post(API_URL + 'register', {
+      .post(API_URL + 'auth', {
         login: user.username,
         password: user.password
       })
@@ -20,6 +20,10 @@ class AuthService {
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
+  }
+
+  info() {
+    return axios.get(API_URL + 'me', { headers: { 'Content-Type': 'Application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') } })
   }
 
 }

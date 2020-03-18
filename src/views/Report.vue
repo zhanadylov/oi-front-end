@@ -15,10 +15,11 @@
 
 export default {
   name: 'Report',
-
+  
   data() {
     return {
-      report: []
+      report: [],
+      content: []
     };
   },
   components: {

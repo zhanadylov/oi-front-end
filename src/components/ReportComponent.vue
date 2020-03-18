@@ -24,7 +24,7 @@
           <strong class="text-danger">!</strong>
         </b-input-group-text>
       </template>
-      <b-form-input :disabled="1===1" v-model="info.name"></b-form-input>
+      <b-form-input readonly v-model="info.name"></b-form-input>
     </b-input-group>
     <b-input-group prepend="организационно-правовая форма" class="mt-3">
       <template v-slot:append>
@@ -32,7 +32,7 @@
           <strong class="text-danger">!</strong>
         </b-input-group-text>
       </template>
-      <b-form-input v-model="info.opforma"></b-form-input>
+      <b-form-input readonly v-model="info.opforma"></b-form-input>
     </b-input-group>
     <b-input-group
       prepend="юридический и почтовый адрес эмитента, номер телефона и факса"
@@ -43,7 +43,7 @@
           <strong class="text-danger">!</strong>
         </b-input-group-text>
       </template>
-      <b-form-input v-model="info.address"></b-form-input>
+      <b-form-input readonly v-model="info.address"></b-form-input>
     </b-input-group>
     <b-input-group prepend="основной вид деятельности эмитента" class="mt-3">
       <template v-slot:append>
@@ -51,7 +51,7 @@
           <strong class="text-danger">!</strong>
         </b-input-group-text>
       </template>
-      <b-form-input v-model="info.activity"></b-form-input>
+      <b-form-input readonly v-model="info.activity"></b-form-input>
     </b-input-group>
 
     <h4>
@@ -66,7 +66,7 @@
               <strong class="text-danger">!</strong>
             </b-input-group-text>
           </template>
-          <b-form-input v-model="info.owners"></b-form-input>
+          <b-form-input @blur="sendData" required v-model="info.owners"></b-form-input>
         </b-input-group>
         <b-input-group prepend="Количество работников" class="mt-3">
           <template v-slot:append>
@@ -74,7 +74,7 @@
               <strong class="text-danger">!</strong>
             </b-input-group-text>
           </template>
-          <b-form-input v-model="info.workers"></b-form-input>
+          <b-form-input @blur="sendData" v-model="info.workers"></b-form-input>
         </b-input-group>
       </b-col>
     </b-row>
@@ -102,25 +102,25 @@
           <td>
             <span v-if="editIndex !== index">{{ item.code }}</span>
             <span v-if="editIndex === index">
-              <input class="form-control form-control-sm" v-model="item.code" />
+              <input class="form-control form-control-sm" @blur="sendData" v-model="item.code" />
             </span>
           </td>
           <td>
             <span v-if="editIndex !== index">{{ item.name }}</span>
             <span v-if="editIndex === index">
-              <input class="form-control form-control-sm" v-model="item.name" />
+              <input class="form-control form-control-sm" @blur="sendData" v-model="item.name" />
             </span>
           </td>
           <td>
             <span v-if="editIndex !== index">{{ item.description }}</span>
             <span v-if="editIndex === index">
-              <input class="form-control form-control-sm" v-model="item.description" />
+              <input class="form-control form-control-sm" @blur="sendData" v-model="item.description" />
             </span>
           </td>
           <td>
             <span v-if="editIndex !== index">{{ item.qty }}</span>
             <span v-if="editIndex === index">
-              <input class="form-control form-control-sm" type="number" v-model.number="item.qty" />
+              <input class="form-control form-control-sm" @blur="sendData" type="number" v-model.number="item.qty" />
             </span>
           </td>
 
@@ -166,16 +166,33 @@
       <template #cell(Start)="row">
         <span>
           <template v-if="row.item.Code==='050'">
-            <input type="number" v-model="summa"/>
+            <input type="number" v-model="summa.sum1" />
+          </template>
+          <template v-else-if="row.item.Code === '080'">
+            <input type="number" v-model="summa.sum3"/>
+          </template>
+          <template v-else-if="row.item.Code === '100'">
+            <input type="number" v-model="summa.sum5"/>
           </template>
           <template v-else>
-            <input type="number" v-model="row.item.Start" />
-          </template>
+            <input type="number" @blur="sendData" v-model="row.item.Start" />
+          </template> 
         </span>
       </template>
       <template #cell(End)="row">
         <span>
-          <input type="number" v-model="row.item.End" />
+          <template v-if="row.item.Code==='050'">
+            <input type="number" v-model="summa.sum2"/>
+          </template>
+          <template v-else-if="row.item.Code === '080'">
+            <input type="number" v-model="summa.sum4"/>
+          </template>
+          <template v-else-if="row.item.Code === '100'">
+            <input type="number" v-model="summa.sum6"/>
+          </template>
+          <template v-else>
+            <input type="number" @blur="sendData" v-model="row.item.End" />
+          </template> 
         </span>
       </template>
     </b-table>
@@ -185,12 +202,12 @@
     <b-table bordered hover :items="tblprofititems" :fields="tblprofitfields" head-variant="light">
       <template #cell(Start)="row">
         <span>
-          <input type="number" v-model="row.item.Start" />
+          <input type="number" @blur="sendData" v-model="row.item.Start" />
         </span>
       </template>
       <template #cell(End)="row">
         <span>
-          <input type="number" v-model="row.item.End" />
+          <input type="number" @blur="sendData" v-model="row.item.End" />
         </span>
       </template>
     </b-table>
@@ -206,12 +223,12 @@
     >
       <template #cell(Start)="row">
         <span>
-          <input type="number" v-model="row.item.Start" />
+          <input type="number" @blur="sendData" v-model="row.item.Start" />
         </span>
       </template>
       <template #cell(End)="row">
         <span>
-          <input type="number" v-model="row.item.End" />
+          <input type="number" @blur="sendData" v-model="row.item.End" />
         </span>
       </template>
     </b-table>
@@ -225,6 +242,7 @@
     направлений, и о направлениях использования привлеченных средств."
           rows="8"
           v-model="textareas.placement"
+          @blur="sendData"
         ></b-form-textarea>
       </b-col>
     </b-row>
@@ -236,6 +254,7 @@
     средства, полученные эмитентом в отчетном квартале, и заемные средства, полученные дочерними обществами в отчетном квартале."
           rows="8"
           v-model="textareas.funds"
+          @blur="sendData"
         ></b-form-textarea>
       </b-col>
     </b-row>
@@ -246,6 +265,7 @@
           placeholder="8. Сведения о долгосрочных и краткосрочных финансовых вложениях эмитента за отчетный квартал."
           rows="8"
           v-model="textareas.investment"
+          @blur="sendData"
         ></b-form-textarea>
       </b-col>
     </b-row>
@@ -277,7 +297,6 @@
         ></b-form-textarea>
       </b-col>
     </b-row>
-    {{result}}
   </div>
 </template>
 
@@ -290,6 +309,8 @@ export default {
   },
   data() {
     return {
+      firstName: 'Foo',
+      lastName: 'Bar',
       selected: 'RKV01',
       options: [
         { text: 'Квартальный отчет', value: 'RKV01' },
@@ -341,7 +362,7 @@ export default {
         {
           Code: '050',
           TItle: 'Итого активы (010+020+030+040)',
-          Start: this.summa,
+          Start: 0,
           End: 0
         },
         { TItle: 'Обязательства и капитал' },
@@ -510,14 +531,21 @@ export default {
   },
   computed: {
     summa: function() {
-      let input = this.tblbalanceitems[3].Start
-      return (
-        input = 
-        +this.tblbalanceitems[3].Start +
+      let summs = {
+        sum1: +this.tblbalanceitems[3].Start +
         +this.tblbalanceitems[2].Start +
         +this.tblbalanceitems[1].Start +
-        +this.tblbalanceitems[0].Start
-      );
+        +this.tblbalanceitems[0].Start, // Итого активы (010+020+030+040)
+        sum2: +this.tblbalanceitems[3].End +
+        +this.tblbalanceitems[2].End +
+        +this.tblbalanceitems[1].End +
+        +this.tblbalanceitems[0].End, // Итого активы (010+020+030+040)
+        sum3: +this.tblbalanceitems[6].Start + + this.tblbalanceitems[7].Start, // Итого обязательства (060+070)
+        sum4: +this.tblbalanceitems[6].End + + this.tblbalanceitems[7].End, // Итого обязательства (060+070)
+        sum5: +this.tblbalanceitems[6].Start + + this.tblbalanceitems[7].Start + + this.tblbalanceitems[9].Start, // Итого обязательства и собственный капитал (060+070+090)
+        sum6: +this.tblbalanceitems[6].End + + this.tblbalanceitems[7].End + + this.tblbalanceitems[9].End // Итого обязательства и собственный капитал (060+070+090)
+      }
+      return summs;
     }
   },
   methods: {
@@ -534,7 +562,6 @@ export default {
       return Queries.getReportById(this.$route.params.id)
         .then(response => {
           //let xmldoc = JSON.parse(response.data.xmldoc)
-          
           this.result = response.data.doc;
           this.info = response.data.doc.reportHead;
           this.items = response.data.doc.tblOwners;
@@ -542,6 +569,7 @@ export default {
           this.tblprofititems = response.data.doc.tblProfit;
           this.tblcapitalitems = response.data.doc.tblCapital;
           this.textareas = response.data.doc.reportFooter;
+          
         })
         .catch(function(error) {
           console.log(error);
@@ -580,6 +608,12 @@ export default {
       this.editIndex = null;
     },
     sendData() {
+      this.tblbalanceitems[4].Start = this.summa.sum1
+      this.tblbalanceitems[4].End = this.summa.sum2
+      this.tblbalanceitems[8].Start = this.summa.sum3
+      this.tblbalanceitems[8].End = this.summa.sum4
+      this.tblbalanceitems[14].Start = this.summa.sum5
+      this.tblbalanceitems[14].End = this.summa.sum6
       this.$emit('input', {
         typedoc: this.selected,
         reportHead: this.info,

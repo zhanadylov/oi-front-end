@@ -7,7 +7,7 @@ import AuthService from '../services/auth.service';
 
 export const auth = {
   namespaced: true,
-  state: { status: { loggedIn: false }, token: null },
+  state: { status: { loggedIn: false }, token: null, me: null },
   actions: {
      login({ commit }, user) {
       return AuthService.login(user).then(
@@ -24,6 +24,17 @@ export const auth = {
     logout({ commit }) {
       AuthService.logout();
       commit('logout');
+    },
+    info( {commit} ) {
+      AuthService.info().then(
+        (dates) => {
+          commit('infoData', dates.data)
+          return Promise.resolve(true);
+        },
+        error => {
+          return Promise.reject(error)
+        }
+      )
     }
   },
   mutations: {
@@ -38,6 +49,9 @@ export const auth = {
     logout(state) {
       state.status.loggedIn = false;
       state.token = null;
+    },
+    infoData(state, me) {
+      state.me = me
     }
   }
 };
