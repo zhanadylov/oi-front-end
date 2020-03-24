@@ -68,16 +68,14 @@ class ReportService {
     sendReport (id) {   // Изменить статус отчета на отправлен
         return instance.put('/reports/status/' + id)
     }
+
+    backReport(id) {
+        return instance.put('/reports/back/' + id)
+    }
+
+    rejectReport(id) {
+        return instance.put('/reports/reject/' + id)
+    }
 }
 
 export default new ReportService();
-
-
-/*
-
-select * from tbldocuments, users, tblcompany 
-where users.idcompany=tblcompany.id and 
-(tbldocuments.sender= tblcompany.kod or tbldocuments.reciver= tblcompany.kod ) and
- users.login='admin'
-
-*/

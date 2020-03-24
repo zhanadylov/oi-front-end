@@ -8,7 +8,9 @@ export const report = {
     confirm: false,
     insert: false,
     updateReport: false,
-    send: true
+    send: false,
+    back: false,
+    reject: false
   },
   actions: {
     insert({ commit }, {typedoc, xmldoc, sender, status}) {
@@ -69,6 +71,30 @@ export const report = {
           return Promise.reject(error)
         }
       )
+    },
+
+    backReport({commit}, id) {
+      return ReportService.backReport(id).then(
+        () => {
+          commit('backReport')
+          return Promise.resolve(true)
+        },
+        error => {
+          return Promise.reject(error)
+        }
+      )
+    },
+
+    rejectReport({commit}, id) {
+      return ReportService.rejectReport(id).then(
+        () => {
+          commit('rejectReport')
+          return Promise.resolve(true)
+        },
+        error => {
+          return Promise.reject(error)
+        }
+      )
     }
   },
   mutations: {
@@ -86,6 +112,12 @@ export const report = {
     },
     sendReport (state) {
       state.send = true
+    },
+    backReport (state) {
+      state.back = true
+    },
+    rejectReport (state) {
+      state.reject = true
     }
   }
 };

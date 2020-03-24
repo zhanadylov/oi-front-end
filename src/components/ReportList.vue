@@ -21,6 +21,7 @@
         <span v-if="row.item.status == 1">Редактирование</span>
         <span v-else-if="row.item.status == 2">Отправлен</span>
         <span v-else-if="row.item.status == 3">Принят</span>
+        <span v-else-if="row.item.status == 4">Отклонен</span>
       </template>
       <template #cell(typedoc)="row">
         <router-link :to="`/report/${row.item.id}`" class="nav-link">
@@ -41,7 +42,16 @@
           </span>
         </p>
         <p v-else>
-          <b-button v-if="row.item.status == 1" @click="sendReport(row.item.id)">Отправить</b-button>
+          <b-button
+            v-if="row.item.status == 1 || row.item.status == 4"
+            @click="sendReport(row.item.id)"
+            variant="primary"
+          >Отправить</b-button>
+          <b-button
+            v-if="row.item.status == 2"
+            @click="backReport(row.item.id)"
+            variant="warning"
+          >Отменить отправку</b-button>
           <b-button
             @click="test(row.item.typedoc, row.item.confirmdate, row.item.name)"
             v-b-modal.modal-center
@@ -160,6 +170,16 @@ export default {
       this.date = date;
       this.doctype = type;
       this.companyname = name;
+    },
+    backReport(id) {
+      this.$store
+        .dispatch('report/backReport', id)
+        .then(response => {
+          this.getReportList();
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     }
   }
 };
