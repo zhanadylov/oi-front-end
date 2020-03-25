@@ -5,6 +5,9 @@
       <b-badge>ОТЧЕТА</b-badge>
     </h3>
     <br />
+    <template v-if="EditReport">
+      <div class="active" ></div>
+    </template>
     <b-form-group>
       <b-form-radio-group
         id="btn-radios-2"
@@ -114,13 +117,22 @@
           <td>
             <span v-if="editIndex !== index">{{ item.description }}</span>
             <span v-if="editIndex === index">
-              <input class="form-control form-control-sm" @blur="sendData" v-model="item.description" />
+              <input
+                class="form-control form-control-sm"
+                @blur="sendData"
+                v-model="item.description"
+              />
             </span>
           </td>
           <td>
             <span v-if="editIndex !== index">{{ item.qty }}</span>
             <span v-if="editIndex === index">
-              <input class="form-control form-control-sm" @blur="sendData" type="number" v-model.number="item.qty" />
+              <input
+                class="form-control form-control-sm"
+                @blur="sendData"
+                type="number"
+                v-model.number="item.qty"
+              />
             </span>
           </td>
 
@@ -169,30 +181,30 @@
             <input type="number" readonly v-model="assets_Start" />
           </template>
           <template v-else-if="row.item.Code === '080'">
-            <input type="number" readonly v-model="liabilities_Start"/>
+            <input type="number" readonly v-model="liabilities_Start" />
           </template>
           <template v-else-if="row.item.Code === '100'">
-            <input type="number" readonly v-model="totaltblbalance_Start"/>
+            <input type="number" readonly v-model="totaltblbalance_Start" />
           </template>
           <template v-else>
             <input type="number" @blur="sendData" v-model="row.item.Start" />
-          </template> 
+          </template>
         </span>
       </template>
       <template #cell(End)="row">
         <span>
           <template v-if="row.item.Code==='050'">
-            <input type="number" readonly v-model="assets_End"/>
+            <input type="number" readonly v-model="assets_End" />
           </template>
           <template v-else-if="row.item.Code === '080'">
-            <input type="number" readonly v-model="liabilities_End"/>
+            <input type="number" readonly v-model="liabilities_End" />
           </template>
           <template v-else-if="row.item.Code === '100'">
-            <input type="number" readonly v-model="totaltblbalance_End"/>
+            <input type="number" readonly v-model="totaltblbalance_End" />
           </template>
           <template v-else>
             <input type="number" @blur="sendData" v-model="row.item.End" />
-          </template> 
+          </template>
         </span>
       </template>
     </b-table>
@@ -201,7 +213,6 @@
 
     <b-table bordered hover :items="tblprofititems" :fields="tblprofitfields" head-variant="light">
       <template #cell(Start)="row">
-        
         <span>
           <template v-if="row.item.Code==='040'">
             <input type="number" readonly v-model="operatingActivities_Start" />
@@ -331,7 +342,7 @@
 
 <script>
 import Queries from '../services/report.service'; // axios запросы на бэк энд
-import tables from '../components/mixins/tables.js'
+import tables from '../components/mixins/tables.js';
 export default {
   name: 'ReportComponent',
   mixins: [tables],
@@ -341,6 +352,7 @@ export default {
   data() {
     return {
       result: [],
+      status: null,
       props: ['input']
     };
   },
@@ -365,14 +377,13 @@ export default {
           this.tblprofititems = response.data.doc.tblProfit;
           this.tblcapitalitems = response.data.doc.tblCapital;
           this.textareas = response.data.doc.reportFooter;
-          
+          this.status = response.data.status
         })
         .catch(function(error) {
           console.log(error);
         });
     },
     sendData() {
-      
       this.$emit('input', {
         typedoc: this.selected,
         reportHead: this.info,
@@ -382,6 +393,17 @@ export default {
         tblCapital: this.tblcapitalitems,
         reportFooter: this.textareas
       });
+    }
+    
+  },
+  computed: {
+    EditReport() {
+      
+      if (this.status == 1 || this.status == 4) {
+        console.log(this.status)
+        return true
+      }
+      return false
     }
   }
 };
@@ -411,5 +433,11 @@ table input {
 }
 table {
   text-align: center;
+}
+.active {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 20;
 }
 </style>
