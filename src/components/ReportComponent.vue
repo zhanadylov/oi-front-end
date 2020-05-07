@@ -1,12 +1,16 @@
 <template>
   <div class="reportcomponent">
+    <h2>
+      Данные, включаемые в краткий годовой и ежеквартальный отчет
+      для публикации в средствах массовой информации
+    </h2>
     <h3>
       Выберите вид
       <b-badge>ОТЧЕТА</b-badge>
     </h3>
     <br />
-    <template v-if="EditReport">
-      <div class="active" ></div>
+    <template v-if="!EditReport">
+      <div class="active"></div>
     </template>
     <b-form-group>
       <b-form-radio-group
@@ -20,7 +24,7 @@
       ></b-form-radio-group>
     </b-form-group>
 
-    <h4>Данные об эмитенте</h4>
+    <h4>1. Данные об эмитенте:</h4>
     <b-input-group prepend="полное и сокращенное наименование эмитента" class="mt-3">
       <template v-slot:append>
         <b-input-group-text>
@@ -57,10 +61,7 @@
       <b-form-input readonly v-model="info.activity"></b-form-input>
     </b-input-group>
 
-    <h4>
-      Количество владельцев ценных бумах и работников эмитента. (Данный пункт включает в себя сведения о количестве владельцев
-      ценных бумаг по состоянию на конец отчетного квартала и кличестве работников эмитента на конец отчетного квартала.)
-    </h4>
+    <h4>2. Количество владельцев ценных бумах и работников эмитента.</h4>
     <b-row>
       <b-col cols="8">
         <b-input-group prepend="Количество владельцев" class="mt-3">
@@ -82,20 +83,18 @@
       </b-col>
     </b-row>
 
-    <h4>
-      3. Список юридических лиц, в которых данный эмитент владеет 5 процентами и более уставного капитала.
-      (В данном пункте отражается полное наименование юридического лица, его организационно-правовая форма, местонахождение,
-      почтовый адрес, телефон, факс, адрес электронной почты и код ОКПО, а также доля участия в уставном капитале).
-    </h4>
+    <h4>3. Список юридических лиц, в которых данный эмитент владеет 5 процентами и более уставного капитала.</h4>
 
     <table class="table table-bordered mt-4">
       <thead class="thead-light">
         <tr>
           <th width="5%">#</th>
-          <th width="10%">Наименование</th>
-          <th width="10%">Форма собственности</th>
-          <th width="10%">Адрес</th>
-          <th width="10%">Проценты</th>
+          <th width="10%">Наименование юридического лица</th>
+          <th width="10%">Организационно-правовая форма</th>
+          <th
+            width="10%"
+          >Местонахождение, почтовый адрес,телефон,факс,адрес электронной почты и код ОКПО</th>
+          <th width="10%">Доля участия в уставном капитале</th>
           <th width="15%"></th>
         </tr>
       </thead>
@@ -158,13 +157,24 @@
     <div class="col-3 offset-9 text-right my-3">
       <button v-show="!editIndex" @click="add" class="btn btn-sm btn-secondary">Добавить</button>
     </div>
-    <h4>
-      4. Информация о существенных фактах (далее - факт), затрагивающих деятельность эмитента ценных бумаг в отчетном периоде.
-      (Данный пункт включает в себя сведения о наименовании факта, дате его появления, влиянии факта на деятельность эмитента,
-      а также дату и форму раскрытия информации о данном факте).
-    </h4>
+    <h4>4. Информация о существенных фактах (далее - факт), затрагивающих деятельность эмитента ценных бумаг в отчетном периоде.</h4>
 
-    <h4>Финансовая отчетность эмитента за отчетный квартал</h4>
+    <b-table bordered :items="tblfactitems" :fields="tblfactfields" head-variant="light">
+      <template #cell(Name)="row">
+        <input type="text" @blur="sendData" v-model="row.item.Name" />
+      </template>
+      <template #cell(DateCreate)="row">
+        <b-datepicker today-button v-model="row.item.DateCreate"></b-datepicker>
+      </template>
+      <template #cell(Influence)="row">
+        <input type="text" @blur="sendData" v-model="row.item.Influence" />
+      </template>
+      <template #cell(DateDisclosure)="row">
+        <b-datepicker today-button v-model="row.item.DateDisclosure"></b-datepicker>
+      </template>
+    </b-table>
+    {{tblfactitems}}
+    <h4>5. Финансовая отчетность эмитента за отчетный квартал</h4>
 
     <p>1) Сведения, включаемые в бухгалтерский баланс</p>
 
@@ -178,32 +188,62 @@
       <template #cell(Start)="row">
         <span>
           <template v-if="row.item.Code==='050'">
-            <input type="number" readonly v-model="assets_Start" />
+            <input type="number" step="0.01" placeholder="0,00" readonly v-model="assets_Start" />
           </template>
           <template v-else-if="row.item.Code === '080'">
-            <input type="number" readonly v-model="liabilities_Start" />
+            <input
+              type="number"
+              step="0.01"
+              placeholder="0,00"
+              readonly
+              v-model="liabilities_Start"
+            />
           </template>
           <template v-else-if="row.item.Code === '100'">
-            <input type="number" readonly v-model="totaltblbalance_Start" />
+            <input
+              type="number"
+              step="0.01"
+              placeholder="0,00"
+              readonly
+              v-model="totaltblbalance_Start"
+            />
           </template>
           <template v-else>
-            <input type="number" @blur="sendData" v-model="row.item.Start" />
+            <input
+              type="number"
+              step="0.01"
+              placeholder="0,00"
+              @blur="sendData"
+              v-model="row.item.Start"
+            />
           </template>
         </span>
       </template>
       <template #cell(End)="row">
         <span>
           <template v-if="row.item.Code==='050'">
-            <input type="number" readonly v-model="assets_End" />
+            <input type="number" step="0.01" placeholder="0,00" readonly v-model="assets_End" />
           </template>
           <template v-else-if="row.item.Code === '080'">
-            <input type="number" readonly v-model="liabilities_End" />
+            <input type="number" step="0.01" placeholder="0,00" readonly v-model="liabilities_End" />
           </template>
           <template v-else-if="row.item.Code === '100'">
-            <input type="number" readonly v-model="totaltblbalance_End" />
+            <input
+              type="number"
+              step="0.01"
+              placeholder="0,00"
+              readonly
+              v-model="totaltblbalance_End"
+            />
           </template>
           <template v-else>
-            <input type="number" @blur="sendData" v-model="row.item.End" />
+            <input
+              type="number"
+              step="0.01"
+              placeholder="0,00"
+              @blur="sendData"
+              v-model="row.item.End"
+            />
           </template>
         </span>
       </template>
@@ -215,38 +255,62 @@
       <template #cell(Start)="row">
         <span>
           <template v-if="row.item.Code==='040'">
-            <input type="number" readonly v-model="operatingActivities_Start" />
+            <input
+              type="number"
+              step="0.01"
+              placeholder="0,00"
+              readonly
+              v-model="operatingActivities_Start"
+            />
           </template>
           <template v-else-if="row.item.Code==='060'">
-            <input type="number" readonly v-model="beforeTax_Start" />
+            <input type="number" step="0.01" placeholder="0,00" readonly v-model="beforeTax_Start" />
           </template>
           <template v-else-if="row.item.Code==='080'">
-            <input type="number" readonly v-model="activities_Start" />
+            <input type="number" step="0.01" placeholder="0,00" readonly v-model="activities_Start" />
           </template>
           <template v-else-if="row.item.Code==='100'">
-            <input type="number" readonly v-model="netprofit_Start" />
+            <input type="number" step="0.01" placeholder="0,00" readonly v-model="netprofit_Start" />
           </template>
           <template v-else>
-            <input type="number" @blur="sendData" v-model="row.item.Start" />
+            <input
+              type="number"
+              step="0.01"
+              placeholder="0,00"
+              @blur="sendData"
+              v-model="row.item.Start"
+            />
           </template>
         </span>
       </template>
       <template #cell(End)="row">
         <span>
           <template v-if="row.item.Code==='040'">
-            <input type="number" readonly v-model="operatingActivities_End" />
+            <input
+              type="number"
+              step="0.01"
+              placeholder="0,00"
+              readonly
+              v-model="operatingActivities_End"
+            />
           </template>
           <template v-else-if="row.item.Code==='060'">
-            <input type="number" readonly v-model="beforeTax_End" />
+            <input type="number" step="0.01" placeholder="0,00" readonly v-model="beforeTax_End" />
           </template>
           <template v-else-if="row.item.Code==='080'">
-            <input type="number" readonly v-model="activities_End" />
+            <input type="number" step="0.01" placeholder="0,00" readonly v-model="activities_End" />
           </template>
           <template v-else-if="row.item.Code==='100'">
-            <input type="number" readonly v-model="netprofit_End" />
+            <input type="number" step="0.01" placeholder="0,00" readonly v-model="netprofit_End" />
           </template>
           <template v-else>
-            <input type="number" @blur="sendData" v-model="row.item.End" />
+            <input
+              type="number"
+              step="0.01"
+              placeholder="0,00"
+              @blur="sendData"
+              v-model="row.item.End"
+            />
           </template>
         </span>
       </template>
@@ -261,14 +325,35 @@
       :fields="tblcapitalfields"
       head-variant="light"
     >
+      <template #cell(TItle)="row">
+        <template v-if="row.item.Code==='100' || row.item.Code==='010'">
+          <label>Сальдо на</label>
+          <b-datepicker today-button v-model="row.item.TItle"></b-datepicker>
+        </template>
+        <template v-else>
+          <span>{{row.item.TItle}}</span>
+        </template>
+      </template>
       <template #cell(Start)="row">
         <span>
-          <input type="number" @blur="sendData" v-model="row.item.Start" />
+          <input
+            type="number"
+            step="0.01"
+            placeholder="0,00"
+            @blur="sendData"
+            v-model="row.item.Start"
+          />
         </span>
       </template>
       <template #cell(End)="row">
         <span>
-          <input type="number" @blur="sendData" v-model="row.item.End" />
+          <input
+            type="number"
+            step="0.01"
+            placeholder="0,00"
+            @blur="sendData"
+            v-model="row.item.End"
+          />
         </span>
       </template>
     </b-table>
@@ -337,17 +422,19 @@
         ></b-form-textarea>
       </b-col>
     </b-row>
+    {{setinfo}}
   </div>
 </template>
 
+
 <script>
 import Queries from '../services/report.service'; // axios запросы на бэк энд
-import tables from '../components/mixins/tables.js';
+import tables from '../mixins/tables.js';
 export default {
   name: 'ReportComponent',
   mixins: [tables],
   created() {
-    this.getInfoCompany(), this.setinfo();
+    this.getInfoCompany();
   },
   data() {
     return {
@@ -366,10 +453,40 @@ export default {
           console.log(error);
         });
     },
+    
+    sendData() {
+      this.$emit('input', {
+        typedoc: this.selected,
+        reportHead: this.info,
+        tblOwners: this.items,
+        tblfact: this.tblfactitems,
+        tblBalance: this.tblbalanceitems,
+        tblProfit: this.tblprofititems,
+        tblCapital: this.tblcapitalitems,
+        reportFooter: this.textareas,
+        test: this.testInp
+
+      });
+    },
+    TransformNumber(e) {
+      console.log(e);
+      // if (e.value.indexOf(".") != '-1') {
+      //   e.value=e.value.substring(0, e.value.indexOf(".") + 3);
+      // }
+    }
+  },
+  computed: {
+    EditReport() {
+      if (this.status == 1 || this.status == 4 || this.status == null) {
+        return true;
+      }
+      return false;
+    },
     setinfo() {
       return Queries.getReportById(this.$route.params.id)
         .then(response => {
           //let xmldoc = JSON.parse(response.data.xmldoc)
+          this.tblfactitems = response.data.doc.tblfact;
           this.result = response.data.doc;
           this.info = response.data.doc.reportHead;
           this.items = response.data.doc.tblOwners;
@@ -377,33 +494,12 @@ export default {
           this.tblprofititems = response.data.doc.tblProfit;
           this.tblcapitalitems = response.data.doc.tblCapital;
           this.textareas = response.data.doc.reportFooter;
-          this.status = response.data.status
+          this.status = response.data.status;
+          
         })
         .catch(function(error) {
           console.log(error);
         });
-    },
-    sendData() {
-      this.$emit('input', {
-        typedoc: this.selected,
-        reportHead: this.info,
-        tblOwners: this.items,
-        tblBalance: this.tblbalanceitems,
-        tblProfit: this.tblprofititems,
-        tblCapital: this.tblcapitalitems,
-        reportFooter: this.textareas
-      });
-    }
-    
-  },
-  computed: {
-    EditReport() {
-      
-      if (this.status == 1 || this.status == 4) {
-        console.log(this.status)
-        return true
-      }
-      return false
     }
   }
 };
@@ -439,5 +535,6 @@ table {
   width: 100%;
   position: fixed;
   z-index: 20;
+  top: 0;
 }
 </style>

@@ -4,7 +4,7 @@
       <h3>Логин: {{content.login}}</h3>
       <h3>ФИО: {{content.fullname}}</h3>
     </header>
-    <strong>Мои отчеты:</strong>
+    <strong>Документы:</strong>
 
     <ReportList/>
   </div>
@@ -15,7 +15,7 @@ import { mapState } from 'vuex';
 export default {
   name: 'Profile',
   created() {
-    this.getMe()
+    this.getMe(), this.getCompanyInfo()
   },
   components: {
     ReportList: () => import("@/components/ReportList.vue")
@@ -27,6 +27,13 @@ export default {
     getMe() {
       this.$store.dispatch('auth/info')
       .then(response => {
+      })
+      .catch(function(error) {
+          console.log(error);
+        })
+    },
+    getCompanyInfo() {
+      this.$store.dispatch('company/getInfo').then(response => {
       })
       .catch(function(error) {
           console.log(error);

@@ -82,12 +82,16 @@
     </b-table>
     <b-modal id="modal-center" size="lg" centered title="Квитанция">
       <p class="my-4">{{companyname}}</p>
-      <p class="my-4">Основание документа: {{doctype}}</p>
+      <p class="my-4">Основание документа:
+        <span v-if="doctype == 'RKV01'">Квартальный отчет</span>
+        <span v-else-if="doctype == 'RKV02'">Годовой отчет</span></p>
       <p class="my-4">Дата: {{date}}</p>
       <p class="my-4">
         Опубликовано на официальном сайте
         <a href="www.kse.kg">ЗАО "Кыргызская Фондовая Биржа"</a>
       </p>
+      <img src="../assets/seal.png" alt="" style="width: 25%;float:right">
+      <b-button class="print" onclick="window.print()">Печать</b-button>
     </b-modal>
   </div>
 </template>
@@ -184,3 +188,19 @@ export default {
   }
 };
 </script>
+
+<style>
+@media print {
+  .modal, .modal-dialog {
+    height: auto!important;
+    min-height: auto!important;
+    align-items: end;
+  }
+  .modal-dialog {
+    margin: 0;
+  }
+  #app, .modal-footer, .close, .print {
+    display: none;
+  }
+}
+</style>

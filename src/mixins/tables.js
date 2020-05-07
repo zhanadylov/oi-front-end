@@ -4,9 +4,7 @@ export default {
             selected: 'RKV01',
             options: [
                 { text: 'Квартальный отчет', value: 'RKV01' },
-                { text: 'Годовой отчет', value: 'RKV02' },
-                { text: 'Дивиденды', value: 'radio4', disabled: true },
-                { text: 'Собрание', value: 'radio5', disabled: true }
+                { text: 'Годовой отчет', value: 'RKV02' }
             ],
             info: {
                 name: '',
@@ -22,7 +20,7 @@ export default {
             tax: 10,
             tblbalancefields: [
                 { key: 'Code', headerTitle: 'Код строк', label: 'Код строк' },
-                { key: 'TItle', headerTitle: ' ', label: ' ' },
+                { key: 'TItle', headerTitle: ' ', label: ' ', variant: 'transparent text-left' },
                 {
                     key: 'Start',
                     headerTitle: 'Начало отчетного периода, тыс.сом',
@@ -36,7 +34,7 @@ export default {
             ],
             tblprofitfields: [
                 { key: 'Code', headerTitle: 'Код строк', label: 'Код строк' },
-                { key: 'TItle', headerTitle: ' ', label: ' ' },
+                { key: 'TItle', headerTitle: ' ', label: ' ', variant: 'transparent text-left' },
                 {
                     key: 'Start',
                     headerTitle: 'Начало отчетного периода, тыс.сом',
@@ -49,61 +47,61 @@ export default {
                 }
             ],
             tblprofititems: [
-                { Code: '010', TItle: 'Валовая прибыль', Start: 0, End: 0 },
+                { Code: '010', TItle: 'Валовая прибыль', Start: '', End: '' },
                 {
                     Code: '020',
                     TItle:
                         'Доходы и расходы от прочей операционной деятельности (доходы - расходы)',
-                    Start: 0,
-                    End: 0
+                    Start: '',
+                    End: ''
                 },
-                { Code: '030', TItle: 'Операционные расходы', Start: 0, End: 0 },
+                { Code: '030', TItle: 'Операционные расходы', Start: '', End: '' },
                 {
                     Code: '040',
                     TItle: 'Прибыль/убыток от операционной деятельности (010+020-030)',
-                    Start: 0,
-                    End: 0
+                    Start: '',
+                    End: ''
                 },
                 {
                     Code: '050',
                     TItle: 'Доходы и расходы от неоперационной деятельности',
-                    Start: 0,
-                    End: 0
+                    Start: '',
+                    End: ''
                 },
                 {
                     Code: '060',
                     TItle: 'Прибыль (убыток) до вычета налогов (040+050)',
-                    Start: 0,
-                    End: 0
+                    Start: '',
+                    End: ''
                 },
                 {
                     Code: '070',
                     TItle: 'Расходы по налогу на прибыль',
-                    Start: 0,
-                    End: 0
+                    Start: '',
+                    End: ''
                 },
                 {
                     Code: '080',
                     TItle: 'Прибыль (убыток) от обычной деятельности (060-070)',
-                    Start: 0,
-                    End: 0
+                    Start: '',
+                    End: ''
                 },
                 {
                     Code: '090',
                     TItle: 'Чрезвычайные статьи за минусом налога на прибыль',
-                    Start: 0,
-                    End: 0
+                    Start: '',
+                    End: ''
                 },
                 {
                     Code: '100',
                     TItle: 'Чистая прибыль (убыток) отчетного периода (080+090)',
-                    Start: 0,
-                    End: 0
+                    Start: '',
+                    End: ''
                 }
             ],
             tblcapitalfields: [
                 { key: 'Code', headerTitle: 'Код строк', label: 'Код строк' },
-                { key: 'TItle', headerTitle: ' ', label: ' ' },
+                { key: 'TItle', headerTitle: ' ', label: ' ', variant: 'transparent text-left' },
                 {
                     key: 'Start',
                     headerTitle: 'Начало отчетного периода, тыс.сом',
@@ -116,43 +114,43 @@ export default {
                 }
             ],
             tblcapitalitems: [
-                { Code: '010', TItle: "Сальдо на '' 2020 г.", Start: 0, End: 0 },
+                { Code: '010', TItle: "", Start: '', End: '' },
                 {
                     Code: '020',
                     TItle:
                         'Изменения в учетной политике и исправление существенных ошибок',
-                    Start: 0,
-                    End: 0
+                    Start: '',
+                    End: ''
                 },
-                { Code: '030', TItle: 'Пересчитанное сальдо', Start: 0, End: 0 },
+                { Code: '030', TItle: 'Пересчитанное сальдо', Start: '', End: '' },
                 {
                     Code: '040',
                     TItle:
                         'Чистая прибыль или убытки, не признанные в отчете о прибылях и убытках',
-                    Start: 0,
-                    End: 0
+                    Start: '',
+                    End: ''
                 },
                 {
                     Code: '050',
                     TItle: 'Чистая прибыль (убытки) за отчетный период',
-                    Start: 0,
-                    End: 0
+                    Start: '',
+                    End: ''
                 },
-                { Code: '060', TItle: 'Дивиденды', Start: 0, End: 0 },
-                { Code: '070', TItle: 'Эмиссия акций', Start: 0, End: 0 },
+                { Code: '060', TItle: 'Дивиденды', Start: '', End: '' },
+                { Code: '070', TItle: 'Эмиссия акций', Start: '', End: '' },
                 {
                     Code: '080',
                     TItle: 'Ограничение прибыли к распределению',
-                    Start: 0,
-                    End: 0
+                    Start: '',
+                    End: ''
                 },
                 {
                     Code: '090',
                     TItle: 'Изменение уставного капитала',
-                    Start: 0,
-                    End: 0
+                    Start: '',
+                    End: ''
                 },
-                { Code: '100', TItle: "Сальдо на <input type='text' placeholder='Дата' onchange='test()'>  2020 г.", Start: 0, End: 0 }
+                { Code: '100', TItle: "", Start: '', End: '' }
             ],
             textareas: {
                 placement: '',
@@ -162,56 +160,73 @@ export default {
                 deal: ''
             },
             tblbalanceitems: [
-                { Code: '010', TItle: '1. Оборотные активы', Start: 0, End: 0 },
-                { Code: '020', TItle: '2. Внеоборотные активы', Start: 0, End: 0 },
+                { Code: '010', TItle: '1. Оборотные активы', Start: '', End: '' },
+                { Code: '020', TItle: '2. Внеоборотные активы', Start: '', End: '' },
                 {
                     Code: '030',
                     TItle: '3. Долгосрочная дебиторская задолженность',
-                    Start: 0,
-                    End: 0
+                    Start: '',
+                    End: ''
                 },
                 {
                     Code: '040',
                     TItle: '4. Краткосрочная дебиторская задолженность',
-                    Start: 0,
-                    End: 0
+                    Start: '',
+                    End: ''
                 },
                 {
                     Code: '050',
                     TItle: 'Итого активы (010+020+030+040)',
-                    Start: 0,
-                    End: 0
+                    Start: '',
+                    End: ''
                 },
                 { TItle: 'Обязательства и капитал' },
                 {
                     Code: '060',
                     TItle: '1. Краткосрочные обязательства',
-                    Start: 0,
-                    End: 0
+                    Start: '',
+                    End: ''
                 },
                 {
                     Code: '070',
                     TItle: '2. Долгосрочные обязательства',
-                    Start: 0,
-                    End: 0
+                    Start: '',
+                    End: ''
                 },
                 {
                     Code: '080',
                     TItle: 'Итого обязательства (060+070)',
-                    Start: 0,
-                    End: 0
+                    Start: '',
+                    End: ''
                 },
-                { Code: '090', TItle: 'Собственный капитал', Start: 0, End: 0 },
-                { TItle: '1. Уставный капитал', Start: 0, End: 0 },
-                { TItle: '2. Дополнительный оплаченный капитал', Start: 0, End: 0 },
-                { TItle: '3. Нераспределенная прибыль', Start: 0, End: 0 },
-                { TItle: '4. Резервный капитал', Start: 0, End: 0 },
+                { Code: '090', TItle: 'Собственный капитал', Start: '', End: '' },
+                { TItle: '1. Уставный капитал', Start: '', End: '' },
+                { TItle: '2. Дополнительный оплаченный капитал', Start: '', End: '' },
+                { TItle: '3. Нераспределенная прибыль', Start: '', End: '' },
+                { TItle: '4. Резервный капитал', Start: '', End: '' },
                 {
                     Code: '100',
                     TItle: 'Итого обязательства и собственный капитал (060+070+090)',
-                    Start: 0,
-                    End: 0
+                    Start: '',
+                    End: ''
                 }
+            ],
+            tblfactfields: [
+                { key: 'Name', headerTitle: 'Наименование факта', label: 'Наименование факта' },
+                { key: 'DateCreate', headerTitle: 'Дата появления факта', label: 'Дата появления факта'},
+                {
+                    key: 'Influence',
+                    headerTitle: 'Влиянии факта на деятельность',
+                    label: 'Влиянии факта на деятельность'
+                },
+                {
+                    key: 'DateDisclosure',
+                    headerTitle: 'Дата и форма раскрытия',
+                    label: 'Дата и форма раскрытия'
+                }
+            ],
+            tblfactitems: [
+                {Name: '', DateCreate: '', Influence: '', DateDisclosure: ''}
             ]
         }
     },
