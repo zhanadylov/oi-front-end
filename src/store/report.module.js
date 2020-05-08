@@ -37,8 +37,8 @@ export const report = {
       );
     },
 
-    getList({commit}) {
-      return ReportService.getCompanyReports().then(
+    getList({commit}, type) {
+      return ReportService.getCompanyReports(type).then(
         (dates) => {
           commit('listStatus', dates.data)
           return Promise.resolve(true);

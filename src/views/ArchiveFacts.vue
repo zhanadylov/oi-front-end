@@ -4,6 +4,7 @@
       <h3>Логин: {{content.login}}</h3>
       <h3>ФИО: {{content.fullname}}</h3>
     </header>
+    <strong>Документы:</strong>
 
     <ReportList/>
   </div>
@@ -14,12 +15,7 @@ import { mapState } from 'vuex';
 export default {
   name: 'Profile',
   created() {
-    this.getMe(), this.getCompanyInfo()
-  },
-  data() {
-    return {
-      type: 'RKV'
-    }
+    this.getMe(), this.getCompanyInfo(), this.getReportList()
   },
   components: {
     ReportList: () => import("@/components/ReportList.vue")
@@ -42,6 +38,15 @@ export default {
       .catch(function(error) {
           console.log(error);
         })
+    },
+    getReportList() {
+      const type = 'fact'
+      this.$store
+        .dispatch('report/getList', type)
+        .then(response => {})
+        .catch(function(error) {
+          console.log(error);
+        });
     }
   }
 };

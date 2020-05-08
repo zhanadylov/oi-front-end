@@ -43,8 +43,8 @@ class ReportService {
     getInfoCompanyById() {  // Получение данных компании по токену, для заполнения шапки отчета
         return instance.get('/reports', { headers: { 'Content-Type': 'Application/json' } })
     }
-    getCompanyReports() {   // Получение всех отчетов компании по токену
-        return instance.get('/reports/allreports', { headers: { 'Content-Type': 'Application/json' } })
+    getCompanyReports(type) {   // Получение всех отчетов компании по токену
+        return instance.get('/reports/allreports/' + type, { headers: { 'Content-Type': 'Application/json' } })
     }
     getReportById(id) {     // Получение отчета по переданному id отчта
         return instance.get('/reports/' + id, { headers: { 'Content-Type': 'Application/json' } })
@@ -53,7 +53,7 @@ class ReportService {
         return instance.post('/reports', { typedoc, xmldoc, sender, status })
     }
 
-    getReportsFromAdmin() {     // Список отчетов со статусом отправлен, для админа
+    getReportsFromAdmin() {     // Список отчетов для админа
         return instance.get('/admin', { headers: { 'Content-Type': 'Application/json' } })
     }
 

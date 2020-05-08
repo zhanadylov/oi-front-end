@@ -85,6 +85,13 @@ export const router = new Router({
       meta: {layout: 'main'},
       // lazy-loaded
       component: () => import('./views/Facts.vue')
+    },
+    {
+      path: '/facts-archive',
+      name: 'FactsArchive',
+      meta: {layout: 'main'},
+      // lazy-loaded
+      component: () => import('./views/ArchiveFacts.vue')
     }
   ]
 });

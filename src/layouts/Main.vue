@@ -19,13 +19,11 @@
                 <router-link to="/report" class="nav-link">Создать отчет</router-link>
               </li>
               <li>
-                <router-link to="/reporting" class="nav-link">Архив отчетов</router-link>
-              </li>
-              <li>
                 <router-link to="/facts" class="nav-link">Существенные факты</router-link>
               </li>
+              
               <li>
-                <router-link to="/" class="nav-link">Архив фактов</router-link>
+                <router-link to="/reporting" class="nav-link">Архив</router-link>
               </li>
             </ul>
           </li>

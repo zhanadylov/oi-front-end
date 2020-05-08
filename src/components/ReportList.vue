@@ -1,5 +1,11 @@
 <template>
   <div>
+    <b-select v-model="selected" :options="options" @change="getReportList" class="mb-3">
+      <!-- This slot appears above the options from 'options' prop -->
+      <template v-slot:first>
+        <b-select-option :value="null" disabled>-- Выберите тип документа --</b-select-option>
+      </template>
+    </b-select>
     <b-table :fields="reportList" bordered hover :items="items" head-variant="light">
       <template #cell(id)="row" v-if="isadmin">{{row.item.sender}}</template>
 
@@ -99,13 +105,15 @@
 import { mapState } from 'vuex';
 export default {
   name: 'ReportList',
-  created() {
-    this.getReportList();
-  },
   data() {
     return {
       date: '',
       doctype: '',
+      selected: null,
+        options: [
+          { value: 'RKV', text: 'Отчетность' },
+          { value: 'fact', text: 'Существенные факты' }
+        ],
       companyname: '',
       result: [],
       reportList: [
@@ -142,14 +150,7 @@ export default {
   },
 
   methods: {
-    getReportList() {
-      this.$store
-        .dispatch('report/getList')
-        .then(response => {})
-        .catch(function(error) {
-          console.log(error);
-        });
-    },
+    
     confirm(id, interrefer) {
       this.$store
         .dispatch('report/confirm', { id, interrefer })
@@ -181,6 +182,15 @@ export default {
         .then(response => {
           this.getReportList();
         })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+    getReportList() {
+      const type = this.selected
+      this.$store
+        .dispatch('report/getList', type)
+        .then(response => {})
         .catch(function(error) {
           console.log(error);
         });
