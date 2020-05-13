@@ -1,10 +1,10 @@
 <template>
   <div class="reportcomponent">
-    <h2>
+    <h2> 
       Данные, включаемые в краткий годовой и ежеквартальный отчет
       для публикации в средствах массовой информации
     </h2>
-    <h3>
+    <h3 class="hide-print">
       Выберите вид
       <b-badge>ОТЧЕТА</b-badge>
     </h3>
@@ -12,7 +12,7 @@
     <template v-if="!EditReport">
       <div class="active"></div>
     </template>
-    <b-form-group>
+    <b-form-group class="hide-print">
       <b-form-radio-group
         id="btn-radios-2"
         v-model="selected"
@@ -27,7 +27,7 @@
     <h4>1. Данные об эмитенте:</h4>
     <b-input-group prepend="полное и сокращенное наименование эмитента" class="mt-3">
       <template v-slot:append>
-        <b-input-group-text>
+        <b-input-group-text class="hide-print">
           <strong class="text-danger">!</strong>
         </b-input-group-text>
       </template>
@@ -35,7 +35,7 @@
     </b-input-group>
     <b-input-group prepend="организационно-правовая форма" class="mt-3">
       <template v-slot:append>
-        <b-input-group-text>
+        <b-input-group-text class="hide-print">
           <strong class="text-danger">!</strong>
         </b-input-group-text>
       </template>
@@ -46,7 +46,7 @@
       class="mt-3"
     >
       <template v-slot:append>
-        <b-input-group-text>
+        <b-input-group-text class="hide-print">
           <strong class="text-danger">!</strong>
         </b-input-group-text>
       </template>
@@ -54,7 +54,7 @@
     </b-input-group>
     <b-input-group prepend="основной вид деятельности эмитента" class="mt-3">
       <template v-slot:append>
-        <b-input-group-text>
+        <b-input-group-text class="hide-print">
           <strong class="text-danger">!</strong>
         </b-input-group-text>
       </template>
@@ -66,7 +66,7 @@
       <b-col cols="8">
         <b-input-group prepend="Количество владельцев" class="mt-3">
           <template v-slot:append>
-            <b-input-group-text>
+            <b-input-group-text class="hide-print">
               <strong class="text-danger">!</strong>
             </b-input-group-text>
           </template>
@@ -74,7 +74,7 @@
         </b-input-group>
         <b-input-group prepend="Количество работников" class="mt-3">
           <template v-slot:append>
-            <b-input-group-text>
+            <b-input-group-text class="hide-print">
               <strong class="text-danger">!</strong>
             </b-input-group-text>
           </template>
@@ -95,7 +95,7 @@
             width="10%"
           >Местонахождение, почтовый адрес,телефон,факс,адрес электронной почты и код ОКПО</th>
           <th width="10%">Доля участия в уставном капитале</th>
-          <th width="15%"></th>
+          <th width="15%" class="hide-print"></th>
         </tr>
       </thead>
       <tbody>
@@ -135,7 +135,7 @@
             </span>
           </td>
 
-          <td>
+          <td class="hide-print">
             <span v-if="editIndex !== index">
               <button
                 @click="edit(item, index)"
@@ -154,7 +154,7 @@
         </tr>
       </tbody>
     </table>
-    <div class="col-3 offset-9 text-right my-3">
+    <div class="col-3 offset-9 text-right my-3 hide-print">
       <button v-show="!editIndex" @click="add" class="btn btn-sm btn-secondary">Добавить</button>
     </div>
     <h4>4. Информация о существенных фактах (далее - факт), затрагивающих деятельность эмитента ценных бумаг в отчетном периоде.</h4>
@@ -170,10 +170,13 @@
         <input type="text" @blur="sendData" v-model="row.item.Influence" />
       </template>
       <template #cell(DateDisclosure)="row">
-        <b-datepicker today-button v-model="row.item.DateDisclosure"></b-datepicker>
+        <input type="text" @blur="sendData" v-model="row.item.DateDisclosure" />
       </template>
     </b-table>
-    {{tblfactitems}}
+    
+    <div class="col-3 offset-9 text-right my-3 hide-print">
+      <button @click="addFact" class="btn btn-sm btn-secondary">Добавить</button>
+    </div>
     <h4>5. Финансовая отчетность эмитента за отчетный квартал</h4>
 
     <p>1) Сведения, включаемые в бухгалтерский баланс</p>
@@ -187,8 +190,11 @@
     >
       <template #cell(Start)="row">
         <span>
+          
           <template v-if="row.item.Code==='050'">
             <input type="number" step="0.01" placeholder="0,00" readonly v-model="assets_Start" />
+          </template>
+          <template v-else-if="row.item.Code===''">
           </template>
           <template v-else-if="row.item.Code === '080'">
             <input
@@ -223,6 +229,9 @@
         <span>
           <template v-if="row.item.Code==='050'">
             <input type="number" step="0.01" placeholder="0,00" readonly v-model="assets_End" />
+          </template>
+          
+          <template v-else-if="row.item.Code===''">
           </template>
           <template v-else-if="row.item.Code === '080'">
             <input type="number" step="0.01" placeholder="0,00" readonly v-model="liabilities_End" />
@@ -362,9 +371,7 @@
       <b-col sm="12">
         <b-form-textarea
           id="textarea-rows"
-          placeholder="6. Сведения о направлении средств, привлеченных эмитентом в результате размещения эмиссионных ценных бумаг, которые
-    включают в себя: общий объем привлеченных средств, сведения о привлеченных средствах, использованных по каждому из
-    направлений, и о направлениях использования привлеченных средств."
+          placeholder="6. Сведения о направлении средств, привлеченных эмитентом в результате размещения эмиссионных ценных бумаг, которые включают в себя: общий объем привлеченных средств, сведения о привлеченных средствах, использованных по каждому из направлений, и о направлениях использования привлеченных средств."
           rows="8"
           v-model="textareas.placement"
           @blur="sendData"
@@ -375,8 +382,7 @@
       <b-col sm="12">
         <b-form-textarea
           id="textarea-rows"
-          placeholder="7. Заемные средства, полученные эмитентом и его дочерними обществами в отчетном квартале. Данный пункт отражает заемные
-    средства, полученные эмитентом в отчетном квартале, и заемные средства, полученные дочерними обществами в отчетном квартале."
+          placeholder="7. Заемные средства, полученные эмитентом и его дочерними обществами в отчетном квартале. Данный пункт отражает заемные средства, полученные эмитентом в отчетном квартале, и заемные средства, полученные дочерними обществами в отчетном квартале."
           rows="8"
           v-model="textareas.funds"
           @blur="sendData"
@@ -398,9 +404,7 @@
       <b-col sm="12">
         <b-form-textarea
           id="textarea-rows"
-          placeholder="9. Доходы по ценным бумагам эмитента. Эта информация представляется при начислении доходов по ценным бумагам 
-      эмитента в отчетном квартале или в квартале, предшествующем отчетному кварталу, и включает: вид ценной бумаги, размер доходов,
-      начисленных на одну ценную бумагу,и общую сумму доходов, начисленных по ценным бумагам данного вида."
+          placeholder="9. Доходы по ценным бумагам эмитента. Эта информация представляется при начислении доходов по ценным бумагам  эмитента в отчетном квартале или в квартале, предшествующем отчетному кварталу, и включает: вид ценной бумаги, размер доходов, начисленных на одну ценную бумагу,и общую сумму доходов, начисленных по ценным бумагам данного вида."
           rows="8"
           v-model="textareas.income"
           @blur="sendData"
@@ -411,12 +415,7 @@
       <b-col sm="12">
         <b-form-textarea
           id="textarea-rows"
-          placeholder="10. Информация об условиях и характере сделки, совершенной лицами, заинтересованными в совершении обществом сделки,
-        включает: дату совершения сделки, информацию о влиянии сделки на деятельность эмитента (финансовый результат, дополнительные
-        инвестиции и т.д.), информацию об условиях и характере заключенной сделки (предмет, условия, цена сделки и т.д.),
-        степень имеющейся заинтересованности (лица, заинтересованного в сделке), дату опубликования информации о сделке в
-        средствах массовой информации (прилагается копия опубликованного сообщения), а также дату направления уведомления с
-        информацией о сделке в уполномоченный орган по регулированию рынка ценных бумаг."
+          placeholder="10. Информация об условиях и характере сделки, совершенной лицами, заинтересованными в совершении обществом сделки, включает: дату совершения сделки, информацию о влиянии сделки на деятельность эмитента (финансовый результат, дополнительные инвестиции и т.д.), информацию об условиях и характере заключенной сделки (предмет, условия, цена сделки и т.д.), степень имеющейся заинтересованности (лица, заинтересованного в сделке), дату опубликования информации о сделке в средствах массовой информации (прилагается копия опубликованного сообщения), а также дату направления уведомления с информацией о сделке в уполномоченный орган по регулированию рынка ценных бумаг."
           rows="8"
           v-model="textareas.deal"
         ></b-form-textarea>
@@ -434,7 +433,7 @@ export default {
   name: 'ReportComponent',
   mixins: [tables],
   created() {
-    this.getInfoCompany();
+    this.getInfoCompany(), this.setinfo();
   },
   data() {
     return {
@@ -453,7 +452,7 @@ export default {
           console.log(error);
         });
     },
-    
+
     sendData() {
       this.$emit('input', {
         typedoc: this.selected,
@@ -463,9 +462,7 @@ export default {
         tblBalance: this.tblbalanceitems,
         tblProfit: this.tblprofititems,
         tblCapital: this.tblcapitalitems,
-        reportFooter: this.textareas,
-        test: this.testInp
-
+        reportFooter: this.textareas
       });
     },
     TransformNumber(e) {
@@ -473,14 +470,6 @@ export default {
       // if (e.value.indexOf(".") != '-1') {
       //   e.value=e.value.substring(0, e.value.indexOf(".") + 3);
       // }
-    }
-  },
-  computed: {
-    EditReport() {
-      if (this.status == 1 || this.status == 4 || this.status == null) {
-        return true;
-      }
-      return false;
     },
     setinfo() {
       return Queries.getReportById(this.$route.params.id)
@@ -495,11 +484,19 @@ export default {
           this.tblcapitalitems = response.data.doc.tblCapital;
           this.textareas = response.data.doc.reportFooter;
           this.status = response.data.status;
-          
+          console.log(response.data);
         })
         .catch(function(error) {
           console.log(error);
         });
+    }
+  },
+  computed: {
+    EditReport() {
+      if (this.status == 1 || this.status == 4 || this.status == null) {
+        return true;
+      }
+      return false;
     }
   }
 };
@@ -509,6 +506,10 @@ export default {
 <style scoped lang="scss">
 h3 {
   margin: 40px 0 0;
+}
+
+h4 {
+  margin: 30px 0;
 }
 ul {
   list-style-type: none;
@@ -536,5 +537,24 @@ table {
   position: fixed;
   z-index: 20;
   top: 0;
+}
+
+
+
+</style>
+
+<style >
+@media print {
+  #app {
+    display: block!important;
+  }
+
+  input {
+    border: none;
+  }
+
+  .hide-print {
+    display: none;
+  }
 }
 </style>

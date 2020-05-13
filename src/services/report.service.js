@@ -41,20 +41,20 @@ instance.interceptors.response.use(
 class ReportService {
 
     getInfoCompanyById() {  // Получение данных компании по токену, для заполнения шапки отчета
-        return instance.get('/reports', { headers: { 'Content-Type': 'Application/json' } })
+        return instance.get('/reports', { headers: { 'Content-Type': 'Applicationjson' } })
     }
     getCompanyReports(type) {   // Получение всех отчетов компании по токену
-        return instance.get('/reports/allreports/' + type, { headers: { 'Content-Type': 'Application/json' } })
+        return instance.get('/reports/allreports/' + type, { headers: { 'Content-Type': 'Applicationjson' } })
     }
     getReportById(id) {     // Получение отчета по переданному id отчта
-        return instance.get('/reports/' + id, { headers: { 'Content-Type': 'Application/json' } })
+        return instance.get('/reports/' + id, { headers: { 'Content-Type': 'Applicationjson' } })
     }
     insertReport(typedoc, xmldoc, sender, status) {    // Добавить отчет
         return instance.post('/reports', { typedoc, xmldoc, sender, status })
     }
 
     getReportsFromAdmin() {     // Список отчетов для админа
-        return instance.get('/admin', { headers: { 'Content-Type': 'Application/json' } })
+        return instance.get('/admin', { headers: { 'Content-Type': 'Applicationjson' } })
     }
 
     confirmReport(id, interrefer) {     // Квитовка отчета, для админа

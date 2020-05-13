@@ -16,7 +16,7 @@
             >Мои документы</a>
             <ul class="collapse list-unstyled" id="factsSubmenu">
               <li>
-                <router-link to="/report" class="nav-link">Создать отчет</router-link>
+                <router-link to="/report?type=report" class="nav-link">Создать отчет</router-link>
               </li>
               <li>
                 <router-link to="/facts" class="nav-link">Существенные факты</router-link>
@@ -55,18 +55,18 @@
             <ul class="nav navbar-nav ml-auto">
               <li class="nav-item">
                 <router-link to="/home" class="nav-link">
-                  <font-awesome-icon icon="home" />Home
+                  Home
                 </router-link>
               </li>
 
               <li class="nav-item" v-if="!currentUser">
                 <router-link to="/login" class="nav-link">
-                  <font-awesome-icon icon="sign-in-alt" />Войти
+                  Войти
                 </router-link>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href @click.prevent="logOut">
-                  <font-awesome-icon icon="sign-out-alt" />Выйти
+                  Выйти
                 </a>
               </li>
             </ul>

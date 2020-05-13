@@ -41,7 +41,11 @@ instance.interceptors.response.use(
 class CompanyService {
 
     getInfoCompanyById() {  // Получение данных компании по токену, для заполнения шапки отчета
-        return instance.get('', { headers: { 'Content-Type': 'Application/json' } })
+        return instance.get('', { headers: { 'Content-Type': 'Applicationjson' } })
+    }
+
+    updateCompanyInfo(name, opforma, activity, address, phone, fax, email, id) { // Изменение данных о компании
+        return instance.put('', {name, opforma, activity, address, phone, fax, email, id})
     }
 
 }

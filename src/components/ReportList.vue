@@ -6,7 +6,7 @@
         <b-select-option :value="null" disabled>-- Выберите тип документа --</b-select-option>
       </template>
     </b-select>
-    <b-table :fields="reportList" bordered hover :items="items" head-variant="light">
+    <b-table :fields="reportList" bordered hover :items="items" class="report-list" head-variant="light">
       <template #cell(id)="row" v-if="isadmin">{{row.item.sender}}</template>
 
       <template #cell(createdate)="row">
@@ -30,9 +30,10 @@
         <span v-else-if="row.item.status == 4">Отклонен</span>
       </template>
       <template #cell(typedoc)="row">
-        <router-link :to="`/report/${row.item.id}`" class="nav-link">
+        <router-link :to="`/report/${row.item.id}?type=${row.item.typedoc}`" class="nav-link">
           <span v-if="row.item.typedoc == 'RKV01'">Квартальный отчет</span>
           <span v-else-if="row.item.typedoc == 'RKV02'">Годовой отчет</span>
+          <span v-else>Существенный факт</span>
         </router-link>
       </template>
 
@@ -96,8 +97,7 @@
         Опубликовано на официальном сайте
         <a href="www.kse.kg">ЗАО "Кыргызская Фондовая Биржа"</a>
       </p>
-      <img src="../assets/seal.png" alt="" style="width: 25%;float:right">
-      <b-button class="print" onclick="window.print()">Печать</b-button>
+      <b-button class="print" @click="print" onclick="window.print()">Печать</b-button>
     </b-modal>
   </div>
 </template>
@@ -105,12 +105,16 @@
 import { mapState } from 'vuex';
 export default {
   name: 'ReportList',
+  created() {
+    this.getReportList()
+  },
   data() {
     return {
       date: '',
       doctype: '',
-      selected: null,
+      selected: '',
         options: [
+          { value: '', text: 'Все' },
           { value: 'RKV', text: 'Отчетность' },
           { value: 'fact', text: 'Существенные факты' }
         ],
@@ -188,12 +192,15 @@ export default {
     },
     getReportList() {
       const type = this.selected
-      this.$store
+      
+        this.$store
         .dispatch('report/getList', type)
         .then(response => {})
         .catch(function(error) {
           console.log(error);
         });
+      
+      
     }
   }
 };
@@ -209,7 +216,7 @@ export default {
   .modal-dialog {
     margin: 0;
   }
-  #app, .modal-footer, .close, .print {
+  .report-list, select, .modal-footer, .close, .print {
     display: none;
   }
 }

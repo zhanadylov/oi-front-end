@@ -5,7 +5,8 @@ export const company = {
   namespaced: true,
   state: {
     info: [],
-    reject: false
+    reject: false,
+    updateStatus: false
   },
   actions: {
 
@@ -21,6 +22,17 @@ export const company = {
       )
     },
 
+    updateInfo({commit}, {name, opforma, activity, address, phone, fax, email, id}) {
+      return CompanyService.updateCompanyInfo(name, opforma, activity, address, phone, fax, email, id).then(
+        () => {
+          commit('update')
+          return Promise.resolve(true)
+        },
+        error => {
+          return Promise.reject(error)
+        }
+      )
+    },
 
     rejectReport({commit}, id) {
       return ReportService.rejectReport(id).then(
@@ -40,6 +52,9 @@ export const company = {
     },
     rejectReport (state) {
       state.reject = true
+    },
+    update(state) {
+      state.updateStatus = true
     }
   }
 };

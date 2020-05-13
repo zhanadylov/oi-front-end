@@ -95,6 +95,10 @@ export const report = {
           return Promise.reject(error)
         }
       )
+    },
+
+    nullifyList({commit}) {
+      commit('nullify')
     }
   },
   mutations: {
@@ -118,6 +122,9 @@ export const report = {
     },
     rejectReport (state) {
       state.reject = true
+    },
+    nullify (state) {
+      state.list = []
     }
   }
 };

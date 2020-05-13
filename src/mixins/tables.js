@@ -160,6 +160,7 @@ export default {
                 deal: ''
             },
             tblbalanceitems: [
+                { Code: '', TItle: 'Активы' },
                 { Code: '010', TItle: '1. Оборотные активы', Start: '', End: '' },
                 { Code: '020', TItle: '2. Внеоборотные активы', Start: '', End: '' },
                 {
@@ -180,7 +181,7 @@ export default {
                     Start: '',
                     End: ''
                 },
-                { TItle: 'Обязательства и капитал' },
+                { Code: '', TItle: 'Обязательства и капитал' },
                 {
                     Code: '060',
                     TItle: '1. Краткосрочные обязательства',
@@ -234,50 +235,50 @@ export default {
     computed: {
         assets_Start: function() { // Итого активы (010+020+030+040)
 
-            let suma = +this.tblbalanceitems[3].Start +
+            let suma = +this.tblbalanceitems[4].Start +
+            +this.tblbalanceitems[3].Start +
             +this.tblbalanceitems[2].Start +
-            +this.tblbalanceitems[1].Start +
-            +this.tblbalanceitems[0].Start
+            +this.tblbalanceitems[1].Start
 
-            this.tblbalanceitems[4].Start = suma
+            this.tblbalanceitems[5].Start = suma
 
             return suma
         },
         assets_End: function() { // Итого активы (010+020+030+040)
-            let suma = +this.tblbalanceitems[3].End +
+            let suma = +this.tblbalanceitems[4].End +
+            +this.tblbalanceitems[3].End +
             +this.tblbalanceitems[2].End +
-            +this.tblbalanceitems[1].End +
-            +this.tblbalanceitems[0].End
+            +this.tblbalanceitems[1].End
 
-            this.tblbalanceitems[4].End = suma
+            this.tblbalanceitems[5].End = suma
 
             return suma
         },
         liabilities_Start: function() { // Итого обязательства (060+070)
-            let suma = +this.tblbalanceitems[6].Start + + this.tblbalanceitems[7].Start
+            let suma = +this.tblbalanceitems[7].Start + + this.tblbalanceitems[8].Start
 
-            this.tblbalanceitems[8].End = suma
+            this.tblbalanceitems[9].End = suma
 
             return suma
         }, 
         liabilities_End: function() { // Итого обязательства (060+070)
-            let suma = +this.tblbalanceitems[6].End + + this.tblbalanceitems[7].End
+            let suma = +this.tblbalanceitems[7].End + + this.tblbalanceitems[8].End
 
-            this.tblbalanceitems[8].End = suma
+            this.tblbalanceitems[9].End = suma
 
             return suma
         },
         totaltblbalance_Start: function() { //Итого обязательства и собственный капитал (060+070+090)
-            let suma = +this.tblbalanceitems[6].Start + + this.tblbalanceitems[7].Start + + this.tblbalanceitems[9].Start
+            let suma = +this.tblbalanceitems[7].Start + + this.tblbalanceitems[8].Start + + this.tblbalanceitems[10].Start
 
-            this.tblbalanceitems[14].End = suma
+            this.tblbalanceitems[15].End = suma
 
             return suma
         },
         totaltblbalance_End: function() { // Итого обязательства и собственный капитал (060+070+090)
-            let suma = +this.tblbalanceitems[6].End + + this.tblbalanceitems[7].End + + this.tblbalanceitems[9].End
+            let suma = +this.tblbalanceitems[7].End + + this.tblbalanceitems[8].End + + this.tblbalanceitems[10].End
 
-            this.tblbalanceitems[14].End = suma
+            this.tblbalanceitems[15].End = suma
 
             return suma
         },
@@ -345,6 +346,9 @@ export default {
             this.originalData = null;
             this.items.push({ code: '', name: '', description: '', qty: '' });
             this.editIndex = this.items.length - 1;
+        },
+        addFact() {
+            this.tblfactitems.push({Name: '', DateCreate: '', Influence: '', DateDisclosure: ''})
         },
         edit(item, index) {
             this.originalData = Object.assign({}, item);

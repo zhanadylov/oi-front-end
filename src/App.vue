@@ -20,7 +20,6 @@ export default {
       return false;
     },
     layout() {
-      console.log(['layout='],this.$route.meta.layout)
       return (this.$route.meta.layout || "main") + "-layout"
     }
   },

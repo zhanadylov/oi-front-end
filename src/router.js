@@ -100,7 +100,6 @@ export const router = new Router({
    const publicPages = ['/login', '/register', '/home'];
    const authRequired = !publicPages.includes(to.path);
    const loggedIn = localStorage.getItem('token');
-   const role = localStorage.getItem('role')
 
    // trying to access a restricted page + not logged in
    // redirect to login page

@@ -1,5 +1,20 @@
 <template>
   <div class="Company">
+    <b-alert
+      :show="dismissCountDown"
+      dismissible
+      variant="warning"
+      @dismissed="dismissCountDown=0"
+      @dismiss-count-down="countDownChanged"
+    >
+      <p>Данные успешно сохранены {{ dismissCountDown }} сек...</p>
+      <b-progress
+        variant="warning"
+        :max="dismissSecs"
+        :value="dismissCountDown"
+        height="4px"
+      ></b-progress>
+    </b-alert>
     <b-form-group id="input-group-1" label="Имя компании:" label-for="input-1">
       <b-form-input id="input-1" v-model="content.name" required placeholder="Имя компании"></b-form-input>
     </b-form-group>
@@ -21,6 +36,10 @@
     <b-form-group id="input-group-8" label="E-mail:" label-for="input-8">
       <b-form-input id="input-8" v-model="content.email" required placeholder="E-mail"></b-form-input>
     </b-form-group>
+    
+    <b-button variant="success" @click="save" class="m-1">
+      Сохранить
+    </b-button>
   </div>
 </template>
 
@@ -28,13 +47,48 @@
 import { mapState } from 'vuex';
 export default {
   name: 'Company',
+  created() {
+    this.getCompanyInfo()
+  },
   data() {
     return {
-      result: {}
-    };
+      dismissSecs: 5,
+      dismissCountDown: 0
+    }
   },
   computed: {
     ...mapState({ content: store => store.company.info })
+  },
+  methods: {
+    save() {
+      this.dismissCountDown = this.dismissSecs
+      let   name      = this.content.name
+      let   opforma   = this.content.opforma
+      let   activity  = this.content.activity
+      let   address   = this.content.address
+      let   phone     = this.content.phone
+      let   fax       = this.content.fax
+      let   email     = this.content.email
+      const id        = this.content.id
+      this.$store
+        .dispatch('company/updateInfo', { name, opforma, activity, address, phone, fax, email, id })
+        .then(response => {
+          
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+    countDownChanged(dismissCountDown) {
+      this.dismissCountDown = dismissCountDown
+    },
+    getCompanyInfo() {
+      this.$store.dispatch('company/getInfo').then(response => {
+      })
+      .catch(function(error) {
+          console.log(error);
+        })
+    }
   }
 };
 </script>

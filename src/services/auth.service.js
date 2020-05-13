@@ -23,7 +23,7 @@ class AuthService {
   }
 
   info() {
-    return axios.get(API_URL + 'me', { headers: { 'Content-Type': 'Application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token') } })
+    return axios.get(API_URL + 'me', { headers: { 'Content-Type': 'Applicationjson', 'Authorization': 'Bearer ' + localStorage.getItem('token') } })
   }
 
 }

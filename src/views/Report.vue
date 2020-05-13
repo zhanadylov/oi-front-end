@@ -1,17 +1,20 @@
 <template>
   <div class="report">
-    <ReportComponent v-model="report" />
+    <component :is="isReportView" v-model="report"></component>
     {{report}}
     <template v-if="isadmin">
-      <b-button class="btn btn-block" variant="success">Подтвердить</b-button>
-      <b-button class="btn btn-block" @click="rejectReport" variant="danger">Отклонить</b-button>
+      <b-button class="btn btn-block hide-print" variant="success">Подтвердить</b-button>
+      <b-button class="btn btn-block hide-print" @click="rejectReport" variant="danger">Отклонить</b-button>
     </template>
     <template v-else>
-      <button class="btn btn-primary btn-block" v-if="!$route.params.id" @click="submit">
+      <button class="btn btn-primary btn-block hide-print" v-if="!$route.params.id" @click="submit">
         <span>Сохранить</span>
       </button>
-      <button class="btn btn-primary btn-block" v-else @click="update">Обновить</button>
+      <button class="btn btn-primary btn-block hide-print" v-else @click="update">Обновить</button>
     </template>
+    <div class="col-3 offset-9 text-right my-3 hide-print">
+      <b-button class="print hide-print" onclick="window.print()">Печать</b-button>
+    </div>
   </div>
 </template>
 
@@ -26,7 +29,8 @@ export default {
     };
   },
   components: {
-    ReportComponent: () => import('../components/ReportComponent.vue')
+    ReportComponent: () => import('../components/ReportComponent.vue'),
+    FactComponent: () => import('../components/FactComponent.vue')
   },
   computed: {
     isadmin() {
@@ -34,6 +38,13 @@ export default {
         return true;
       }
       return false;
+    },
+    isReportView() {
+      if (this.$route.query.type.indexOf('fact') >= 0) {
+        return 'FactComponent';
+      }
+
+      return 'ReportComponent';
     }
   },
   methods: {
@@ -65,16 +76,24 @@ export default {
         });
     },
     rejectReport() {
-      let id = this.$route.params.id
+      let id = this.$route.params.id;
       this.$store
-      .dispatch('report/rejectReport', id)
-      .then(response => {
-          this.$router.push('/reporting')
+        .dispatch('report/rejectReport', id)
+        .then(response => {
+          this.$router.push('/reporting');
         })
         .catch(function(error) {
           console.log(error);
-        })
+        });
     }
   }
 };
 </script>
+
+<style>
+@media print {
+  .hide-print {
+    display: none;
+  }
+}
+</style>
