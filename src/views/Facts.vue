@@ -18,19 +18,21 @@
       ></b-radio-group>
     </b-form-group>
     <template v-else>
-      <button @click="test">Назад</button>
-      <template v-if="content.view == 'table'">
+      <b-button @click="test" variant="outline-primary">Назад</b-button>
         <b-table-simple hover small stacked>
           <b-tbody>
             <b-tr v-for="(item, index) in content.titles" :key="index">
-              <template v-if="item.type">
-                <b-td>{{item.text}}</b-td>
+              <template v-if="item.type == 'date'">
+                <b-td width="40%">{{item.text}}</b-td>
                 <b-td>
                   <b-datepicker name="inputs" :data-option="index"></b-datepicker>
                 </b-td>
               </template>
+              <template v-else-if="item.type == 'header'">
+                <b-td colspan="2" class='text'><h5>{{item.text}}</h5><b-input style="display: none" type="text" name="inputs" :data-option="index"></b-input></b-td>
+              </template>
               <template v-else>
-                <b-td>{{item}}</b-td>
+                <b-td width="40%">{{item}}</b-td>
                 <b-td>
                   <b-input type="text" name="inputs" :data-option="index"></b-input>
                 </b-td>
@@ -38,27 +40,7 @@
             </b-tr>
           </b-tbody>
         </b-table-simple>
-      </template>
-      <template v-else>
-        <ul id="v-for-object" class="demo">
-          <li v-for="(value, name) in content" :key="name">
-            <template v-if="value.type">
-              <label>{{value.text}}</label>
-              <b-datepicker name="inputs" :data-option="name"></b-datepicker>
-            </template>
-            <template v-else>
-              <template v-if="name == 'crib'">
-                <span style="-webkit-user-modify: read-write-plaintext-only;">{{value}}</span>
-              </template>
-              <template v-else>
-                <label>{{value}}</label>
-                <b-input type="text" name="inputs" :data-option="name"></b-input>
-              </template>
-              
-            </template>
-          </li>
-        </ul>
-      </template>
+      
       <b-button @click="save">Сохранить</b-button>
       {{arr}}
     </template>
@@ -70,6 +52,11 @@ import facts from '../mixins/facts.js';
 
 export default {
   name: 'Facts',
+   metaInfo() {
+    return {
+      title: this.$title('Существенные факты')
+    }
+  },
   mixins: [facts],
   data() {
     return {
@@ -86,22 +73,36 @@ export default {
         },
         {
           text:
-            'Изменения в размере участия лиц, входящих в органы управления эмитента, в уставном капитале эмитента, а также его дочерних и зависимых обществ, и об участии этих лиц в капитале других юридических лиц, если они владеют более чем 20 ',
+            '2.а. Изменение размера участия члена Исполнительного органа в уставном капитале компаний',
           value: 'fact2'
         },
         {
-          text: 'Изменения в списке владельцев ценных бумаг эмитента',
+          text:
+            '2.б. Изменение размера участия члена Совета директоров в уставном капитале компаний',
+          value: 'fact2_1'
+        },
+        {
+          text: '3.а. Изменение в списке владельцев ценных бумаг',
           value: 'fact3'
         },
         {
+          text: '3.б. Изменение в списке владельцев ценных бумаг',
+          value: 'fact3_1'
+        },
+        {
           text:
-            'Изменения в списке юридических лиц, в которых эмитент владеет 20 и более процентами уставного капитала.',
+            'Изменения в списке юридических лиц, в которых эмитент владеет 20 и более процентами уставного капитала',
           value: 'fact4'
         },
         {
           text:
-            'Появление в реестре эмитента лица, владеющего более чем 5 процентами его эмиссионных ценных бумаг любого отдельного вида',
+            '5.а. Появление в реестре лица, владеющего более чем 5 процентами ценных бумаг',
           value: 'fact5'
+        },
+        {
+          text:
+            '5.б. Появление в реестре лица, владеющего более чем 5 процентами ценных бумаг',
+          value: 'fact5_1'
         },
         {
           text:
@@ -115,13 +116,23 @@ export default {
         },
         {
           text:
-            'Факт (факты), повлекший разовое увеличение или уменьшение стоимости активов эмитента более чем на 10 процентов',
+            '7.а. Факт, повлекший разовое увеличение стоимости активов более чем на 10 процентов',
           value: 'fact7'
         },
         {
           text:
-            'Факт (факты), повлекший разовое увеличение чистой прибыли или чистых убытков эмитента более чем на 10 процентов',
+            '7.б. Факт, повлекший разовое уменьшение стоимости активов более чем на 10 процентов',
+          value: 'fact7_1'
+        },
+        {
+          text:
+            '8.а. Факт, повлекший разовое увеличение чистой прибыли более чем на 10 процентов',
           value: 'fact8'
+        },
+        {
+          text:
+            '8.б. Факт, повлекший разовое увеличение чистых убытков более чем на 10 процентов',
+          value: 'fact8_1'
         },
         {
           text: 'Реорганизация эмитента, его дочерних и зависимых обществ',
@@ -143,6 +154,7 @@ export default {
       arr: []
     };
   },
+ 
   computed: {
     show() {
       if (this.selected == '') return true;

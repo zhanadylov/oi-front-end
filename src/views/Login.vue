@@ -51,6 +51,11 @@ export default {
       message: ''
     };
   },
+  metaInfo() {
+    return {
+      title: this.$title('Авторизация')
+    }
+  },
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;

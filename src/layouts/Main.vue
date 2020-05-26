@@ -7,6 +7,10 @@
             <router-link to="/company" class="nav-link">Профиль компании</router-link>
           </li>
 
+          <li class="nav-item">
+            <router-link to="/profile" class="nav-link">Личный кабинет</router-link>
+          </li>
+
           <li class="active">
             <a
               href="#factsSubmenu"

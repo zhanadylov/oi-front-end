@@ -14,6 +14,11 @@ export default {
     return {
       content: ''
     };
-  }
+  },
+  metaInfo() {
+    return {
+      title: this.$title('Раскрытие информации')
+    }
+  },
 };
 </script>

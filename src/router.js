@@ -92,12 +92,19 @@ export const router = new Router({
       meta: {layout: 'main'},
       // lazy-loaded
       component: () => import('./views/ArchiveFacts.vue')
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      meta: {layout: 'main'},
+      // lazy-loaded
+      component: () => import('./views/Profile.vue')
     }
   ]
 });
 
  router.beforeEach((to, from, next) => {
-   const publicPages = ['/login', '/register', '/home'];
+   const publicPages = ['/login', '/register'];
    const authRequired = !publicPages.includes(to.path);
    const loggedIn = localStorage.getItem('token');
 

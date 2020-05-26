@@ -6,8 +6,15 @@
         <b-select-option :value="null" disabled>-- Выберите тип документа --</b-select-option>
       </template>
     </b-select>
-    <b-table :fields="reportList" bordered hover :items="items" class="report-list" head-variant="light">
-      <template #cell(id)="row" v-if="isadmin">{{row.item.sender}}</template>
+    <b-table
+      :fields="reportList"
+      bordered
+      hover
+      :items="items"
+      class="report-list"
+      head-variant="light"
+    >
+      <template #cell(id)="row" v-if="isadmin">{{row.item.name}}</template>
 
       <template #cell(createdate)="row">
         <p v-if="isadmin">{{row.item.datesend}}</p>
@@ -43,7 +50,7 @@
             <b-button
               variant="success"
               v-if="row.item.refer == null"
-              @click="confirm(row.item.id, row.item.sender)"
+              @click="confirm(row.item.id, row.item.sender, row.item.doc, row.item.name, row.item.typedoc)"
             >Подтвердить</b-button>
             <b-button variant="outline-primary" v-else>Подтверждено</b-button>
           </span>
@@ -60,7 +67,7 @@
             variant="warning"
           >Отменить отправку</b-button>
           <b-button
-            @click="test(row.item.typedoc, row.item.confirmdate, row.item.name)"
+            @click="modal(row.item.typedoc, row.item.confirmdate, row.item.name, row.item.linkkse)"
             v-b-modal.modal-center
             v-else-if="row.item.status == 3"
             variant="success"
@@ -89,13 +96,24 @@
     </b-table>
     <b-modal id="modal-center" size="lg" centered title="Квитанция">
       <p class="my-4">{{companyname}}</p>
-      <p class="my-4">Основание документа:
+      <p class="my-4">
+        Основание документа:
         <span v-if="doctype == 'RKV01'">Квартальный отчет</span>
-        <span v-else-if="doctype == 'RKV02'">Годовой отчет</span></p>
+        <span v-else-if="doctype == 'RKV02'">Годовой отчет</span>
+        <span v-else>Существенный факт</span>
+      </p>
       <p class="my-4">Дата: {{date}}</p>
       <p class="my-4">
         Опубликовано на официальном сайте
-        <a href="www.kse.kg">ЗАО "Кыргызская Фондовая Биржа"</a>
+        <template v-if="link == 0">
+          <a href="www.kse.kg">ЗАО "Кыргызская Фондовая Биржа"</a>
+        </template>
+        <template v-else>
+          <a
+            :href="'http://www.kse.kg/ru/RussianAllNewsBlog/' + link"
+            target="_blank"
+          >ЗАО "Кыргызская Фондовая Биржа"</a>
+        </template>
       </p>
       <b-button class="print" @click="print" onclick="window.print()">Печать</b-button>
     </b-modal>
@@ -103,21 +121,25 @@
 </template>
 <script>
 import { mapState } from 'vuex';
+import Queries from '../services/report.service';
+import facts from '../mixins/facts.js';
 export default {
   name: 'ReportList',
   created() {
-    this.getReportList()
+    this.getReportList();
   },
+  mixins: [facts],
   data() {
     return {
+      link: 0,
       date: '',
       doctype: '',
       selected: '',
-        options: [
-          { value: '', text: 'Все' },
-          { value: 'RKV', text: 'Отчетность' },
-          { value: 'fact', text: 'Существенные факты' }
-        ],
+      options: [
+        { value: '', text: 'Все' },
+        { value: 'RKV', text: 'Отчетность' },
+        { value: 'fact', text: 'Существенные факты' }
+      ],
       companyname: '',
       result: [],
       reportList: [
@@ -140,7 +162,43 @@ export default {
           label: 'Тип документа'
         },
         { key: 'refer', headerTitle: 'Подтвердить', label: 'Подтвердить' }
-      ]
+      ],
+      factNames: {
+        fact1: 'Изменение в составе Исполнительного органа',
+        fact1_1: 'Изменение в составе Совета директоров',
+        fact2:
+            ' Изменение размера участия члена Исполнительного органа в уставном капитале компаний',
+        fact2_1:
+            'Изменение размера участия члена Совета директоров в уставном капитале компаний',
+        fact3: 'Изменение в списке владельцев ценных бумаг',
+        fact3_1: 'Изменение в списке владельцев ценных бумаг',
+        fact4:
+            'Изменения в списке юридических лиц, в которых эмитент владеет 20 и более процентами уставного капитала',
+         
+        fact5:
+            'Появление в реестре лица, владеющего более чем 5 процентами ценных бумаг',
+        fact5_1:
+            ' Появление в реестре лица, владеющего более чем 5 процентами ценных бумаг',
+        fact6:
+            'Разовые сделки эмитента, размер которых, либо стоимость имущества по которым составляет 10 и более процентов от активов эмитента на дату сделки',
+        
+        fact6_1:
+            ' Факт заключения договора или иного документа и/или факт государственной регистрации такого договора, предметом которого является приобретение, получение или передача во временное пользование сроком свыше одного года, либо отчуждение недвижимого имущества, независимо от площади недвижимого имущества.',
+        fact7:
+            ' Факт, повлекший разовое увеличение стоимости активов более чем на 10 процентов',
+        fact7_1:'Факт, повлекший разовое уменьшение стоимости активов более чем на 10 процентов',
+        fact8:'Факт, повлекший разовое увеличение чистой прибыли более чем на 10 процентов',
+        fact8_1: ' Факт, повлекший разовое увеличение чистых убытков более чем на 10 процентов',
+        fact9: 'Реорганизация эмитента, его дочерних и зависимых обществ',
+        fact10: 'Начисленные доходы по ценным бумагам (дивиденды)',
+        fact10_1: 'Выплаченные доходы по ценным бумагам (дивиденды)',
+        fact10_2: 'Начисленные доходы по облигациям',
+        fact10_3: 'Выплаченные доходы по облигациям',
+        fact11: 'Решения общих собраний',
+        fact12:'Погашение ценных бумаг эмитента'
+      }
+        
+      
     };
   },
   computed: {
@@ -154,8 +212,14 @@ export default {
   },
 
   methods: {
-    
-    confirm(id, interrefer) {
+    confirm(id, interrefer, mEntryText, mEntryCompany, type) {
+      if (type != 'RKV01' && type != 'RKV02') {
+        
+        let name = mEntryCompany + ' : ' + this.factNames[type]
+        let titles = this.facts[type];
+        this.sendToKSE(mEntryText, name, mEntryCompany, titles, id)
+      }
+
       this.$store
         .dispatch('report/confirm', { id, interrefer })
         .then(response => {
@@ -175,10 +239,11 @@ export default {
           console.log(error);
         });
     },
-    test(type, date, name) {
+    modal(type, date, name, link = 0) {
       this.date = date;
       this.doctype = type;
       this.companyname = name;
+      this.link = link;
     },
     backReport(id) {
       this.$store
@@ -191,16 +256,39 @@ export default {
         });
     },
     getReportList() {
-      const type = this.selected
-      
-        this.$store
+      const type = this.selected;
+
+      this.$store
         .dispatch('report/getList', type)
         .then(response => {})
         .catch(function(error) {
           console.log(error);
         });
-      
-      
+    },
+
+    sendToKSE(mEntryText, mEntryName, mEntryCompany, title, idfact) {
+      let doAddEntry = 'test';
+      let BlogId = '3';
+      return Queries.test({
+        doAddEntry,
+        BlogId,
+        mEntryText,
+        mEntryName,
+        mEntryCompany,
+        title
+      })
+        .then(response => {
+          let link = response.data;
+          this.$store
+            .dispatch('report/addLink', { idfact, link})
+            .then(response => {})
+            .catch(function(error) {
+              console.log(error);
+            });
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     }
   }
 };
@@ -208,15 +296,20 @@ export default {
 
 <style>
 @media print {
-  .modal, .modal-dialog {
-    height: auto!important;
-    min-height: auto!important;
+  .modal,
+  .modal-dialog {
+    height: auto !important;
+    min-height: auto !important;
     align-items: end;
   }
   .modal-dialog {
     margin: 0;
   }
-  .report-list, select, .modal-footer, .close, .print {
+  .report-list,
+  select,
+  .modal-footer,
+  .close,
+  .print {
     display: none;
   }
 }

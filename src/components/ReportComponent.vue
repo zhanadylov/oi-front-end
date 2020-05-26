@@ -31,7 +31,7 @@
           <strong class="text-danger">!</strong>
         </b-input-group-text>
       </template>
-      <b-form-input readonly v-model="info.name"></b-form-input>
+      <b-form-input style="background: #fff;" readonly v-model="info.name"></b-form-input>
     </b-input-group>
     <b-input-group prepend="организационно-правовая форма" class="mt-3">
       <template v-slot:append>
@@ -39,7 +39,7 @@
           <strong class="text-danger">!</strong>
         </b-input-group-text>
       </template>
-      <b-form-input readonly v-model="info.opforma"></b-form-input>
+      <b-form-input style="background: #fff;" readonly v-model="info.opforma"></b-form-input>
     </b-input-group>
     <b-input-group
       prepend="юридический и почтовый адрес эмитента, номер телефона и факса"
@@ -50,7 +50,7 @@
           <strong class="text-danger">!</strong>
         </b-input-group-text>
       </template>
-      <b-form-input readonly v-model="info.address"></b-form-input>
+      <b-form-input style="background: #fff;" readonly v-model="info.address"></b-form-input>
     </b-input-group>
     <b-input-group prepend="основной вид деятельности эмитента" class="mt-3">
       <template v-slot:append>
@@ -58,7 +58,7 @@
           <strong class="text-danger">!</strong>
         </b-input-group-text>
       </template>
-      <b-form-input readonly v-model="info.activity"></b-form-input>
+      <b-form-input style="background: #fff;" readonly v-model="info.activity"></b-form-input>
     </b-input-group>
 
     <h4>2. Количество владельцев ценных бумах и работников эмитента.</h4>
@@ -465,12 +465,6 @@ export default {
         reportFooter: this.textareas
       });
     },
-    TransformNumber(e) {
-      console.log(e);
-      // if (e.value.indexOf(".") != '-1') {
-      //   e.value=e.value.substring(0, e.value.indexOf(".") + 3);
-      // }
-    },
     setinfo() {
       return Queries.getReportById(this.$route.params.id)
         .then(response => {
@@ -484,7 +478,6 @@ export default {
           this.tblcapitalitems = response.data.doc.tblCapital;
           this.textareas = response.data.doc.reportFooter;
           this.status = response.data.status;
-          console.log(response.data);
         })
         .catch(function(error) {
           console.log(error);
@@ -531,6 +524,7 @@ table input {
 table {
   text-align: center;
 }
+
 .active {
   height: 100%;
   width: 100%;
@@ -544,6 +538,9 @@ table {
 </style>
 
 <style >
+.table-transparent {
+  width: 40%!important;
+}
 @media print {
   #app {
     display: block!important;

@@ -3,8 +3,8 @@
     <header class="jumbotron">
       <h3>Логин: {{content.login}}</h3>
       <h3>ФИО: {{content.fullname}}</h3>
+      <h3>Компания: {{info}}</h3>
     </header>
-
     <ReportList/>
   </div>
 </template>
@@ -18,7 +18,13 @@ export default {
   },
   data() {
     return {
-      type: 'RKV'
+      type: 'RKV',
+      info: this.$store.state.company.info.name
+    }
+  },
+  metaInfo() {
+    return {
+      title: this.$title('Архив')
     }
   },
   components: {

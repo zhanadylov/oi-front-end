@@ -3,18 +3,21 @@
     <template v-if="!EditReport">
       <div class="not_edit"></div>
     </template>
-    <template v-if="facts[result.typedoc].view == 'table'">
+      <b-alert variant="success" show>{{facts[result.typedoc].crib}}</b-alert>
       <b-table-simple hover small stacked>
         <b-tbody>
           <b-tr v-for="(item, index) in content" :key="index++">
-            <template v-if="facts[result.typedoc]['titles']['title' + index].type">
-              <b-td>{{facts[result.typedoc]['titles']['title' + index].text}}</b-td>
+            <template v-if="facts[result.typedoc]['titles']['title' + index].type == 'date'">
+              <b-td width="40%">{{facts[result.typedoc]['titles']['title' + index].text}}</b-td>
               <b-td>
                 <b-datepicker name="inputs" @change="sendData" :data-option="index" :value="item"></b-datepicker>
               </b-td>
             </template>
+            <template v-else-if="facts[result.typedoc]['titles']['title' + index].type == 'header'">
+              <b-td colspan="2"><h5>{{facts[result.typedoc]['titles']['title' + index].text}}</h5></b-td>
+            </template> 
             <template v-else>
-              <b-td>{{facts[result.typedoc]['titles']['title' + index]}}</b-td>
+              <b-td width="40%">{{facts[result.typedoc]['titles']['title' + index]}}</b-td>
               <b-td>
                 <b-input type="text" @blur="sendData" name="inputs" :data-option="index" :value="item"></b-input>
               </b-td>
@@ -22,21 +25,7 @@
           </b-tr>
         </b-tbody>
       </b-table-simple>
-    </template>
-    <template v-else>
-      <ul id="v-for-object" class="demo">
-        <li v-for="(value, name) in content" :key="name++">
-          <template v-if="facts[result.typedoc]['title' + name].type">
-            <label>{{facts[result.typedoc]['title' + name].text}}</label>
-            <b-datepicker name="inputs" @blur="sendData" :value="value"></b-datepicker>
-          </template>
-          <template v-else>
-            <label>{{facts[result.typedoc]['title' + name]}}</label>
-            <b-input type="text" @blur="sendData" :value="value" name="inputs"></b-input>
-          </template>
-        </li>
-      </ul>
-    </template>
+    
   </div>
 </template>
 

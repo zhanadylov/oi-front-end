@@ -76,6 +76,14 @@ class ReportService {
     rejectReport(id) {
         return instance.put('/reports/reject/' + id)
     }
+
+    test(doAddEntry, BlogId, mEntryText, mEntryName, mEntryCompany, title) {
+        return axios.post('http://www.kse.kg/modules/Blog/addFact.php', doAddEntry, BlogId, mEntryText, mEntryName, mEntryCompany, title)
+    }
+
+    addLinkToFact(idfact, link) {
+        return instance.put('/reports/link/' + link, {idfact, link})
+    }
 }
 
 export default new ReportService();

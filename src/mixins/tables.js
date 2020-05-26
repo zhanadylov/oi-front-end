@@ -46,6 +46,20 @@ export default {
                     label: 'На конец отчетного периода, тыс сом'
                 }
             ],
+            tblcapitalfields: [
+                { key: 'Code', headerTitle: 'Код строк', label: 'Код строк' },
+                { key: 'TItle', headerTitle: ' ', label: ' ', variant: 'transparent text-left' },
+                {
+                    key: 'Start',
+                    headerTitle: 'Начало отчетного периода, тыс.сом',
+                    label: 'Начало отчетного периода, тыс.сом'
+                },
+                {
+                    key: 'End',
+                    headerTitle: 'На конец отчетного периода, тыс сом',
+                    label: 'На конец отчетного периода, тыс сом'
+                }
+            ],
             tblprofititems: [
                 { Code: '010', TItle: 'Валовая прибыль', Start: '', End: '' },
                 {
@@ -99,20 +113,7 @@ export default {
                     End: ''
                 }
             ],
-            tblcapitalfields: [
-                { key: 'Code', headerTitle: 'Код строк', label: 'Код строк' },
-                { key: 'TItle', headerTitle: ' ', label: ' ', variant: 'transparent text-left' },
-                {
-                    key: 'Start',
-                    headerTitle: 'Начало отчетного периода, тыс.сом',
-                    label: 'Начало отчетного периода, тыс.сом'
-                },
-                {
-                    key: 'End',
-                    headerTitle: 'На конец отчетного периода, тыс сом',
-                    label: 'На конец отчетного периода, тыс сом'
-                }
-            ],
+            
             tblcapitalitems: [
                 { Code: '010', TItle: "", Start: '', End: '' },
                 {

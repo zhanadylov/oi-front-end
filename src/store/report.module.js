@@ -10,7 +10,8 @@ export const report = {
     updateReport: false,
     send: false,
     back: false,
-    reject: false
+    reject: false,
+    link: false
   },
   actions: {
     insert({ commit }, {typedoc, xmldoc, sender, status}) {
@@ -99,6 +100,18 @@ export const report = {
 
     nullifyList({commit}) {
       commit('nullify')
+    },
+
+    addLink({commit}, {idfact, link}) {
+      return ReportService.addLinkToFact(idfact, link).then(
+        () => {
+          commit('link')
+          return Promise.resolve(true)
+        },
+        error => {
+          return Promise.reject(error)
+        }
+      )
     }
   },
   mutations: {
@@ -125,6 +138,9 @@ export const report = {
     },
     nullify (state) {
       state.list = []
+    },
+    link(state) {
+      state.link = true
     }
   }
 };

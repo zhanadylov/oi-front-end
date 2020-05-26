@@ -26,6 +26,10 @@ class AuthService {
     return axios.get(API_URL + 'me', { headers: { 'Content-Type': 'Applicationjson', 'Authorization': 'Bearer ' + localStorage.getItem('token') } })
   }
 
+  update(login, fullname) {
+    return axios.put(API_URL, {login, fullname}, { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') } })
+  }
+
 }
 
 export default new AuthService();

@@ -28,6 +28,11 @@ export default {
       content: []
     };
   },
+  metaInfo() {
+    return {
+      title: this.$title('Отчет')
+    }
+  },
   components: {
     ReportComponent: () => import('../components/ReportComponent.vue'),
     FactComponent: () => import('../components/FactComponent.vue')

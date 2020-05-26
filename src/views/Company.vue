@@ -56,6 +56,11 @@ export default {
       dismissCountDown: 0
     }
   },
+  metaInfo() {
+    return {
+      title: this.$title('Профиль компании')
+    }
+  },
   computed: {
     ...mapState({ content: store => store.company.info })
   },
