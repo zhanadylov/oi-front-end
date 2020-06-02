@@ -1,7 +1,9 @@
 <template>
   <div class="report">
+    <div class="col-3 offset-9 text-right my-3 hide-print" style="z-index: 40;">
+      <b-button class="print hide-print" onclick="window.print()">Печать</b-button>
+    </div>
     <component :is="isReportView" v-model="report"></component>
-    {{report}}
     <template v-if="isadmin">
       <b-button class="btn btn-block hide-print" variant="success">Подтвердить</b-button>
       <b-button class="btn btn-block hide-print" @click="rejectReport" variant="danger">Отклонить</b-button>
@@ -12,9 +14,6 @@
       </button>
       <button class="btn btn-primary btn-block hide-print" v-else @click="update">Обновить</button>
     </template>
-    <div class="col-3 offset-9 text-right my-3 hide-print">
-      <b-button class="print hide-print" onclick="window.print()">Печать</b-button>
-    </div>
   </div>
 </template>
 

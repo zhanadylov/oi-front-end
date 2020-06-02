@@ -1,6 +1,7 @@
 export default {
     data() {
         return {
+            audit: '',
             selected: 'RKV01',
             options: [
                 { text: 'Квартальный отчет', value: 'RKV01' },
@@ -234,6 +235,13 @@ export default {
     },
 
     computed: {
+        
+        auditView: function() {
+            if (this.selected == 'RKV02') { return true}
+
+            return false
+        },
+
         assets_Start: function() { // Итого активы (010+020+030+040)
 
             let suma = +this.tblbalanceitems[4].Start +
@@ -313,14 +321,14 @@ export default {
             return suma
         },
         activities_Start: function () { // Прибыль (убыток) от обычной деятельности (060-070)
-            let suma = +this.tblprofititems[5].Start + + this.tblprofititems[6].Start
+            let suma = +this.tblprofititems[5].Start + - this.tblprofititems[6].Start
 
             this.tblprofititems[7].Start = suma
 
             return suma
         },
         activities_End: function () { // Прибыль (убыток) от обычной деятельности (060-070)
-            let suma = +this.tblprofititems[5].End + + this.tblprofititems[6].End
+            let suma = +this.tblprofititems[5].End + - this.tblprofititems[6].End
 
             this.tblprofititems[7].End = suma
 
@@ -370,9 +378,6 @@ export default {
         save() {
             this.originalData = null;
             this.editIndex = null;
-        },
-        test() {
-            alert(123);
         }
     }
 }

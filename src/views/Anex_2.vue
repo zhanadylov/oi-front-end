@@ -1,0 +1,184 @@
+<template>
+  <div>
+    <h4>1. Сведения о секретаре общества</h4>
+
+    <b-table-simple hover bordered small stacked>
+      <b-thead>
+        <tr>
+          <th rowspan="2">ФИО секретаря общества</th>
+          <th colspan="2">Занимаемые должности в настоящее время</th>
+          <th rowspan="2">Количество принадлежащих ему ценных бумаг</th>
+          <th rowspan="2">Доля в уставном капитале регулируемого субъекта финансового рынка (в %)</th>
+          <th rowspan="2">Контактная информация (тел.)</th>
+        </tr>
+        <tr>
+          <th>в органах управления</th>
+          <th>вне органов управления</th>
+        </tr>
+      </b-thead>
+      <b-tbody>
+        <b-tr>
+          <b-td v-for="(item, index) in table_1_items" :key="index">
+            <b-input type="text" name="inputs" v-model="table_1_items[index]"></b-input>
+          </b-td>
+        </b-tr>
+      </b-tbody>
+    </b-table-simple>
+
+    <h4>2. Информация о существенных фактах (далее - факт), затрагивающих деятельность публичных компаний в отчетном периоде</h4>
+
+    <!-- table_2 -->
+    <b-table-simple bordered hover head-variant="light">
+      <b-thead>
+        <b-tr>
+          <b-th v-for="(item, index) in table_2_fields" :key="index">{{item}}</b-th>
+        </b-tr>
+      </b-thead>
+      <tbody>
+        <b-tr>
+          <b-td v-for="(item, index) in table_2_items" :key="index">
+            <template v-if="item.type == 'date'">
+              <b-datepicker
+                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                name="inputs"
+                v-model="table_2_items[index]['text']"
+              ></b-datepicker>
+            </template>
+            <template v-else>
+              <b-input type="text" name="inputs" v-model="table_2_items[index]"></b-input>
+            </template>
+          </b-td>
+        </b-tr>
+      </tbody>
+    </b-table-simple>
+    <h4>3. Информация обо всех выпусках ценных бумаг публичных компаний</h4>
+    <!-- table_3 -->
+    <b-table-simple bordered hover head-variant="light">
+      <b-thead>
+        <b-tr>
+          <b-th v-for="(item, index) in table_3_fields" :key="index">{{item}}</b-th>
+        </b-tr>
+      </b-thead>
+      <tbody>
+        <b-tr>
+          <b-td v-for="(item, index) in table_3_items" :key="index">
+            <template v-if="item.type == 'date'">
+              <b-datepicker
+                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                name="inputs"
+                v-model="table_3_items[index]['text']"
+              ></b-datepicker>
+            </template>
+            <template v-else>
+              <b-input type="text" name="inputs" v-model="table_3_items[index]"></b-input>
+            </template>
+          </b-td>
+        </b-tr>
+      </tbody>
+    </b-table-simple>
+    <h4>4. Информация об условиях и характере совершенной акционерным обществом сделки с заинтересованными лицами:</h4>
+    <ul>
+      <li>дата совершения сделки;</li>
+      <li>информация о влиянии сделки на деятельность эмитента (финансовый результат, дополнительные инвестиции и т.д.);</li>
+      <li>информация об условиях и характере заключенной сделки (предмет, условия, цена сделки и т.д.);</li>
+      <li>степень имеющейся заинтересованности (лица, заинтересованные в сделке);</li>
+      <li>дата опубликования информации о сделке в средствах массовой информации (прилагается копия опубликованного сообщения);</li>
+      <li>дата раскрытия информации о сделке в уполномоченный орган, регулирующий рынок ценных бумаг.</li>
+    </ul>
+
+    <p>2) К отчету прилагаются все протоколы общих собраний владельцев ценных бумаг/участников в отчетном году и отчеты счетной комиссии этих собраний, а также копия публикации о созыве общего собрания, если они ранее не были представлены в уполномоченный государственный орган.</p>
+
+    <b-button @click="save">Сохранить</b-button>
+  </div>
+</template>
+
+<script>
+import Queries from '../services/report.service'; // axios запросы на бэк энд
+
+export default {
+  name: 'Anex_1',
+  created() {
+    this.setinfo();
+  },
+  data() {
+    return {
+      arr: [],
+      table_1_items: {
+        title1: '',
+        title2: '',
+        title3: '',
+        title4: '',
+        title5: '',
+        title6: ''
+      },
+      table_2_fields: {
+        title1: 'Наименование факта',
+        title2: 'Дата появления факта',
+        title3: 'Влияние факта на деятельность публичной компании',
+        title4: 'Дата и форма раскрытия информации о факте'
+      },
+      table_2_items: {
+        title1: '',
+        title2: { type: 'date', text: '' },
+        title3: '',
+        title4: { type: 'date', text: '' }
+      },
+      table_3_fields: {
+        title1: 'Вид ценной бумаги',
+        title2: 'Общая сумма, на которую выпущен данный вид ценной бумаги',
+        title3: 'Общее количество выпущенных ценных бумаг',
+        title4: 'Дата выпуска ценных бумаг',
+        title5: 'Дата размещения',
+        title6: 'Дата погашения ценных бумаг',
+        title7:
+          'Профессиональные участники рынка ценных бумаг, оказывающие услуги в размещении выпусков данных ценных бумаг (номер лицензии юридический адрес)',
+        title8: 'Количество владельцев ценных бумаг на конец отчетного периода'
+      },
+      table_3_items: {
+        title1: '',
+        title2: '',
+        title3: '',
+        title4: { type: 'date', text: '' },
+        title5: { type: 'date', text: '' },
+        title6: { type: 'date', text: '' },
+        title7: '',
+        title8: ''
+      }
+    };
+  },
+
+  methods: {
+    setinfo() {
+      return Queries.getReportById(this.$route.params.id)
+        .then(response => {
+            this.table_1_items = response.data.doc.table1
+            this.table_2_items = response.data.doc.table2
+            this.table_3_items = response.data.doc.table3
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+    save() {
+      let table = {
+        table1: this.table_1_items,
+        table2: this.table_2_items,
+        table3: this.table_3_items
+      };
+
+      let typedoc = 'anex-2';
+      let xmldoc = JSON.stringify(table);
+      let sender = this.$store.state.company.info.kod;
+      let status = 1;
+
+      this.arr = xmldoc;
+      this.$store
+        .dispatch('report/insert', { typedoc, xmldoc, sender, status })
+        .then(response => {})
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
+  }
+};
+</script>

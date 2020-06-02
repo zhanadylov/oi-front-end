@@ -1,9 +1,7 @@
 <template>
   <div class="container">
     <header class="jumbotron">
-      <h3>Логин: {{content.login}}</h3>
-      <h3>ФИО: {{content.fullname}}</h3>
-      <h3>Компания: {{info}}</h3>
+      <h3>Наименование компании: {{info}}</h3>
     </header>
     <ReportList/>
   </div>
@@ -52,3 +50,13 @@ export default {
   }
 };
 </script>
+
+<style>
+
+@media print {
+  .jumbotron {
+    display: none;
+  }
+}
+
+</style>

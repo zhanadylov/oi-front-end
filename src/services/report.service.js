@@ -81,6 +81,10 @@ class ReportService {
         return axios.post('http://www.kse.kg/modules/Blog/addFact.php', doAddEntry, BlogId, mEntryText, mEntryName, mEntryCompany, title)
     }
 
+    addReportInKSE(doc) {
+        return axios.post('http://www.kse.kg/modules/Blog/addReport.php', doc)
+    }
+
     addLinkToFact(idfact, link) {
         return instance.put('/reports/link/' + link, {idfact, link})
     }

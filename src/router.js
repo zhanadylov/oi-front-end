@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Login from './views/Login.vue';
-import Register from './views/Register.vue';
 
 Vue.use(Router);
 
@@ -26,30 +25,11 @@ export const router = new Router({
       component: Login
     },
     {
-      path: '/register',
-      meta: {layout: 'auth'},
-      component: Register
-    },
-    {
       path: '/reporting',
       name: 'reporting',
       meta: {layout: 'main'},
       // lazy-loaded
       component: () => import('./views/Reporting.vue')
-    },
-    {
-      path: '/admin',
-      name: 'admin',
-      meta: {layout: 'main'},
-      // lazy-loaded
-      component: () => import('./views/BoardAdmin.vue')
-    },
-    {
-      path: '/user',
-      name: 'user',
-      meta: {layout: 'main'},
-      // lazy-loaded
-      component: () => import('./views/BoardUser.vue')
     },
     {
       path: '/report',
@@ -99,12 +79,47 @@ export const router = new Router({
       meta: {layout: 'main'},
       // lazy-loaded
       component: () => import('./views/Profile.vue')
+    },
+    {
+      path: '/test',
+      name: 'Test',
+      meta: {layout: 'main'},
+      // lazy-loaded
+      component: () => import('./views/test.vue')
+    },
+    {
+      path: '/anex-1',
+      name: 'Anex_1',
+      meta: {layout: 'main'},
+      // lazy-loaded
+      component: () => import('./views/Anex_1.vue')
+    },
+    {
+      path: '/anex-2',
+      name: 'Anex_2',
+      meta: {layout: 'main'},
+      // lazy-loaded
+      component: () => import('./views/Anex_2.vue')
+    },
+    {
+      path: '/anex-1/:id',
+      name: 'Anex_1_View',
+      meta: {layout: 'main'},
+      // lazy-loaded
+      component: () => import('./views/Anex_1.vue')
+    },
+    {
+      path: '/anex-2/:id',
+      name: 'Anex_2_View',
+      meta: {layout: 'main'},
+      // lazy-loaded
+      component: () => import('./views/Anex_2.vue')
     }
   ]
 });
 
  router.beforeEach((to, from, next) => {
-   const publicPages = ['/login', '/register'];
+   const publicPages = ['/login'];
    const authRequired = !publicPages.includes(to.path);
    const loggedIn = localStorage.getItem('token');
 

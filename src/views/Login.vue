@@ -3,12 +3,12 @@
     <div class="card card-container">
       <img
         id="profile-img"
-        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+        src="../assets/avatar.png"
         class="profile-img-card"
       />
       <form name="form" @submit.prevent="handleLogin">
         <div class="form-group">
-          <label for="username">Username</label>
+          <label for="username">Логин</label>
           <input
             v-model="user.username"
             type="text"
@@ -17,7 +17,7 @@
           />
         </div>
         <div class="form-group">
-          <label for="password">Password</label>
+          <label for="password">Пароль</label>
           <input
             v-model="user.password"
             type="password"
@@ -28,7 +28,7 @@
         <div class="form-group">
           <button class="btn btn-primary btn-block" :disabled="loading">
             <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-            <span>Login</span>
+            <span>Войти</span>
           </button>
         </div>
         <div class="form-group">

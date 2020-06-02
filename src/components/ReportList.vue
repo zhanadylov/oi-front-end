@@ -37,7 +37,9 @@
         <span v-else-if="row.item.status == 4">Отклонен</span>
       </template>
       <template #cell(typedoc)="row">
-        <router-link :to="`/report/${row.item.id}?type=${row.item.typedoc}`" class="nav-link">
+        <router-link :to="`/anex-1/${row.item.id}`" v-if="row.item.typedoc == 'anex-1'" class="nav-link">Приложение 1</router-link>
+        <router-link :to="`/anex-2/${row.item.id}`" v-else-if="row.item.typedoc == 'anex-2'" class="nav-link">Приложение 2</router-link>
+        <router-link v-else :to="`/report/${row.item.id}?type=${row.item.typedoc}`" class="nav-link">
           <span v-if="row.item.typedoc == 'RKV01'">Квартальный отчет</span>
           <span v-else-if="row.item.typedoc == 'RKV02'">Годовой отчет</span>
           <span v-else>Существенный факт</span>
@@ -52,26 +54,28 @@
               v-if="row.item.refer == null"
               @click="confirm(row.item.id, row.item.sender, row.item.doc, row.item.name, row.item.typedoc)"
             >Подтвердить</b-button>
-            <b-button variant="outline-primary" v-else>Подтверждено</b-button>
+            <b-button variant="outline-primary" v-else>Подтвердено</b-button>
           </span>
         </p>
         <p v-else>
-          <b-button
-            v-if="row.item.status == 1 || row.item.status == 4"
-            @click="sendReport(row.item.id)"
-            variant="primary"
-          >Отправить</b-button>
-          <b-button
-            v-if="row.item.status == 2"
-            @click="backReport(row.item.id)"
-            variant="warning"
-          >Отменить отправку</b-button>
-          <b-button
-            @click="modal(row.item.typedoc, row.item.confirmdate, row.item.name, row.item.linkkse)"
-            v-b-modal.modal-center
-            v-else-if="row.item.status == 3"
-            variant="success"
-          >Квитанция</b-button>
+          <template v-if="row.item.typedoc[0] != 'a'">
+            <b-button
+              v-if="row.item.status == 1 || row.item.status == 4"
+              @click="sendReport(row.item.id)"
+              variant="primary"
+            >Отправить</b-button>
+            <b-button
+              v-if="row.item.status == 2"
+              @click="backReport(row.item.id)"
+              variant="warning"
+            >Отменить отправку</b-button>
+            <b-button
+              @click="modal(row.item.typedoc, row.item.confirmdate, row.item.name, row.item.linkkse)"
+              v-b-modal.modal-center
+              v-else-if="row.item.status == 3"
+              variant="success"
+            >Квитанция</b-button>
+          </template>
         </p>
       </template>
 
@@ -120,6 +124,7 @@
   </div>
 </template>
 <script>
+
 import { mapState } from 'vuex';
 import Queries from '../services/report.service';
 import facts from '../mixins/facts.js';
@@ -214,10 +219,12 @@ export default {
   methods: {
     confirm(id, interrefer, mEntryText, mEntryCompany, type) {
       if (type != 'RKV01' && type != 'RKV02') {
-        
         let name = mEntryCompany + ' : ' + this.factNames[type]
         let titles = this.facts[type];
         this.sendToKSE(mEntryText, name, mEntryCompany, titles, id)
+      } else if (type === 'RKV01' || type === 'RKV02') {
+        
+        this.sendReportKse(mEntryText, id)
       }
 
       this.$store
@@ -289,6 +296,19 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
+    },
+
+    sendReportKse(doc, id) {
+      return Queries.addReportInKSE(doc).then( response => {
+        console.log(response)
+        let link = response.data;
+          this.$store
+            .dispatch('report/addLink', { id, link})
+            .then(response => {})
+            .catch(function(error) {
+              console.log(error);
+            });
+      } )
     }
   }
 };

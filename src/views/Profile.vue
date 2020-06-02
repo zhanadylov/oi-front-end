@@ -1,70 +1,48 @@
 <template>
   <div>
-    <label for="input-live">Логин:</label>
+    <label for="input-live-login">Логин:</label>
     <b-form-input
-      id="input-live"
-      v-model="login"
-      :state="loginState"
-      aria-describedby="input-live-help input-live-feedback"
+      id="input-live-login"
+      v-model="content.login"
       placeholder="Введите ваш логин"
       trim
     ></b-form-input>
 
-    <!-- This will only be shown if the preceding input has an invalid state -->
-    <b-form-invalid-feedback id="input-live-feedback">Введите больше 5 символов</b-form-invalid-feedback>
+
+
     <label for="input-live">ФИО:</label>
     <b-form-input
       id="input-live"
-      v-model="fullname"
-      :state="nameState"
-      aria-describedby="input-live-help input-live-feedback"
+      v-model="content.fullname"
       placeholder="Введите ваше ФИО"
       trim
     ></b-form-input>
 
-    <!-- This will only be shown if the preceding input has an invalid state -->
-    <b-form-invalid-feedback id="input-live-feedback">Введите больше 5 символов</b-form-invalid-feedback>
 
     <b-button variant="success" @click="save" class="m-1">Сохранить</b-button>
-    {{ff}}
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   created() {
     this.getUserInfo()
   },
-  data() {
-    return {
-      fullname: '',
-      login: '',
-      ff: 'ss'
-    };
-  },
   computed: {
-    nameState() {
-      return this.fullname.length > 4 ? true : false;
-    },
-    loginState() {
-      return this.login.length > 4 ? true : false;
-    }
+    ...mapState({ content: store => store.auth.me })
   },
   methods: {
     getUserInfo() {
       this.$store
         .dispatch('auth/info')
         .then(response => {
-            this.ff = response
         })
-        .catch(function(error) {
-          console.log(error);
-        });
     },
 
     save() {
-        let login = this.login
-        let fullname = this.fullname
+        let login = this.content.login
+        let fullname = this.content.fullname
 
         this.$store
         .dispatch('auth/update', {login, fullname})

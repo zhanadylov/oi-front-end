@@ -23,6 +23,12 @@
                 <router-link to="/report?type=report" class="nav-link">Создать отчет</router-link>
               </li>
               <li>
+                <router-link to="/anex-1" class="nav-link">Приложение 1</router-link>
+              </li>
+              <li>
+                <router-link to="/anex-2" class="nav-link">Приложение 2</router-link>
+              </li>
+              <li>
                 <router-link to="/facts" class="nav-link">Существенные факты</router-link>
               </li>
               
