@@ -63,7 +63,7 @@
               v-if="row.item.status == 1 || row.item.status == 4"
               @click="sendReport(row.item.id)"
               variant="primary"
-            >Отправить</b-button>
+            >Отправить</b-button> 
             <b-button
               v-if="row.item.status == 2"
               @click="backReport(row.item.id)"

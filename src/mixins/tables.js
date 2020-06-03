@@ -1,7 +1,6 @@
 export default {
     data() {
         return {
-            audit: '',
             selected: 'RKV01',
             options: [
                 { text: 'Квартальный отчет', value: 'RKV01' },
@@ -159,7 +158,8 @@ export default {
                 funds: '',
                 investment: '',
                 income: '',
-                deal: ''
+                deal: '',
+                audit: ''
             },
             tblbalanceitems: [
                 { Code: '', TItle: 'Активы' },

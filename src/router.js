@@ -46,11 +46,11 @@ export const router = new Router({
       component: () => import('./views/Report.vue')
     },
     {
-      path: '/admin/report/:id',
-      name: 'ReportView',
+      path: '/reporttype',
+      name: 'ReportType',
       meta: {layout: 'main'},
       // lazy-loaded
-      component: () => import('./views/Report.vue')
+      component: () => import('./views/ReportType.vue')
     },
     {
       path: '/company',
