@@ -1,5 +1,17 @@
 <template>
   <div>
+    <h4>Выберите квартал:</h4>
+    <b-form-select v-model="selected" class="mb-3">
+      <b-form-select-option value="a">Квартал 1</b-form-select-option>
+      <b-form-select-option value="a">Квартал 2</b-form-select-option>
+      <b-form-select-option value="a">Квартал 3</b-form-select-option>
+      <b-form-select-option value="a">Квартал 4</b-form-select-option>
+    </b-form-select>
+    <h4>Выберите год</h4>
+    <b-form-select v-model="selected" class="mb-3">
+      <b-form-select-option value="a">2019</b-form-select-option>
+      <b-form-select-option value="a">2020</b-form-select-option>
+    </b-form-select>
     <h4>1. Данные о регулируемом субъекте финансового рынка:</h4>
     <b-input-group
       prepend="полное и сокращенное наименование регулируемого субъекта финансового рынка"

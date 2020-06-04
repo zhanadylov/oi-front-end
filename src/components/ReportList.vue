@@ -6,6 +6,7 @@
         <b-select-option :value="null" disabled>-- Выберите тип документа --</b-select-option>
       </template>
     </b-select>
+    {{items}}
     <b-table
       :fields="reportList"
       bordered
@@ -15,11 +16,15 @@
       head-variant="light"
     >
       <template #cell(id)="row" v-if="isadmin">{{row.item.name}}</template>
-
+      <template #cell(kvartal)="row" v-if="row.item.kvartal != items[row.index + 1].kvartal"> 
+        <b-tr>
+          <b-td><p>Квартал</p></b-td>
+        </b-tr> 
+      </template>
       <template #cell(createdate)="row">
-        <p v-if="isadmin">{{row.item.datesend}}</p>
+        <p v-if="isadmin">{{getDate(row.item.datesend)}}</p>
         <p v-else>
-          <span>{{row.item.createdate}}</span>
+          <span>{{getDate(row.item.createdate)}}</span>
           <br />
           <b-button
             size="sm"
@@ -37,9 +42,21 @@
         <span v-else-if="row.item.status == 4">Отклонен</span>
       </template>
       <template #cell(typedoc)="row">
-        <router-link :to="`/anex-1/${row.item.id}`" v-if="row.item.typedoc == 'anex-1'" class="nav-link">Приложение 1</router-link>
-        <router-link :to="`/anex-2/${row.item.id}`" v-else-if="row.item.typedoc == 'anex-2'" class="nav-link">Приложение 2</router-link>
-        <router-link v-else :to="`/report/${row.item.id}?type=${row.item.typedoc}`" class="nav-link">
+        <router-link
+          :to="`/anex-1/${row.item.id}`"
+          v-if="row.item.typedoc == 'anex-1'"
+          class="nav-link"
+        >Приложение 1</router-link>
+        <router-link
+          :to="`/anex-2/${row.item.id}`"
+          v-else-if="row.item.typedoc == 'anex-2'"
+          class="nav-link"
+        >Приложение 2</router-link>
+        <router-link
+          v-else
+          :to="`/report/${row.item.id}?type=${row.item.typedoc}`"
+          class="nav-link"
+        >
           <span v-if="row.item.typedoc == 'RKV01'">Квартальный отчет</span>
           <span v-else-if="row.item.typedoc == 'RKV02'">Годовой отчет</span>
           <span v-else>Существенный факт</span>
@@ -54,7 +71,7 @@
               v-if="row.item.refer == null"
               @click="confirm(row.item.id, row.item.sender, row.item.doc, row.item.name, row.item.typedoc)"
             >Подтвердить</b-button>
-            <b-button variant="outline-primary" v-else>Подтвердено</b-button>
+            <b-button variant="outline-primary" v-else>Подтверждено</b-button>
           </span>
         </p>
         <p v-else>
@@ -63,7 +80,7 @@
               v-if="row.item.status == 1 || row.item.status == 4"
               @click="sendReport(row.item.id)"
               variant="primary"
-            >Отправить</b-button> 
+            >Отправить</b-button>
             <b-button
               v-if="row.item.status == 2"
               @click="backReport(row.item.id)"
@@ -76,6 +93,9 @@
               variant="success"
             >Квитанция</b-button>
           </template>
+          <template v-else>
+            <b-button v-b-modal.modal-form variant="primary">Сформировать</b-button>
+          </template>
         </p>
       </template>
 
@@ -85,13 +105,13 @@
             <b-col sm="3" class="text-sm-right" v-if="row.item.updatedate">
               <b>Дата последнего изменения:</b>
             </b-col>
-            <b-col>{{ row.item.updatedate }}</b-col>
+            <b-col>{{ getDate(row.item.updatedate) }}</b-col>
           </b-row>
           <b-row class="mb-2">
             <b-col sm="3" class="text-sm-right" v-if="row.item.datesend">
               <b>Дата отправки:</b>
             </b-col>
-            <b-col>{{ row.item.datesend }}</b-col>
+            <b-col>{{ getDate(row.item.datesend) }}</b-col>
           </b-row>
 
           <b-button size="sm" @click="row.toggleDetails">Скрыть</b-button>
@@ -121,10 +141,35 @@
       </p>
       <b-button class="print" @click="print" onclick="window.print()">Печать</b-button>
     </b-modal>
+
+    <b-modal id="modal-form" size="lg" centered title="Сформировать отчет">
+      <b-form-group label="Приложение 1:">
+        <b-form-radio-group id="anex1" name="anex1" v-for="(item, index) in items" :key="index">
+          <template v-if="item.typedoc == 'anex-1'">
+            <b-form-radio :value="item.id"><b>Дата регистрации</b> {{getDate(item.createdate)}}</b-form-radio>
+          </template>
+        </b-form-radio-group>
+      </b-form-group>
+
+      <b-form-group label="Приложение 2:">
+        <b-form-radio-group id="anex2" name="anex2" v-for="(item, index) in items" :key="index">
+          <template v-if="item.typedoc == 'anex-2'">
+            <b-form-radio :value="item.id"><b>Дата регистрации</b> {{getDate(item.createdate)}}</b-form-radio>
+          </template>
+        </b-form-radio-group>
+      </b-form-group>
+
+      <b-form-group label="Приложение 2-1:">
+        <b-form-radio-group id="rkv01" name="rkv01" v-for="(item, index) in items" :key="index">
+          <template v-if="item.typedoc == 'RKV01'">
+            <b-form-radio :value="item.id"><b>Дата регистрации</b> {{getDate(item.createdate)}}</b-form-radio>
+          </template>
+        </b-form-radio-group>
+      </b-form-group>
+    </b-modal>
   </div>
 </template>
 <script>
-
 import { mapState } from 'vuex';
 import Queries from '../services/report.service';
 import facts from '../mixins/facts.js';
@@ -172,38 +217,39 @@ export default {
         fact1: 'Изменение в составе Исполнительного органа',
         fact1_1: 'Изменение в составе Совета директоров',
         fact2:
-            ' Изменение размера участия члена Исполнительного органа в уставном капитале компаний',
+          ' Изменение размера участия члена Исполнительного органа в уставном капитале компаний',
         fact2_1:
-            'Изменение размера участия члена Совета директоров в уставном капитале компаний',
+          'Изменение размера участия члена Совета директоров в уставном капитале компаний',
         fact3: 'Изменение в списке владельцев ценных бумаг',
         fact3_1: 'Изменение в списке владельцев ценных бумаг',
         fact4:
-            'Изменения в списке юридических лиц, в которых эмитент владеет 20 и более процентами уставного капитала',
-         
+          'Изменения в списке юридических лиц, в которых эмитент владеет 20 и более процентами уставного капитала',
+
         fact5:
-            'Появление в реестре лица, владеющего более чем 5 процентами ценных бумаг',
+          'Появление в реестре лица, владеющего более чем 5 процентами ценных бумаг',
         fact5_1:
-            ' Появление в реестре лица, владеющего более чем 5 процентами ценных бумаг',
+          ' Появление в реестре лица, владеющего более чем 5 процентами ценных бумаг',
         fact6:
-            'Разовые сделки эмитента, размер которых, либо стоимость имущества по которым составляет 10 и более процентов от активов эмитента на дату сделки',
-        
+          'Разовые сделки эмитента, размер которых, либо стоимость имущества по которым составляет 10 и более процентов от активов эмитента на дату сделки',
+
         fact6_1:
-            ' Факт заключения договора или иного документа и/или факт государственной регистрации такого договора, предметом которого является приобретение, получение или передача во временное пользование сроком свыше одного года, либо отчуждение недвижимого имущества, независимо от площади недвижимого имущества.',
+          ' Факт заключения договора или иного документа и/или факт государственной регистрации такого договора, предметом которого является приобретение, получение или передача во временное пользование сроком свыше одного года, либо отчуждение недвижимого имущества, независимо от площади недвижимого имущества.',
         fact7:
-            ' Факт, повлекший разовое увеличение стоимости активов более чем на 10 процентов',
-        fact7_1:'Факт, повлекший разовое уменьшение стоимости активов более чем на 10 процентов',
-        fact8:'Факт, повлекший разовое увеличение чистой прибыли более чем на 10 процентов',
-        fact8_1: ' Факт, повлекший разовое увеличение чистых убытков более чем на 10 процентов',
+          ' Факт, повлекший разовое увеличение стоимости активов более чем на 10 процентов',
+        fact7_1:
+          'Факт, повлекший разовое уменьшение стоимости активов более чем на 10 процентов',
+        fact8:
+          'Факт, повлекший разовое увеличение чистой прибыли более чем на 10 процентов',
+        fact8_1:
+          ' Факт, повлекший разовое увеличение чистых убытков более чем на 10 процентов',
         fact9: 'Реорганизация эмитента, его дочерних и зависимых обществ',
         fact10: 'Начисленные доходы по ценным бумагам (дивиденды)',
         fact10_1: 'Выплаченные доходы по ценным бумагам (дивиденды)',
         fact10_2: 'Начисленные доходы по облигациям',
         fact10_3: 'Выплаченные доходы по облигациям',
         fact11: 'Решения общих собраний',
-        fact12:'Погашение ценных бумаг эмитента'
+        fact12: 'Погашение ценных бумаг эмитента'
       }
-        
-      
     };
   },
   computed: {
@@ -219,12 +265,11 @@ export default {
   methods: {
     confirm(id, interrefer, mEntryText, mEntryCompany, type) {
       if (type != 'RKV01' && type != 'RKV02') {
-        let name = mEntryCompany + ' : ' + this.factNames[type]
+        let name = mEntryCompany + ' : ' + this.factNames[type];
         let titles = this.facts[type];
-        this.sendToKSE(mEntryText, name, mEntryCompany, titles, id)
+        this.sendToKSE(mEntryText, name, mEntryCompany, titles, id);
       } else if (type === 'RKV01' || type === 'RKV02') {
-        
-        this.sendReportKse(mEntryText, id)
+        this.sendReportKse(mEntryText, id);
       }
 
       this.$store
@@ -287,7 +332,7 @@ export default {
         .then(response => {
           let link = response.data;
           this.$store
-            .dispatch('report/addLink', { idfact, link})
+            .dispatch('report/addLink', { idfact, link })
             .then(response => {})
             .catch(function(error) {
               console.log(error);
@@ -299,16 +344,27 @@ export default {
     },
 
     sendReportKse(doc, id) {
-      return Queries.addReportInKSE(doc).then( response => {
-        console.log(response)
+      return Queries.addReportInKSE(doc).then(response => {
+        console.log(response);
         let link = response.data;
-          this.$store
-            .dispatch('report/addLink', { id, link})
-            .then(response => {})
-            .catch(function(error) {
-              console.log(error);
-            });
-      } )
+        this.$store
+          .dispatch('report/addLink', { id, link })
+          .then(response => {})
+          .catch(function(error) {
+            console.log(error);
+          });
+      });
+    },
+
+    getDate(date) {
+      var options = {
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric'
+      };
+
+      let newDate = new Date(date)
+      return  newDate.toLocaleString('ru', options);
     }
   }
 };
@@ -324,12 +380,21 @@ export default {
   }
   .modal-dialog {
     margin: 0;
+    max-width: 100%;
+  }
+  .modal-body {
+    padding-left: 8%;
+    font-size: 18px;
+  }
+  .modal-content {
+    border: none;
   }
   .report-list,
   select,
   .modal-footer,
   .close,
-  .print {
+  .print,
+  .modal-title {
     display: none;
   }
 }
