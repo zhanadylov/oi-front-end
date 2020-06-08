@@ -1,5 +1,18 @@
 <template>
   <div>
+    <h4>Выберите квартал:</h4>
+    <b-form-select v-model="kvartal" class="mb-3">
+      <b-form-select-option value="1 квартал">Квартал 1</b-form-select-option>
+      <b-form-select-option value="2 квартал">Квартал 2</b-form-select-option>
+      <b-form-select-option value="3 квартал">Квартал 3</b-form-select-option>
+      <b-form-select-option value="4 квартал">Квартал 4</b-form-select-option>
+    </b-form-select>
+    <h4>Выберите год</h4>
+    <b-form-select v-model="year" class="mb-3">
+      <b-form-select-option value="2019">2019</b-form-select-option>
+      <b-form-select-option value="2020">2020</b-form-select-option>
+    </b-form-select>
+
     <h4>1. Сведения о секретаре общества</h4>
 
     <b-table-simple hover bordered small stacked>
@@ -103,6 +116,8 @@ export default {
   data() {
     return {
       arr: [],
+      kvartal: '',
+      year: '',
       table_1_items: {
         title1: '',
         title2: '',
@@ -166,6 +181,7 @@ export default {
         table3: this.table_3_items
       };
 
+      let kvartal = this.year + '; ' + this.kvartal //2020; 2 квартал
       let typedoc = 'anex-2';
       let xmldoc = JSON.stringify(table);
       let sender = this.$store.state.company.info.kod;
@@ -173,7 +189,7 @@ export default {
 
       this.arr = xmldoc;
       this.$store
-        .dispatch('report/insert', { typedoc, xmldoc, sender, status })
+        .dispatch('report/insert', { typedoc, xmldoc, sender, status, kvartal })
         .then(response => {})
         .catch(function(error) {
           console.log(error);

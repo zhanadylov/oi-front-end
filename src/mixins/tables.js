@@ -1,6 +1,8 @@
 export default {
     data() {
         return {
+            kvartal: '',
+            year: '',
             selected: 'RKV01',
             options: [
                 { text: 'Квартальный отчет', value: 'RKV01' },

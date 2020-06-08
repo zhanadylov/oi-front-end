@@ -183,8 +183,9 @@ export default {
       let xmldoc = JSON.stringify(this.arr);
       let sender = this.$store.state.company.info.kod;
       let status = 1;
+      let kvartal = '2020; 2 квартал'
       this.$store
-        .dispatch('report/insert', { typedoc, xmldoc, sender, status })
+        .dispatch('report/insert', { typedoc, xmldoc, sender, status, kvartal })
         .then(response => {
           this.selected = '';
         })

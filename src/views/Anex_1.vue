@@ -1,16 +1,16 @@
 <template>
   <div>
     <h4>Выберите квартал:</h4>
-    <b-form-select v-model="selected" class="mb-3">
-      <b-form-select-option value="a">Квартал 1</b-form-select-option>
-      <b-form-select-option value="a">Квартал 2</b-form-select-option>
-      <b-form-select-option value="a">Квартал 3</b-form-select-option>
-      <b-form-select-option value="a">Квартал 4</b-form-select-option>
+    <b-form-select v-model="kvartal" class="mb-3">
+      <b-form-select-option value="1 квартал">Квартал 1</b-form-select-option>
+      <b-form-select-option value="2 квартал">Квартал 2</b-form-select-option>
+      <b-form-select-option value="3 квартал">Квартал 3</b-form-select-option>
+      <b-form-select-option value="4 квартал">Квартал 4</b-form-select-option>
     </b-form-select>
     <h4>Выберите год</h4>
-    <b-form-select v-model="selected" class="mb-3">
-      <b-form-select-option value="a">2019</b-form-select-option>
-      <b-form-select-option value="a">2020</b-form-select-option>
+    <b-form-select v-model="year" class="mb-3">
+      <b-form-select-option value="2019">2019</b-form-select-option>
+      <b-form-select-option value="2020">2020</b-form-select-option>
     </b-form-select>
     <h4>1. Данные о регулируемом субъекте финансового рынка:</h4>
     <b-input-group
@@ -452,6 +452,8 @@ export default {
         address: '',
         activity: ''
       },
+      kvartal: '',
+      year: '',
       table_2_items: {
         title1: '',
         title2: '',
@@ -719,13 +721,14 @@ export default {
         table15_2: this.table_15_2_items,
         table17_2: this.table_17_2_items
       };
-
+      
+      let kvartal = this.year + '; ' + this.kvartal //2020; 2 квартал
       let typedoc = 'anex-1';
       let xmldoc = JSON.stringify(table);
       let sender = this.$store.state.company.info.kod;
       let status = 1;
       this.$store
-        .dispatch('report/insert', { typedoc, xmldoc, sender, status })
+        .dispatch('report/insert', { typedoc, xmldoc, sender, status, kvartal })
         .then(response => {})
         .catch(function(error) {
           console.log(error);
