@@ -18,6 +18,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'Report',
 
@@ -34,7 +35,8 @@ export default {
   },
   components: {
     ReportComponent: () => import('../components/ReportComponent.vue'),
-    FactComponent: () => import('../components/FactComponent.vue')
+    FactComponent: () => import('../components/FactComponent.vue'),
+    FinNadzor: () => import('../components/FinNadzorReport.vue')
   },
   computed: {
     isadmin() {
@@ -47,6 +49,9 @@ export default {
       if (this.$route.query.type.indexOf('fact') >= 0) {
         return 'FactComponent';
       }
+      else if (this.$route.query.type.indexOf('fin') >= 0) {
+        return 'FinNadzor'
+      }
 
       return 'ReportComponent';
     }
@@ -58,8 +63,9 @@ export default {
       let xmldoc = JSON.stringify(this.report);
       let sender = this.report.reportHead.kod;
       let status = 1;
+      let kvartal = this.report.kvartal
       this.$store
-        .dispatch('report/insert', { typedoc, xmldoc, sender, status })
+        .dispatch('report/insert', { typedoc, xmldoc, sender, status, kvartal })
         .then(response => {
           this.$router.push('/reporting');
         })

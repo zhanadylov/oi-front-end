@@ -10,7 +10,7 @@
             <template v-if="facts[result.typedoc]['titles']['title' + index].type == 'date'">
               <b-td width="40%">{{facts[result.typedoc]['titles']['title' + index].text}}</b-td>
               <b-td>
-                <b-datepicker name="inputs" @change="sendData" :data-option="index" :value="item"></b-datepicker>
+                <b-datepicker :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }" name="inputs" @change="sendData" :data-option="index" :value="item"></b-datepicker>
               </b-td>
             </template>
             <template v-else-if="facts[result.typedoc]['titles']['title' + index].type == 'header'">
@@ -25,7 +25,7 @@
           </b-tr>
         </b-tbody>
       </b-table-simple>
-    
+
   </div>
 </template>
 
@@ -45,6 +45,7 @@ export default {
       result: [],
       status: null,
       props: ['input'],
+      template: '<h3>{{ input }}</h3>',
       arr: []
     };
   },
@@ -70,7 +71,11 @@ export default {
         this.arr.push(inputs[i].value)
       }
       this.$emit('input', JSON.stringify(this.arr));
-    }
+    },
+
+    // slushat() {
+    //   this.$on('id', function())
+    // }
   },
   computed: {
     EditReport() {

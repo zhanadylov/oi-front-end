@@ -49,8 +49,8 @@ class ReportService {
     getReportById(id) {     // Получение отчета по переданному id отчта
         return instance.get('/reports/' + id, { headers: { 'Content-Type': 'Applicationjson' } })
     }
-    insertReport(typedoc, xmldoc, sender, status) {    // Добавить отчет
-        return instance.post('/reports', { typedoc, xmldoc, sender, status })
+    insertReport(typedoc, xmldoc, sender, status, kvartal) {    // Добавить отчет
+        return instance.post('/reports', { typedoc, xmldoc, sender, status, kvartal })
     }
 
     getReportsFromAdmin() {     // Список отчетов для админа
@@ -65,8 +65,8 @@ class ReportService {
         return instance.put('/reports/' + id, {id, doc})
     }
 
-    sendReport (id) {   // Изменить статус отчета на отправлен
-        return instance.put('/reports/status/' + id)
+    sendReport (id, type) {   // Изменить статус отчета на отправлен
+        return instance.put('/reports/status/' + id, {id, type})
     }
 
     backReport(id) {

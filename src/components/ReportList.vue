@@ -7,7 +7,7 @@
         <b-select-option :value="null" disabled>-- Выберите тип документа --</b-select-option>
       </template>
     </b-select>
-    <b-table :fields="reportList" bordered hover :items="addKvartal" head-variant="light">
+    <b-table :fields="reportList" bordered hover :items="addKvartal" class="reportList" head-variant="light">
       <template #cell(id)="row" v-if="isadmin">
         <p>{{row.item.name}}</p>
       </template>
@@ -49,6 +49,7 @@
           v-else-if="row.item.typedoc == 'anex-2'"
           class="nav-link"
         >Приложение 2</router-link>
+        <router-link v-else-if="row.item.typedoc == 'fin'" class="nav-link" :to='`fin/${row.item.id}`'>Отчет финнадзору</router-link>
         <router-link
           v-else
           :to="`/report/${row.item.id}?type=${row.item.typedoc}`"
@@ -75,7 +76,7 @@
           <template v-if="row.item.typedoc[0] != 'a'">
             <b-button
               v-if="row.item.status == 1 || row.item.status == 4"
-              @click="sendReport(row.item.id)"
+              @click="sendReport(row.item.id, row.item.typedoc)"
               variant="primary"
             >Отправить</b-button>
             <b-button
@@ -90,8 +91,8 @@
               variant="success"
             >Квитанция</b-button>
           </template>
-          <template v-else>
-            <b-button v-b-modal.modal-form variant="primary">Сформировать</b-button>
+          <template v-if="row.item.title">
+            <b-button v-b-modal.modal-form pill @click="kvartalBtn(addKvartal[row.index + 1].kvartal)" variant="outline-dark">Сформировать</b-button>
           </template>
         </p>
       </template>
@@ -118,14 +119,15 @@
 
 
     <b-modal id="modal-center" size="lg" centered title="Квитанция">
-      <p class="my-4">{{companyname}}</p>
-      <p class="my-4">
+      <img src="../assets/head.png" alt="">
+      <p class="my-4 bold">{{companyname}}</p>
+      <p class="my-4 bold">
         Основание документа:
         <span v-if="doctype == 'RKV01'">Квартальный отчет</span>
         <span v-else-if="doctype == 'RKV02'">Годовой отчет</span>
         <span v-else>Существенный факт</span>
       </p>
-      <p class="my-4">Дата: {{date}}</p>
+      <p class="my-4 bold">Дата: {{getDate(date)}}</p>
       <p class="my-4">
         Опубликовано на официальном сайте
         <template v-if="link == 0">
@@ -144,7 +146,7 @@
     <b-modal id="modal-form" size="lg" centered title="Сформировать отчет">
       <b-form-group label="Приложение 1:">
         <b-form-radio-group id="anex1" name="anex1" v-for="(item, index) in items" :key="index">
-          <template v-if="item.typedoc == 'anex-1'">
+          <template v-if="item.typedoc == 'anex-1' && item.kvartal == selectedKvartal">
             <b-form-radio :value="item.id">
               <b>Дата регистрации</b>
               {{getDate(item.createdate)}}
@@ -152,10 +154,10 @@
           </template>
         </b-form-radio-group>
       </b-form-group>
-
+      
       <b-form-group label="Приложение 2:">
         <b-form-radio-group id="anex2" name="anex2" v-for="(item, index) in items" :key="index">
-          <template v-if="item.typedoc == 'anex-2'">
+          <template v-if="item.typedoc == 'anex-2' && item.kvartal == selectedKvartal">
             <b-form-radio :value="item.id">
               <b>Дата регистрации</b>
               {{getDate(item.createdate)}}
@@ -166,7 +168,7 @@
 
       <b-form-group label="Приложение 2-1:">
         <b-form-radio-group id="rkv01" name="rkv01" v-for="(item, index) in items" :key="index">
-          <template v-if="item.typedoc == 'RKV01'">
+          <template v-if="item.typedoc == 'RKV01' && item.kvartal == selectedKvartal">
             <b-form-radio :value="item.id">
               <b>Дата регистрации</b>
               {{getDate(item.createdate)}}
@@ -174,6 +176,18 @@
           </template>
         </b-form-radio-group>
       </b-form-group>
+
+      <b-form-group label="Существенные факты:">
+        <b-form-radio-group id="facts" name="facts" v-for="(item, index) in items" :key="index">
+          <template v-if="item.typedoc[0] == 'f' && item.kvartal == selectedKvartal">
+            <b-form-radio :value="item.id">
+              <b>Дата регистрации</b>
+              {{getDate(item.createdate)}}
+            </b-form-radio>
+          </template>
+        </b-form-radio-group>
+      </b-form-group>
+      <b-button @click="finnadzor">Отправить</b-button>
     </b-modal>
   </div>
 </template>
@@ -184,12 +198,12 @@ import facts from '../mixins/facts.js';
 export default {
   name: 'ReportList',
   created() {
-    this.getReportList(), this.addKvartal();
+    this.getReportList();
   },
   mixins: [facts],
   data() {
     return {
-      list: [],
+      selectedKvartal: 'sss',
       link: 0,
       date: '',
       doctype: '',
@@ -290,22 +304,31 @@ export default {
   },
 
   methods: {
-    // addKvartal() {
-    //   let kvartal = '';
-    //   this.items.forEach(item => {
-    //     if (item.kvartal != kvartal) {
-    //       let titleKvartal = item.kvartal.split(';')
-    //       this.list.push({
-    //         title: titleKvartal[1] + ' ' + titleKvartal[0],
-    //         typedoc: '',
-    //         _rowVariant: 'info'
-    //       });
-    //       kvartal = item.kvartal;
-    //       console.log();
-    //     }
-    //     this.list.push(item);
-    //   });
-    // },
+    finnadzor() {
+      let anex1 = document.querySelector('input[name="anex1"]:checked').value
+      let anex2 = document.querySelector('input[name="anex2"]:checked').value
+      let anex2_1 = document.querySelector('input[name="rkv01"]:checked').value
+      let facts = document.querySelector('input[name="facts"]:checked').value
+
+      let arr = {anex1, anex2, anex2_1, facts}
+
+      let kvartal = this.selectedKvartal //2020; 2 квартал
+      let typedoc = 'fin';
+      let xmldoc = JSON.stringify(arr);
+      let sender = this.$store.state.company.info.kod;
+      let status = 1;
+
+      this.$store
+        .dispatch('report/insert', { typedoc, xmldoc, sender, status, kvartal })
+        .then(response => {})
+        .catch(function(error) {
+          console.log(error);
+        });
+      
+    },
+    kvartalBtn(kvartal) {
+      this.selectedKvartal = kvartal;
+    },
     confirm(id, interrefer, mEntryText, mEntryCompany, type) {
       if (type != 'RKV01' && type != 'RKV02') {
         let name = mEntryCompany + ' : ' + this.factNames[type];
@@ -324,9 +347,9 @@ export default {
           console.log(error);
         });
     },
-    sendReport(id) {
+    sendReport(id, type) {
       this.$store
-        .dispatch('report/sendReport', id)
+        .dispatch('report/sendReport', {id, type})
         .then(response => {
           this.getReportList();
         })
@@ -437,8 +460,17 @@ export default {
   .modal-footer,
   .close,
   .print,
-  .modal-title {
+  .modal-title, .reportList {
     display: none;
+  }
+
+  .my-4 {
+    font-size: 18px;
+    font-weight: 400;
+  }
+
+  .bold {
+    font-weight: 700;
   }
 }
 </style>

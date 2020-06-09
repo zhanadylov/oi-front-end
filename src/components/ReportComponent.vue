@@ -20,6 +20,7 @@
         buttons
         button-variant="outline-primary"
         size="lg"
+        @click="sendData"
         name="radio-btn-outline"
       ></b-form-radio-group>
     </b-form-group>
@@ -39,39 +40,28 @@
 
     <h4>1. Данные об эмитенте:</h4>
     <b-input-group prepend="полное и сокращенное наименование эмитента" class="mt-3">
-      <template v-slot:append>
-        <b-input-group-text class="hide-print">
-          <strong class="text-danger">!</strong>
-        </b-input-group-text>
-      </template>
+      
       <b-form-input style="background: #fff;" readonly v-model="info.name"></b-form-input>
     </b-input-group>
     <b-input-group prepend="организационно-правовая форма" class="mt-3">
-      <template v-slot:append>
-        <b-input-group-text class="hide-print">
-          <strong class="text-danger">!</strong>
-        </b-input-group-text>
-      </template>
+      
       <b-form-input style="background: #fff;" readonly v-model="info.opforma"></b-form-input>
     </b-input-group>
     <b-input-group
       prepend="юридический и почтовый адрес эмитента, номер телефона и факса"
       class="mt-3"
     >
-      <template v-slot:append>
-        <b-input-group-text class="hide-print">
-          <strong class="text-danger">!</strong>
-        </b-input-group-text>
-      </template>
+      
       <b-form-input style="background: #fff;" readonly v-model="info.address"></b-form-input>
     </b-input-group>
     <b-input-group prepend="основной вид деятельности эмитента" class="mt-3">
-      <template v-slot:append>
-        <b-input-group-text class="hide-print">
-          <strong class="text-danger">!</strong>
-        </b-input-group-text>
-      </template>
-      <b-form-input style="background: #fff;" readonly v-model="info.activity"></b-form-input>
+      <b-form-textarea
+        id="textarea-auto-height"
+        placeholder="Auto height textarea"
+        v-model="info.activity"
+        style="margin: 0;"
+      ></b-form-textarea>
+      <!-- <b-form-input style="background: #fff;" readonly v-model="info.activity"></b-form-input> -->
     </b-input-group>
 
     <h4>2. Количество владельцев ценных бумах и работников эмитента.</h4>
@@ -177,7 +167,7 @@
         <input type="text" @blur="sendData" v-model="row.item.Name" />
       </template>
       <template #cell(DateCreate)="row">
-        <b-datepicker today-button v-model="row.item.DateCreate"></b-datepicker>
+        <b-datepicker :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }" today-button v-model="row.item.DateCreate"></b-datepicker>
       </template>
       <template #cell(Influence)="row">
         <input type="text" @blur="sendData" v-model="row.item.Influence" />
@@ -256,6 +246,7 @@
               placeholder="0,00"
               readonly
               v-model="totaltblbalance_End"
+              
             />
           </template>
           <template v-else>
@@ -350,7 +341,7 @@
       <template #cell(TItle)="row">
         <template v-if="row.item.Code==='100' || row.item.Code==='010'">
           <label>Сальдо на</label>
-          <b-datepicker today-button v-model="row.item.TItle"></b-datepicker>
+          <b-datepicker :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }" today-button v-model="row.item.TItle" @change="sendData"></b-datepicker>
         </template>
         <template v-else>
           <span>{{row.item.TItle}}</span>
@@ -385,7 +376,7 @@
         <p>6. Сведения о направлении средств, привлеченных эмитентом в результате размещения эмиссионных ценных бумаг, которые включают в себя: общий объем привлеченных средств, сведения о привлеченных средствах, использованных по каждому из направлений, и о направлениях использования привлеченных средств.</p>
         <b-form-textarea
           id="textarea-rows"
-          rows="8"
+          rows="2"
           v-model="textareas.placement"
           @blur="sendData"
         ></b-form-textarea>
@@ -396,7 +387,7 @@
         <p>7. Заемные средства, полученные эмитентом и его дочерними обществами в отчетном квартале. Данный пункт отражает заемные средства, полученные эмитентом в отчетном квартале, и заемные средства, полученные дочерними обществами в отчетном квартале.</p>
         <b-form-textarea
           id="textarea-rows"
-          rows="8"
+          rows="2"
           v-model="textareas.funds"
           @blur="sendData"
         ></b-form-textarea>
@@ -407,7 +398,7 @@
         <p>8. Сведения о долгосрочных и краткосрочных финансовых вложениях эмитента за отчетный квартал.</p>
         <b-form-textarea
           id="textarea-rows"
-          rows="8"
+          rows="2"
           v-model="textareas.investment"
           @blur="sendData"
         ></b-form-textarea>
@@ -418,7 +409,7 @@
         <p>9. Доходы по ценным бумагам эмитента. Эта информация представляется при начислении доходов по ценным бумагам  эмитента в отчетном квартале или в квартале, предшествующем отчетному кварталу, и включает: вид ценной бумаги, размер доходов, начисленных на одну ценную бумагу,и общую сумму доходов, начисленных по ценным бумагам данного вида.</p>
         <b-form-textarea
           id="textarea-rows"
-          rows="8"
+          rows="2"
           v-model="textareas.income"
           @blur="sendData"
         ></b-form-textarea>
@@ -429,8 +420,9 @@
         <p>10. Информация об условиях и характере сделки, совершенной лицами, заинтересованными в совершении обществом сделки, включает: дату совершения сделки, информацию о влиянии сделки на деятельность эмитента (финансовый результат, дополнительные инвестиции и т.д.), информацию об условиях и характере заключенной сделки (предмет, условия, цена сделки и т.д.), степень имеющейся заинтересованности (лица, заинтересованного в сделке), дату опубликования информации о сделке в средствах массовой информации (прилагается копия опубликованного сообщения), а также дату направления уведомления с информацией о сделке в уполномоченный орган по регулированию рынка ценных бумаг.</p>
         <b-form-textarea
           id="textarea-rows"
-          rows="8"
+          rows="2"
           v-model="textareas.deal"
+          @blur="sendData"
         ></b-form-textarea>
       </b-col>
     </b-row>
@@ -439,8 +431,9 @@
         <p>11. Аудиторское заключение</p>
         <b-form-textarea
           id="textarea-rows"
-          rows="8"
+          rows="2"
           v-model="textareas.audit"
+          @blur="sendData"
         ></b-form-textarea>
       </b-col>
     </b-row>
@@ -484,7 +477,8 @@ export default {
         tblBalance: this.tblbalanceitems,
         tblProfit: this.tblprofititems,
         tblCapital: this.tblcapitalitems,
-        reportFooter: this.textareas
+        reportFooter: this.textareas,
+        kvartal: this.year + '; ' + this.kvartal
       });
     },
     setinfo() {
@@ -500,6 +494,9 @@ export default {
           this.tblcapitalitems = response.data.doc.tblCapital;
           this.textareas = response.data.doc.reportFooter;
           this.status = response.data.status;
+          let titleKvartal = response.data.kvartal.split(';')
+          this.year = titleKvartal[0]
+          this.kvartal = titleKvartal[1].slice(1)
         })
         .catch(function(error) {
           console.log(error);

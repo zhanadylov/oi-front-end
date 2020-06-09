@@ -1,11 +1,15 @@
 {
-  "name": "vue-jwt-example",
+  "name": "oi.kse",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
+  },
+  "author": {
+    "name": "Кадыкеев Азирет Кочкенбаевич",
+    "email": "k.aziret98@gmail.com"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",

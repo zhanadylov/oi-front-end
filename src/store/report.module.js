@@ -14,8 +14,8 @@ export const report = {
     link: false
   },
   actions: {
-    insert({ commit }, {typedoc, xmldoc, sender, status}) {
-      return ReportService.insertReport(typedoc, xmldoc, sender, status).then(
+    insert({ commit }, {typedoc, xmldoc, sender, status, kvartal}) {
+      return ReportService.insertReport(typedoc, xmldoc, sender, status, kvartal).then(
         () => {
           commit('insertSuccess');
           return Promise.resolve(true);
@@ -62,8 +62,8 @@ export const report = {
       )
     },
 
-    sendReport({commit}, id) {
-      return ReportService.sendReport(id).then(
+    sendReport({commit}, {id, type}) {
+      return ReportService.sendReport(id, type).then(
         () => {
           commit('sendReport')
           return Promise.resolve(true)
