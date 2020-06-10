@@ -31,12 +31,19 @@
       <b-form-input id="input-5" v-model="content.phone" required placeholder="Телефон"></b-form-input>
     </b-form-group>
     <b-form-group id="input-group-6" label="Факс:" label-for="input-6">
-      <b-form-input id="input-7" v-model="content.fax" required placeholder="Факс"></b-form-input>
+      <b-form-input id="input-6" v-model="content.fax" required placeholder="Факс"></b-form-input>
     </b-form-group>
     <b-form-group id="input-group-8" label="E-mail:" label-for="input-8">
       <b-form-input id="input-8" v-model="content.email" required placeholder="E-mail"></b-form-input>
     </b-form-group>
-    
+
+    <b-form-group id="input-group-9" label="Глав.бух.:" label-for="input-9">
+      <b-form-input id="input-9" v-model="content.sepervisor.buh" required placeholder="Глав.бух."></b-form-input>
+    </b-form-group>
+
+    <b-form-group id="input-group-10" label="Директор:" label-for="input-10">
+      <b-form-input id="input-10" v-model="content.sepervisor.dir" required placeholder="Директор"></b-form-input>
+    </b-form-group>
     <b-button variant="success" @click="save" class="m-1">
       Сохранить
     </b-button>
@@ -75,8 +82,9 @@ export default {
       let   fax       = this.content.fax
       let   email     = this.content.email
       const id        = this.content.id
+      const supervisor = this.content.sepervisor
       this.$store
-        .dispatch('company/updateInfo', { name, opforma, activity, address, phone, fax, email, id })
+        .dispatch('company/updateInfo', { name, opforma, activity, address, phone, fax, email, supervisor, id })
         .then(response => {
           
         })

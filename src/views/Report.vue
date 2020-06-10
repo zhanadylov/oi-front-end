@@ -18,7 +18,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'Report',
 
@@ -31,12 +30,11 @@ export default {
   metaInfo() {
     return {
       title: this.$title('Отчет')
-    }
+    };
   },
   components: {
     ReportComponent: () => import('../components/ReportComponent.vue'),
-    FactComponent: () => import('../components/FactComponent.vue'),
-    FinNadzor: () => import('../components/FinNadzorReport.vue')
+    FactComponent: () => import('../components/FactComponent.vue')
   },
   computed: {
     isadmin() {
@@ -49,9 +47,6 @@ export default {
       if (this.$route.query.type.indexOf('fact') >= 0) {
         return 'FactComponent';
       }
-      else if (this.$route.query.type.indexOf('fin') >= 0) {
-        return 'FinNadzor'
-      }
 
       return 'ReportComponent';
     }
@@ -62,8 +57,23 @@ export default {
       let typedoc = this.report.typedoc;
       let xmldoc = JSON.stringify(this.report);
       let sender = this.report.reportHead.kod;
-      let status = 1;
-      let kvartal = this.report.kvartal
+
+      let status = 1; // Статус 1 - можно отправить на сервер
+
+      if (typedoc[0] == 'R') {
+        // Для квартального и годового отчетов
+        let textareas = this.report.reportFooter;
+        if (
+          textareas.placement == '' &&
+          textareas.funds == '' &&
+          textareas.investment == '' &&
+          textareas.income == '' &&
+          textareas.deal == ''
+        )
+          status = 0; // Статус "0" - нельзя отправить отчет, т.е в общем списке отчетов у этого отчета не будет кнопки отправить
+      }
+
+      let kvartal = this.report.kvartal;
       this.$store
         .dispatch('report/insert', { typedoc, xmldoc, sender, status, kvartal })
         .then(response => {
@@ -76,14 +86,30 @@ export default {
     update() {
       let id = this.$route.params.id;
       let doc = this.report;
-      this.$store
-        .dispatch('report/updateReport', { id, doc })
-        .then(response => {
-          this.$router.push('/reporting');
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
+      let status = 1;
+
+      if (this.$route.query.type.indexOf('RKV') >= 0) {
+        let textareas = this.report.reportFooter;
+        if (
+          textareas.placement == '' ||
+          textareas.funds == '' ||
+          textareas.investment == '' ||
+          textareas.income == '' ||
+          textareas.deal == ''
+        )
+          status = 0;
+      }
+
+      if (doc != []) {
+        this.$store
+          .dispatch('report/updateReport', { id, doc, status })
+          .then(response => {
+            this.$router.push('/reporting');
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      }
     },
     rejectReport() {
       let id = this.$route.params.id;

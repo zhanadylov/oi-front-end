@@ -428,11 +428,12 @@
       </tbody>
     </b-table-simple>
     <p>2) К отчету прилагаются все протоколы общих собраний владельцев ценных бумаг/участников в отчетном году и отчеты счетной комиссии этих собраний, а также копия публикации о созыве общего собрания, если они ранее не были представлены в уполномоченный государственный орган.</p>
-
+    <Supervisor />
     <b-button @click="save">Сохранить</b-button>
     <div class="col-3 offset-9 text-right my-3 hide-print" style="z-index: 40;">
       <b-button class="print hide-print" onclick="window.print()">Печать</b-button>
     </div>
+    
   </div>
 </template>
 
@@ -443,6 +444,9 @@ export default {
   name: 'Anex_1',
   created() {
     this.getInfoCompany(), this.setinfo();
+  },
+  components: {
+    Supervisor: () => import('../components/Supervisor.vue')
   },
   data() {
     return {

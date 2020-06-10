@@ -22,8 +22,8 @@ export const company = {
       )
     },
 
-    updateInfo({commit}, {name, opforma, activity, address, phone, fax, email, id}) {
-      return CompanyService.updateCompanyInfo(name, opforma, activity, address, phone, fax, email, id).then(
+    updateInfo({commit}, {name, opforma, activity, address, phone, fax, email, supervisor, id}) {
+      return CompanyService.updateCompanyInfo(name, opforma, activity, address, phone, fax, email, supervisor, id).then(
         () => {
           commit('update')
           return Promise.resolve(true)

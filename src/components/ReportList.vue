@@ -8,8 +8,9 @@
       </template>
     </b-select>
     <b-table :fields="reportList" bordered hover :items="addKvartal" class="reportList" head-variant="light">
-      <template #cell(id)="row" v-if="isadmin">
-        <p>{{row.item.name}}</p>
+      <template #cell(id)="row">
+        <p v-if="isadmin">{{row.item.name}}</p>
+        <p v-else>{{row.index + 1}}</p>
       </template>
 
       <template #cell(createdate)="row">
@@ -32,7 +33,8 @@
       </template>
 
       <template #cell(status)="row">
-        <span v-if="row.item.status == 1">Редактирование</span>
+        <span v-if="row.item.status == 0">Редактирование</span>
+        <span v-else-if="row.item.status == 1">Готов к отправке</span>
         <span v-else-if="row.item.status == 2">Отправлен</span>
         <span v-else-if="row.item.status == 3">Принят</span>
         <span v-else-if="row.item.status == 4">Отклонен</span>

@@ -25,7 +25,7 @@
           </b-tr>
         </b-tbody>
       </b-table-simple>
-
+      <Supervisor />
   </div>
 </template>
 
@@ -48,6 +48,9 @@ export default {
       template: '<h3>{{ input }}</h3>',
       arr: []
     };
+  },
+  components: {
+    Supervisor: () => import('../components/Supervisor.vue')
   },
   methods: {
     setinfo() {

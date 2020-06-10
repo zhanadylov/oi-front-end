@@ -44,8 +44,8 @@ class CompanyService {
         return instance.get('', { headers: { 'Content-Type': 'Applicationjson' } })
     }
 
-    updateCompanyInfo(name, opforma, activity, address, phone, fax, email, id) { // Изменение данных о компании
-        return instance.put('', {name, opforma, activity, address, phone, fax, email, id})
+    updateCompanyInfo(name, opforma, activity, address, phone, fax, email, supervisor, id) { // Изменение данных о компании
+        return instance.put('', {name, opforma, activity, address, phone, fax, email, supervisor, id})
     }
 
 }

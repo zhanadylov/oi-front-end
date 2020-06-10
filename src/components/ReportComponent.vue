@@ -26,14 +26,14 @@
     </b-form-group>
 
     <h4>Выберите квартал:</h4>
-    <b-form-select v-model="kvartal" class="mb-3">
+    <b-form-select v-model="kvartal" @change="sendData" class="mb-3">
       <b-form-select-option value="1 квартал">Квартал 1</b-form-select-option>
       <b-form-select-option value="2 квартал">Квартал 2</b-form-select-option>
       <b-form-select-option value="3 квартал">Квартал 3</b-form-select-option>
       <b-form-select-option value="4 квартал">Квартал 4</b-form-select-option>
     </b-form-select>
     <h4>Выберите год</h4>
-    <b-form-select v-model="year" class="mb-3">
+    <b-form-select v-model="year" @change="sendData" class="mb-3">
       <b-form-select-option value="2019">2019</b-form-select-option>
       <b-form-select-option value="2020">2020</b-form-select-option>
     </b-form-select>
@@ -437,6 +437,8 @@
         ></b-form-textarea>
       </b-col>
     </b-row>
+
+    <Supervisor />
   </div>
 </template>
 
@@ -456,6 +458,9 @@ export default {
       status: null,
       props: ['input']
     };
+  },
+  components: {
+    Supervisor: () => import('../components/Supervisor.vue')
   },
   methods: {
     getInfoCompany() {
@@ -505,7 +510,7 @@ export default {
   },
   computed: {
     EditReport() {
-      if (this.status == 1 || this.status == 4 || this.status == null) {
+      if (this.status == 1 || this.status == 4 || this.status == null || this.status == 0) {
         return true;
       }
       return false;
