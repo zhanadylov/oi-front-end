@@ -8,6 +8,11 @@ Vue.use(Router);
 export const router = new Router({
   mode: 'history',
   routes: [
+    { 
+      path: '*', 
+      name: 'not-found',
+      component: () => import('./components/NotFound.vue')
+    },
     {
       path: '/',
       name: 'home',
@@ -148,6 +153,7 @@ export const router = new Router({
         }
       ]
     }
+    
   ]
 });
 

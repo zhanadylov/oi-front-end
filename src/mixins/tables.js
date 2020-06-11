@@ -245,110 +245,101 @@ export default {
         },
 
         assets_Start: function() { // Итого активы (010+020+030+040)
-
-            let suma = +this.tblbalanceitems[4].Start +
-            +this.tblbalanceitems[3].Start +
-            +this.tblbalanceitems[2].Start +
-            +this.tblbalanceitems[1].Start
-
-            this.tblbalanceitems[5].Start = suma
-
-            return suma
+            
+            let arr = [this.tblbalanceitems[4].Start, this.tblbalanceitems[3].Start, this.tblbalanceitems[2].Start, this.tblbalanceitems[1].Start]
+            this.tblbalanceitems[5].Start = this.totalSum(arr)
+            return this.tblbalanceitems[5].Start
+            
         },
         assets_End: function() { // Итого активы (010+020+030+040)
-            let suma = +this.tblbalanceitems[4].End +
-            +this.tblbalanceitems[3].End +
-            +this.tblbalanceitems[2].End +
-            +this.tblbalanceitems[1].End
 
-            this.tblbalanceitems[5].End = suma
+            let arr = [this.tblbalanceitems[4].End, this.tblbalanceitems[3].End, this.tblbalanceitems[2].End, this.tblbalanceitems[1].End]
+            this.tblbalanceitems[5].End = this.totalSum(arr)
 
-            return suma
+            return this.tblbalanceitems[5].End
         },
         liabilities_Start: function() { // Итого обязательства (060+070)
-            let suma = +this.tblbalanceitems[7].Start + + this.tblbalanceitems[8].Start
+            let arr = [this.tblbalanceitems[7].Start, this.tblbalanceitems[8].Start]
+            
+            this.tblbalanceitems[9].Start = this.totalSum(arr)
 
-            this.tblbalanceitems[9].End = suma
-
-            return suma
+            return this.tblbalanceitems[9].Start
         }, 
         liabilities_End: function() { // Итого обязательства (060+070)
-            let suma = +this.tblbalanceitems[7].End + + this.tblbalanceitems[8].End
+            let arr = [this.tblbalanceitems[7].End, this.tblbalanceitems[8].End]
+            
+            this.tblbalanceitems[9].End = this.totalSum(arr)
 
-            this.tblbalanceitems[9].End = suma
-
-            return suma
+            return this.tblbalanceitems[9].End
         },
         totaltblbalance_Start: function() { //Итого обязательства и собственный капитал (060+070+090)
-            let suma = +this.tblbalanceitems[7].Start + + this.tblbalanceitems[8].Start + + this.tblbalanceitems[10].Start
+            let arr = [this.tblbalanceitems[7].Start, this.tblbalanceitems[8].Start, this.tblbalanceitems[10].Start]
+            
+            this.tblbalanceitems[15].Start = this.totalSum(arr)
 
-            this.tblbalanceitems[15].End = suma
-
-            return suma
+            return this.tblbalanceitems[15].Start
         },
         totaltblbalance_End: function() { // Итого обязательства и собственный капитал (060+070+090)
-            let suma = +this.tblbalanceitems[7].End + + this.tblbalanceitems[8].End + + this.tblbalanceitems[10].End
+            let arr = [this.tblbalanceitems[7].End, this.tblbalanceitems[8].End, this.tblbalanceitems[10].End]
+            
+            this.tblbalanceitems[15].End = this.totalSum(arr)
 
-            this.tblbalanceitems[15].End = suma
-
-            return suma
+            return this.tblbalanceitems[15].End
         },
 
         operatingActivities_Start: function() { // Прибыль/убыток от операционной деятельности (010+020-030)
-            let suma = +this.tblprofititems[0].Start + + this.tblprofititems[1].Start + - this.tblprofititems[2].Start
+            let arr = [this.tblprofititems[0].Start, this.tblprofititems[1].Start]
 
-            this.tblprofititems[3].Start = suma
+            this.tblprofititems[3].Start = this.minus(this.totalSum(arr), this.tblprofititems[2].Start)
 
-            return suma
+            return this.tblprofititems[3].Start
         },
         operatingActivities_End: function() { // Прибыль/убыток от операционной деятельности (010+020-030)
-            let suma = +this.tblprofititems[0].End + + this.tblprofititems[1].End + - this.tblprofititems[2].End
+            let arr = [this.tblprofititems[0].End, this.tblprofititems[1].End]
 
-            this.tblprofititems[3].End = suma
+            this.tblprofititems[3].End = this.minus(this.totalSum(arr), this.tblprofititems[2].End)
 
-            return suma
+            return this.tblprofititems[3].End
         },
         beforeTax_Start: function () { // Прибыль (убыток) до вычета налогов (040+050)
-            let suma = +this.tblprofititems[3].Start + + this.tblprofititems[4].Start
+            let arr = [this.tblprofititems[3].Start, this.tblprofititems[4].Start]
 
-            this.tblprofititems[5].Start = suma
+            this.tblprofititems[5].Start = this.totalSum(arr)
 
-            return suma
+            return this.tblprofititems[5].Start
         },
         beforeTax_End: function () { // Прибыль (убыток) до вычета налогов (040+050)
-            let suma = +this.tblprofititems[3].End + + this.tblprofititems[4].End
+            let arr = [this.tblprofititems[3].End, this.tblprofititems[4].End]
 
-            this.tblprofititems[5].End = suma
+            this.tblprofititems[5].End = this.totalSum(arr)
 
-            return suma
+            return this.tblprofititems[5].End
         },
         activities_Start: function () { // Прибыль (убыток) от обычной деятельности (060-070)
-            let suma = +this.tblprofititems[5].Start + - this.tblprofititems[6].Start
 
-            this.tblprofititems[7].Start = suma
+            this.tblprofititems[7].Start = this.minus(this.tblprofititems[5].Start, this.tblprofititems[6].Start)
 
-            return suma
+            return this.tblprofititems[7].Start
         },
         activities_End: function () { // Прибыль (убыток) от обычной деятельности (060-070)
-            let suma = +this.tblprofititems[5].End + - this.tblprofititems[6].End
 
-            this.tblprofititems[7].End = suma
+            this.tblprofititems[7].End = this.minus(this.tblprofititems[5].Start, this.tblprofititems[6].Start)
 
-            return suma
+            return this.tblprofititems[7].End
         },
         netprofit_Start: function () { // Чистая прибыль (убыток) отчетного периода (080+090)
-            let suma = +this.tblprofititems[7].Start + + this.tblprofititems[8].Start
+            let arr = [this.tblprofititems[7].Start, this.tblprofititems[8].Start]
 
-            this.tblprofititems[9].Start = suma
+            this.tblprofititems[9].Start = this.totalSum(arr)
 
-            return suma
+            return this.tblprofititems[9].Start
         },
         netprofit_End: function () { // Чистая прибыль (убыток) отчетного периода (080+090)
-            let suma = +this.tblprofititems[7].End + + this.tblprofititems[8].End
+            let arr = [this.tblprofititems[7].End, this.tblprofititems[8].End]
 
-            this.tblprofititems[9].End = suma
+            this.tblprofititems[9].End = this.totalSum(arr)
 
-            return suma
+            return this.tblprofititems[9].End
         }
     },
 
@@ -380,6 +371,21 @@ export default {
         save() {
             this.originalData = null;
             this.editIndex = null;
+        },
+
+        totalSum(arr) {
+            let sum = 0
+            for(let i = 0; i < arr.length; i++) {
+                sum += +Number(arr[i].replace(/\s/g, '').replace(/,/, '.'))
+            }
+
+            return sum.toLocaleString('ru')
+        },
+
+        minus(num1, num2) {
+            let sum = Number(num1.replace(/\s/g, '').replace(/,/, '.')) - Number(num2.replace(/\s/g, '').replace(/,/, '.'))
+
+            return sum.toLocaleString('ru')
         }
     }
 }

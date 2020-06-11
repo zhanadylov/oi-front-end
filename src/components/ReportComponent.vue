@@ -183,7 +183,7 @@
     <h4>5. Финансовая отчетность эмитента за отчетный квартал</h4>
 
     <p>1) Сведения, включаемые в бухгалтерский баланс</p>
-
+    {{tblbalanceitems}}
     <b-table
       bordered
       hover
@@ -195,13 +195,13 @@
         <span>
           
           <template v-if="row.item.Code==='050'">
-            <input type="number" step="0.01" placeholder="0,00" readonly v-model="assets_Start" />
+            <input type="text" step="0.01" placeholder="0,00" readonly v-model="assets_Start" />
           </template>
           <template v-else-if="row.item.Code===''">
           </template>
           <template v-else-if="row.item.Code === '080'">
             <input
-              type="number"
+              type="text"
               step="0.01"
               placeholder="0,00"
               readonly
@@ -210,7 +210,7 @@
           </template>
           <template v-else-if="row.item.Code === '100'">
             <input
-              type="number"
+              type="text"
               step="0.01"
               placeholder="0,00"
               readonly
@@ -219,11 +219,14 @@
           </template>
           <template v-else>
             <input
-              type="number"
+              type="text"
               step="0.01"
               placeholder="0,00"
+              name='input'
               @blur="sendData"
-              v-model="row.item.Start"
+              :value="row.item.Start"
+              :id="'blncStart' + row.index"
+              @change="sum('blncStart' + row.index, 'tblbalanceitems', row.index, 'Start')"
             />
           </template>
         </span>
@@ -231,17 +234,17 @@
       <template #cell(End)="row">
         <span>
           <template v-if="row.item.Code==='050'">
-            <input type="number" step="0.01" placeholder="0,00" readonly v-model="assets_End" />
+            <input type="text" step="0.01" placeholder="0,00" readonly v-model="assets_End" />
           </template>
           
           <template v-else-if="row.item.Code===''">
           </template>
           <template v-else-if="row.item.Code === '080'">
-            <input type="number" step="0.01" placeholder="0,00" readonly v-model="liabilities_End" />
+            <input type="text" step="0.01" placeholder="0,00" readonly v-model="liabilities_End" />
           </template>
           <template v-else-if="row.item.Code === '100'">
             <input
-              type="number"
+              type="text"
               step="0.01"
               placeholder="0,00"
               readonly
@@ -251,11 +254,13 @@
           </template>
           <template v-else>
             <input
-              type="number"
+              type="text"
               step="0.01"
               placeholder="0,00"
               @blur="sendData"
-              v-model="row.item.End"
+              :value="row.item.End"
+              :id="'blncEnd' + row.index"
+              @change="sum('blncEnd' + row.index, 'tblbalanceitems', row.index, 'End')"
             />
           </template>
         </span>
@@ -263,13 +268,12 @@
     </b-table>
 
     <p>2) Сведения, включаемые в отчет о прибылях и убытках</p>
-
     <b-table bordered hover :items="tblprofititems" :fields="tblprofitfields" head-variant="light">
       <template #cell(Start)="row">
         <span>
           <template v-if="row.item.Code==='040'">
             <input
-              type="number"
+              type="text"
               step="0.01"
               placeholder="0,00"
               readonly
@@ -277,21 +281,23 @@
             />
           </template>
           <template v-else-if="row.item.Code==='060'">
-            <input type="number" step="0.01" placeholder="0,00" readonly v-model="beforeTax_Start" />
+            <input type="text" step="0.01" placeholder="0,00" readonly v-model="beforeTax_Start" />
           </template>
           <template v-else-if="row.item.Code==='080'">
-            <input type="number" step="0.01" placeholder="0,00" readonly v-model="activities_Start" />
+            <input type="text" step="0.01" placeholder="0,00" readonly v-model="activities_Start" />
           </template>
           <template v-else-if="row.item.Code==='100'">
-            <input type="number" step="0.01" placeholder="0,00" readonly v-model="netprofit_Start" />
+            <input type="text" step="0.01" placeholder="0,00" readonly v-model="netprofit_Start" />
           </template>
           <template v-else>
             <input
-              type="number"
+              type="text"
               step="0.01"
               placeholder="0,00"
               @blur="sendData"
-              v-model="row.item.Start"
+              :value="row.item.Start"
+              :id="'profitStart' + row.index"
+              @change="sum('profitStart' + row.index, 'tblprofititems', row.index, 'Start')"
             />
           </template>
         </span>
@@ -300,7 +306,7 @@
         <span>
           <template v-if="row.item.Code==='040'">
             <input
-              type="number"
+              type="text"
               step="0.01"
               placeholder="0,00"
               readonly
@@ -308,21 +314,23 @@
             />
           </template>
           <template v-else-if="row.item.Code==='060'">
-            <input type="number" step="0.01" placeholder="0,00" readonly v-model="beforeTax_End" />
+            <input type="text" step="0.01" placeholder="0,00" readonly v-model="beforeTax_End" />
           </template>
           <template v-else-if="row.item.Code==='080'">
-            <input type="number" step="0.01" placeholder="0,00" readonly v-model="activities_End" />
+            <input type="text" step="0.01" placeholder="0,00" readonly v-model="activities_End" />
           </template>
           <template v-else-if="row.item.Code==='100'">
-            <input type="number" step="0.01" placeholder="0,00" readonly v-model="netprofit_End" />
+            <input type="text" step="0.01" placeholder="0,00" readonly v-model="netprofit_End" />
           </template>
           <template v-else>
             <input
-              type="number"
+              type="text"
               step="0.01"
               placeholder="0,00"
               @blur="sendData"
-              v-model="row.item.End"
+              :value="row.item.End"
+              :id="'profitEnd' + row.index"
+              @change="sum('profitEnd' + row.index, 'tblprofititems', row.index, 'End')"
             />
           </template>
         </span>
@@ -330,7 +338,6 @@
     </b-table>
 
     <p>3) Сведения, включаемые в отчет об изменениях в капитале</p>
-
     <b-table
       bordered
       hover
@@ -350,22 +357,26 @@
       <template #cell(Start)="row">
         <span>
           <input
-            type="number"
+            type="text"
             step="0.01"
             placeholder="0,00"
             @blur="sendData"
-            v-model="row.item.Start"
+            :value="row.item.Start"
+            :id="'capitalStart' + row.index"
+            @change="sum('capitalStart' + row.index, 'tblcapitalitems', row.index, 'Start')"
           />
         </span>
       </template>
       <template #cell(End)="row">
         <span>
           <input
-            type="number"
+            type="text"
             step="0.01"
             placeholder="0,00"
             @blur="sendData"
-            v-model="row.item.End"
+            :value="row.item.End"
+            :id="'capitalEnd' + row.index"
+            @change="sum('capitalEnd' + row.index, 'tblcapitalitems', row.index, 'End')"
           />
         </span>
       </template>
@@ -437,7 +448,6 @@
         ></b-form-textarea>
       </b-col>
     </b-row>
-
     <Supervisor />
   </div>
 </template>
@@ -506,6 +516,19 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
+    },
+    sum(num, item, index, elem) {
+      let input = document.getElementById(num)
+      let sum = input.value.replace(/\s/g, '');
+      let val = Number(sum.replace(/,/, '.')).toLocaleString('ru')
+      //console.log(this.item)
+      if (item == 'tblbalanceitems')
+        this.tblbalanceitems[index][elem] = val
+      else if (item == 'tblprofititems')
+        this.tblprofititems[index][elem] = val
+      else
+        this.tblcapitalitems[index][elem] = val
+      return input.value = val
     }
   },
   computed: {
@@ -515,6 +538,7 @@ export default {
       }
       return false;
     }
+    
   }
 };
 </script>

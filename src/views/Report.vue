@@ -12,7 +12,10 @@
       <button class="btn btn-primary btn-block hide-print" v-if="!$route.params.id" @click="submit">
         <span>Сохранить</span>
       </button>
-      <button class="btn btn-primary btn-block hide-print" v-else @click="update">Обновить</button>
+      
+      <button v-else class="btn btn-primary btn-block hide-print"  @click="update">Обновить</button>
+      
+      
     </template>
   </div>
 </template>
@@ -64,10 +67,10 @@ export default {
         // Для квартального и годового отчетов
         let textareas = this.report.reportFooter;
         if (
-          textareas.placement == '' &&
-          textareas.funds == '' &&
-          textareas.investment == '' &&
-          textareas.income == '' &&
+          textareas.placement == '' ||
+          textareas.funds == '' ||
+          textareas.investment == '' ||
+          textareas.income == '' ||
           textareas.deal == ''
         )
           status = 0; // Статус "0" - нельзя отправить отчет, т.е в общем списке отчетов у этого отчета не будет кнопки отправить
@@ -96,11 +99,11 @@ export default {
           textareas.investment == '' ||
           textareas.income == '' ||
           textareas.deal == ''
-        )
+        ) 
           status = 0;
       }
 
-      if (doc != []) {
+      if (doc.length != 0) {
         this.$store
           .dispatch('report/updateReport', { id, doc, status })
           .then(response => {
@@ -109,6 +112,9 @@ export default {
           .catch(function(error) {
             console.log(error);
           });
+      }
+      else {
+        this.$router.push('/reporting')
       }
     },
     rejectReport() {

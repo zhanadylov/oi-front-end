@@ -68,11 +68,7 @@ export default {
         if (this.user.username && this.user.password) {
           this.$store.dispatch('auth/login', this.user).then(
             () => {
-              if (localStorage.getItem('role') === 'user') {
-                this.$router.push('/reporting');
-              } else {
-                this.$router.push('/admin');
-              }
+              this.$router.push('/reporting');
             },
             error => {
               this.loading = false;
