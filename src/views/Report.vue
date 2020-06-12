@@ -88,7 +88,7 @@ export default {
     },
     update() {
       let id = this.$route.params.id;
-      let doc = this.report;
+      let doc = JSON.stringify(this.report);
       let status = 1;
 
       if (this.$route.query.type.indexOf('RKV') >= 0) {

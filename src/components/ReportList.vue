@@ -253,6 +253,7 @@ export default {
       reportList: [
         {
           key: 'id',
+          headerTitle: '№',
           label: '№'
         },
         {
@@ -424,7 +425,8 @@ export default {
 
       this.$store
         .dispatch('report/getList', type)
-        .then(response => {})
+        .then(response => {
+        })
         .catch(function(error) {
           console.log(error);
         });

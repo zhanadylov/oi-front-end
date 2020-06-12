@@ -1,5 +1,33 @@
 <template>
   <div>
+    
+
+    <div class="col-5 offset-7 text-right my-3">
+      <b-col sm="12">
+        <h5 class="d-inline">Приложение 1</h5>
+      </b-col>
+
+      <br />
+      <b-col sm="12">
+        <p class="d-inline">к Положению о порядке </p>
+      </b-col>
+      <br />
+      <b-col sm="12">
+        <p class="d-inline">представления отчетности </p>
+      </b-col>
+      <br />
+      <b-col sm="12">
+        <p class="d-inline">(информации) и раскрытии </p>
+      </b-col>
+       <br />
+      <b-col sm="12">
+        <p class="d-inline">информации субъектами </p>
+      </b-col>
+       <br />
+      <b-col sm="12">
+        <p class="d-inline">финансового рынка</p>
+      </b-col>
+    </div>
     <h4>Выберите квартал:</h4>
     <b-form-select v-model="kvartal" class="mb-3">
       <b-form-select-option value="1 квартал">Квартал 1</b-form-select-option>

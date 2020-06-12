@@ -1,6 +1,24 @@
 <template>
   <div class="reportcomponent">
-    <h2> 
+    <div class="col-5 offset-7 text-right my-3">
+      <b-col sm="12">
+        <h5 class="d-inline">Приложение 2-1</h5>
+      </b-col>
+
+      <br />
+      <b-col sm="12">
+        <p class="d-inline">к Положению о порядке представления</p>
+      </b-col>
+      <br />
+      <b-col sm="12">
+        <p class="d-inline">отчетности (информации) и раскрытии</p>
+      </b-col>
+      <br />
+      <b-col sm="12">
+        <p class="d-inline">информации субъектами финансового рынка</p>
+      </b-col>
+    </div>
+    <h2>
       Данные, включаемые в краткий годовой и ежеквартальный отчет
       для публикации в средствах массовой информации
     </h2>
@@ -40,18 +58,15 @@
 
     <h4>1. Данные об эмитенте:</h4>
     <b-input-group prepend="полное и сокращенное наименование эмитента" class="mt-3">
-      
       <b-form-input style="background: #fff;" readonly v-model="info.name"></b-form-input>
     </b-input-group>
     <b-input-group prepend="организационно-правовая форма" class="mt-3">
-      
       <b-form-input style="background: #fff;" readonly v-model="info.opforma"></b-form-input>
     </b-input-group>
     <b-input-group
       prepend="юридический и почтовый адрес эмитента, номер телефона и факса"
       class="mt-3"
     >
-      
       <b-form-input style="background: #fff;" readonly v-model="info.address"></b-form-input>
     </b-input-group>
     <b-input-group prepend="основной вид деятельности эмитента" class="mt-3">
@@ -167,7 +182,11 @@
         <input type="text" @blur="sendData" v-model="row.item.Name" />
       </template>
       <template #cell(DateCreate)="row">
-        <b-datepicker :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }" today-button v-model="row.item.DateCreate"></b-datepicker>
+        <b-datepicker
+          :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+          today-button
+          v-model="row.item.DateCreate"
+        ></b-datepicker>
       </template>
       <template #cell(Influence)="row">
         <input type="text" @blur="sendData" v-model="row.item.Influence" />
@@ -176,14 +195,13 @@
         <input type="text" @blur="sendData" v-model="row.item.DateDisclosure" />
       </template>
     </b-table>
-    
+
     <div class="col-3 offset-9 text-right my-3 hide-print">
       <button @click="addFact" class="btn btn-sm btn-secondary">Добавить</button>
     </div>
     <h4>5. Финансовая отчетность эмитента за отчетный квартал</h4>
 
     <p>1) Сведения, включаемые в бухгалтерский баланс</p>
-    {{tblbalanceitems}}
     <b-table
       bordered
       hover
@@ -193,20 +211,12 @@
     >
       <template #cell(Start)="row">
         <span>
-          
           <template v-if="row.item.Code==='050'">
             <input type="text" step="0.01" placeholder="0,00" readonly v-model="assets_Start" />
           </template>
-          <template v-else-if="row.item.Code===''">
-          </template>
+          <template v-else-if="row.item.Code===''"></template>
           <template v-else-if="row.item.Code === '080'">
-            <input
-              type="text"
-              step="0.01"
-              placeholder="0,00"
-              readonly
-              v-model="liabilities_Start"
-            />
+            <input type="text" step="0.01" placeholder="0,00" readonly v-model="liabilities_Start" />
           </template>
           <template v-else-if="row.item.Code === '100'">
             <input
@@ -222,7 +232,7 @@
               type="text"
               step="0.01"
               placeholder="0,00"
-              name='input'
+              name="input"
               @blur="sendData"
               :value="row.item.Start"
               :id="'blncStart' + row.index"
@@ -236,9 +246,8 @@
           <template v-if="row.item.Code==='050'">
             <input type="text" step="0.01" placeholder="0,00" readonly v-model="assets_End" />
           </template>
-          
-          <template v-else-if="row.item.Code===''">
-          </template>
+
+          <template v-else-if="row.item.Code===''"></template>
           <template v-else-if="row.item.Code === '080'">
             <input type="text" step="0.01" placeholder="0,00" readonly v-model="liabilities_End" />
           </template>
@@ -249,7 +258,6 @@
               placeholder="0,00"
               readonly
               v-model="totaltblbalance_End"
-              
             />
           </template>
           <template v-else>
@@ -348,7 +356,12 @@
       <template #cell(TItle)="row">
         <template v-if="row.item.Code==='100' || row.item.Code==='010'">
           <label>Сальдо на</label>
-          <b-datepicker :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }" today-button v-model="row.item.TItle" @change="sendData"></b-datepicker>
+          <b-datepicker
+            :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+            today-button
+            v-model="row.item.TItle"
+            @change="sendData"
+          ></b-datepicker>
         </template>
         <template v-else>
           <span>{{row.item.TItle}}</span>
@@ -385,23 +398,13 @@
     <b-row>
       <b-col sm="12">
         <p>6. Сведения о направлении средств, привлеченных эмитентом в результате размещения эмиссионных ценных бумаг, которые включают в себя: общий объем привлеченных средств, сведения о привлеченных средствах, использованных по каждому из направлений, и о направлениях использования привлеченных средств.</p>
-        <b-form-textarea
-          id="textarea-rows"
-          rows="2"
-          v-model="textareas.placement"
-          @blur="sendData"
-        ></b-form-textarea>
+        <b-form-textarea id="textarea-rows" rows="2" v-model="textareas.placement" @blur="sendData"></b-form-textarea>
       </b-col>
     </b-row>
     <b-row>
       <b-col sm="12">
         <p>7. Заемные средства, полученные эмитентом и его дочерними обществами в отчетном квартале. Данный пункт отражает заемные средства, полученные эмитентом в отчетном квартале, и заемные средства, полученные дочерними обществами в отчетном квартале.</p>
-        <b-form-textarea
-          id="textarea-rows"
-          rows="2"
-          v-model="textareas.funds"
-          @blur="sendData"
-        ></b-form-textarea>
+        <b-form-textarea id="textarea-rows" rows="2" v-model="textareas.funds" @blur="sendData"></b-form-textarea>
       </b-col>
     </b-row>
     <b-row>
@@ -417,35 +420,20 @@
     </b-row>
     <b-row>
       <b-col sm="12">
-        <p>9. Доходы по ценным бумагам эмитента. Эта информация представляется при начислении доходов по ценным бумагам  эмитента в отчетном квартале или в квартале, предшествующем отчетному кварталу, и включает: вид ценной бумаги, размер доходов, начисленных на одну ценную бумагу,и общую сумму доходов, начисленных по ценным бумагам данного вида.</p>
-        <b-form-textarea
-          id="textarea-rows"
-          rows="2"
-          v-model="textareas.income"
-          @blur="sendData"
-        ></b-form-textarea>
+        <p>9. Доходы по ценным бумагам эмитента. Эта информация представляется при начислении доходов по ценным бумагам эмитента в отчетном квартале или в квартале, предшествующем отчетному кварталу, и включает: вид ценной бумаги, размер доходов, начисленных на одну ценную бумагу,и общую сумму доходов, начисленных по ценным бумагам данного вида.</p>
+        <b-form-textarea id="textarea-rows" rows="2" v-model="textareas.income" @blur="sendData"></b-form-textarea>
       </b-col>
     </b-row>
     <b-row>
       <b-col sm="12">
         <p>10. Информация об условиях и характере сделки, совершенной лицами, заинтересованными в совершении обществом сделки, включает: дату совершения сделки, информацию о влиянии сделки на деятельность эмитента (финансовый результат, дополнительные инвестиции и т.д.), информацию об условиях и характере заключенной сделки (предмет, условия, цена сделки и т.д.), степень имеющейся заинтересованности (лица, заинтересованного в сделке), дату опубликования информации о сделке в средствах массовой информации (прилагается копия опубликованного сообщения), а также дату направления уведомления с информацией о сделке в уполномоченный орган по регулированию рынка ценных бумаг.</p>
-        <b-form-textarea
-          id="textarea-rows"
-          rows="2"
-          v-model="textareas.deal"
-          @blur="sendData"
-        ></b-form-textarea>
+        <b-form-textarea id="textarea-rows" rows="2" v-model="textareas.deal" @blur="sendData"></b-form-textarea>
       </b-col>
     </b-row>
     <b-row v-if="auditView">
       <b-col sm="12">
         <p>11. Аудиторское заключение</p>
-        <b-form-textarea
-          id="textarea-rows"
-          rows="2"
-          v-model="textareas.audit"
-          @blur="sendData"
-        ></b-form-textarea>
+        <b-form-textarea id="textarea-rows" rows="2" v-model="textareas.audit" @blur="sendData"></b-form-textarea>
       </b-col>
     </b-row>
     <Supervisor />
@@ -509,36 +497,37 @@ export default {
           this.tblcapitalitems = response.data.doc.tblCapital;
           this.textareas = response.data.doc.reportFooter;
           this.status = response.data.status;
-          let titleKvartal = response.data.kvartal.split(';')
-          this.year = titleKvartal[0]
-          this.kvartal = titleKvartal[1].slice(1)
+          let titleKvartal = response.data.kvartal.split(';');
+          this.year = titleKvartal[0];
+          this.kvartal = titleKvartal[1].slice(1);
         })
         .catch(function(error) {
           console.log(error);
         });
     },
     sum(num, item, index, elem) {
-      let input = document.getElementById(num)
+      let input = document.getElementById(num);
       let sum = input.value.replace(/\s/g, '');
-      let val = Number(sum.replace(/,/, '.')).toLocaleString('ru')
+      let val = Number(sum.replace(/,/, '.')).toLocaleString('ru');
       //console.log(this.item)
-      if (item == 'tblbalanceitems')
-        this.tblbalanceitems[index][elem] = val
-      else if (item == 'tblprofititems')
-        this.tblprofititems[index][elem] = val
-      else
-        this.tblcapitalitems[index][elem] = val
-      return input.value = val
+      if (item == 'tblbalanceitems') this.tblbalanceitems[index][elem] = val;
+      else if (item == 'tblprofititems') this.tblprofititems[index][elem] = val;
+      else this.tblcapitalitems[index][elem] = val;
+      return (input.value = val);
     }
   },
   computed: {
     EditReport() {
-      if (this.status == 1 || this.status == 4 || this.status == null || this.status == 0) {
+      if (
+        this.status == 1 ||
+        this.status == 4 ||
+        this.status == null ||
+        this.status == 0
+      ) {
         return true;
       }
       return false;
     }
-    
   }
 };
 </script>
@@ -580,18 +569,15 @@ table {
   z-index: 20;
   top: 0;
 }
-
-
-
 </style>
 
 <style >
 .table-transparent {
-  width: 40%!important;
+  width: 40% !important;
 }
 @media print {
   #app {
-    display: block!important;
+    display: block !important;
   }
 
   input {
