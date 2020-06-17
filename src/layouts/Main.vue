@@ -1,15 +1,15 @@
 <template>
   <div class="wrapper d-flex align-items-stretch">
-    <nav id="sidebar">
+    <nav id="sidebar" v-show="isFin">
       <div class="p-3 pt-5" style="position: fixed">
         <ul class="list-unstyled components mb-5">
           <li class="nav-item">
             <router-link to="/company" class="nav-link">Профиль компании</router-link>
           </li>
 
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <router-link to="/profile" class="nav-link">Личный кабинет</router-link>
-          </li>
+          </li> -->
 
           <li class="active">
             <a
@@ -61,6 +61,11 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="nav navbar-nav ml-auto">
               <li class="nav-item">
+                <router-link to="/reporting" v-show="!isFin" class="nav-link">
+                  Архив
+                </router-link>
+              </li>
+              <li class="nav-item">
                 <router-link to="/home" class="nav-link">
                   Home
                 </router-link>
@@ -80,7 +85,6 @@
           </div>
         </div>
       </nav>
-
       <router-view />
     </div>
   </div>
@@ -101,6 +105,13 @@ export default {
   computed: {
     currentUser() {
       return this.$store.state.auth.status.loggedIn;
+    },
+
+    isFin() {
+      if (localStorage.getItem('role') == 'fin') {
+        return false
+      }
+      return true
     }
   }
 };

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-tabs content-class="mt-3" fill>
+    <b-tabs content-class="mt-3" class="nav-tabs" fill>
       <b-tab title="Приложение 1" @click="link('/fin/'+id+'/anex1/' + anex1)">
         <router-view name="anex1" />
       </b-tab>

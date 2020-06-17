@@ -1,8 +1,10 @@
 <template>
   <div class="container">
-    <header class="jumbotron">
-      <h3>Наименование компании: {{info}}</h3>
+    <header class="jumbotron" >
+      <h4 v-if="whoAmI">Наименование компании: {{info}}</h4>
+      <h4 v-else>Государственная служба регулирования и надзора за финансовым рынком при Правительстве КР</h4>
     </header>
+
     <ReportList/>
   </div>
 </template>
@@ -17,7 +19,7 @@ export default {
   data() {
     return {
       type: 'RKV',
-      info: this.$store.state.company.info.name
+      info: ''
     }
   },
   metaInfo() {
@@ -29,7 +31,12 @@ export default {
     ReportList: () => import("@/components/ReportList.vue")
   },
   computed: {
-    ...mapState({ content: store => store.auth.me })
+    ...mapState({ content: store => store.auth.me }),
+    whoAmI() {
+      if (localStorage.getItem('role') == 'fin')
+        return false
+      return true
+    }
   },
   methods: {
     getMe() {
@@ -42,6 +49,7 @@ export default {
     },
     getCompanyInfo() {
       this.$store.dispatch('company/getInfo').then(response => {
+        this.info = this.$store.state.company.info.name
       })
       .catch(function(error) {
           console.log(error);
@@ -59,4 +67,11 @@ export default {
   }
 }
 
+@media (min-width: 576px) {
+
+.jumbotron {
+    padding: 2rem!important;
+}
+
+}
 </style>

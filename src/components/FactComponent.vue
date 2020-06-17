@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="factcomponent">
     <template v-if="!EditReport">
       <div class="not_edit"></div>
     </template>
@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     setinfo() {
-      return Queries.getReportById(this.$route.params.id)
+      return Queries.getReportById(this.$route.params.idreport)
         .then(response => {
           //let xmldoc = JSON.parse(response.data.xmldoc)
           this.result = response.data;
@@ -92,10 +92,13 @@ export default {
 </script>
 
 <style>
+.factcomponent {
+  position: relative;
+}
   .not_edit {
     height: 100%;
     width: 100%;
-    position: fixed;
+    position: absolute;
     z-index: 20;
     top: 0;
   }

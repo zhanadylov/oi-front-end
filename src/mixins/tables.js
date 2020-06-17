@@ -368,6 +368,9 @@ export default {
         remove(item, index) {
             this.items.splice(index, 1);
         },
+        removeInFact(item, index) {
+            this.tblfactitems.splice(index, 1);
+        },
         save() {
             this.originalData = null;
             this.editIndex = null;

@@ -9,7 +9,7 @@
       <b-button class="btn btn-block hide-print" @click="rejectReport" variant="danger">Отклонить</b-button>
     </template>
     <template v-else>
-      <button class="btn btn-primary btn-block hide-print" v-if="!$route.params.id" @click="submit">
+      <button class="btn btn-primary btn-block hide-print" v-if="!$route.params.idreport" @click="submit">
         <span>Сохранить</span>
       </button>
       
@@ -87,7 +87,7 @@ export default {
         });
     },
     update() {
-      let id = this.$route.params.id;
+      let id = this.$route.params.idreport;
       let doc = JSON.stringify(this.report);
       let status = 1;
 
@@ -118,7 +118,7 @@ export default {
       }
     },
     rejectReport() {
-      let id = this.$route.params.id;
+      let id = this.$route.params.idreport;
       this.$store
         .dispatch('report/rejectReport', id)
         .then(response => {

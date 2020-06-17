@@ -74,15 +74,15 @@
         <router-link
           v-else-if="row.item.typedoc == 'fin'"
           class="nav-link"
-          :to="`fin/${row.item.id}`"
+          :to="`fin/${row.item.id}/anex1/${row.item.doc.anex1}`"
         >Отчет финнадзору</router-link>
         <router-link
           v-else
           :to="`/report/${row.item.id}?type=${row.item.typedoc}`"
           class="nav-link"
         >
-          <span v-if="row.item.typedoc == 'RKV01'">Квартальный отчет</span>
-          <span v-else-if="row.item.typedoc == 'RKV02'">Годовой отчет</span>
+          <span v-if="row.item.typedoc == 'RKV01'">Квартальный отчет <br> (Приложение 2-1)</span>
+          <span v-else-if="row.item.typedoc == 'RKV02'">Годовой отчет <br> (Приложение 2-1)</span>
           <span v-else-if="row.item.typedoc[0] == 'f'">Существенный факт</span>
         </router-link>
       </template>

@@ -9,19 +9,15 @@
       <b-col sm="12">
         <p class="d-inline">к Положению о порядке </p>
       </b-col>
-      <br />
       <b-col sm="12">
         <p class="d-inline">представления отчетности </p>
       </b-col>
-      <br />
       <b-col sm="12">
         <p class="d-inline">(информации) и раскрытии </p>
       </b-col>
-       <br />
       <b-col sm="12">
         <p class="d-inline">информации субъектами </p>
       </b-col>
-       <br />
       <b-col sm="12">
         <p class="d-inline">финансового рынка</p>
       </b-col>
@@ -76,16 +72,7 @@
       <tbody>
         <b-tr>
           <b-td v-for="(item, index) in table_2_items" :key="index">
-            <template v-if="item.type == 'date'">
-              <b-datepicker
-                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-                name="inputs"
-                v-model="table_2_items[index]['text']"
-              ></b-datepicker>
-            </template>
-            <template v-else>
               <b-input type="text" name="inputs" v-model="table_2_items[index]"></b-input>
-            </template>
           </b-td>
         </b-tr>
       </tbody>
@@ -101,16 +88,7 @@
       <tbody>
         <b-tr>
           <b-td v-for="(item, index) in table_3_items" :key="index">
-            <template v-if="item.type == 'date'">
-              <b-datepicker
-                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-                name="inputs"
-                v-model="table_3_items[index]['text']"
-              ></b-datepicker>
-            </template>
-            <template v-else>
               <b-input type="text" name="inputs" v-model="table_3_items[index]"></b-input>
-            </template>
           </b-td>
         </b-tr>
       </tbody>
@@ -165,9 +143,9 @@ export default {
       },
       table_2_items: {
         title1: '',
-        title2: { type: 'date', text: '' },
+        title2: '',
         title3: '',
-        title4: { type: 'date', text: '' }
+        title4: ''
       },
       table_3_fields: {
         title1: 'Вид ценной бумаги',
@@ -184,9 +162,9 @@ export default {
         title1: '',
         title2: '',
         title3: '',
-        title4: { type: 'date', text: '' },
-        title5: { type: 'date', text: '' },
-        title6: { type: 'date', text: '' },
+        title4: '',
+        title5: '',
+        title6: '',
         title7: '',
         title8: ''
       }
@@ -195,7 +173,7 @@ export default {
 
   methods: {
     setinfo() {
-      return Queries.getReportById(this.$route.params.id)
+      return Queries.getReportById(this.$route.params.idreport)
         .then(response => {
             this.table_1_items = response.data.doc.table1
             this.table_2_items = response.data.doc.table2
@@ -221,7 +199,9 @@ export default {
       this.arr = xmldoc;
       this.$store
         .dispatch('report/insert', { typedoc, xmldoc, sender, status, kvartal })
-        .then(response => {})
+        .then(response => {
+          this.$router.push('/reporting');
+        })
         .catch(function(error) {
           console.log(error);
         });

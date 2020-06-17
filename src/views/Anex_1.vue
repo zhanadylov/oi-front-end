@@ -11,19 +11,15 @@
       <b-col sm="12">
         <p class="d-inline">к Положению о порядке </p>
       </b-col>
-      <br />
       <b-col sm="12">
         <p class="d-inline">представления отчетности </p>
       </b-col>
-      <br />
       <b-col sm="12">
         <p class="d-inline">(информации) и раскрытии </p>
       </b-col>
-       <br />
       <b-col sm="12">
         <p class="d-inline">информации субъектами </p>
       </b-col>
-       <br />
       <b-col sm="12">
         <p class="d-inline">финансового рынка</p>
       </b-col>
@@ -101,13 +97,17 @@
         </tr>
       </b-thead>
       <b-tbody>
-        <b-tr>
-          <b-td v-for="(item, index) in table_2_items" :key="index">
-            <b-input type="text" name="inputs" v-model="table_2_items[index]"></b-input>
+        <b-tr v-for="(item, index) in table_2_items" :key="index">
+          <b-td v-for="(it, ix) in item" :key="ix">
+            <b-input type="text" name="inputs" v-model="item[ix]"></b-input>
           </b-td>
         </b-tr>
       </b-tbody>
     </b-table-simple>
+    
+    <div class="col-3 offset-9 text-right my-3 hide-print">
+      <button @click="addItem2" class="btn btn-sm btn-secondary">Добавить</button>
+    </div>
     <h4>3. Список всех членов совета директоров регулируемого субъекта финансового рынка</h4>
     <b-table-simple hover bordered small stacked>
       <b-thead>
@@ -134,13 +134,17 @@
         </tr>
       </b-thead>
       <b-tbody>
-        <b-tr>
-          <b-td v-for="(item, index) in table_3_items" :key="index">
-            <b-input type="text" name="inputs" v-model="table_3_items[index]"></b-input>
+        <b-tr v-for="(item, index) in table_3_items" :key="index">
+          <b-td v-for="(it, ix) in item" :key="ix">
+            <b-input type="text" name="inputs" v-model="item[ix]"></b-input>
           </b-td>
         </b-tr>
       </b-tbody>
     </b-table-simple>
+    
+    <div class="col-3 offset-9 text-right my-3 hide-print">
+      <button @click="addItem3" class="btn btn-sm btn-secondary">Добавить</button>
+    </div>
     <h4>4. Список всех членов ревизионного органа регулируемого субъекта финансового рынка</h4>
     <b-table-simple hover bordered small stacked>
       <b-thead>
@@ -165,13 +169,16 @@
         </tr>
       </b-thead>
       <b-tbody>
-        <b-tr>
-          <b-td v-for="(item, index) in table_4_items" :key="index">
-            <b-input type="text" name="inputs" v-model="table_4_items[index]"></b-input>
+        <b-tr v-for="(item, index) in table_4_items" :key="index">
+          <b-td v-for="(it, ix) in item" :key="ix">
+            <b-input type="text" name="inputs" v-model="item[ix]"></b-input>
           </b-td>
         </b-tr>
       </b-tbody>
     </b-table-simple>
+    <div class="col-3 offset-9 text-right my-3 hide-print">
+      <button @click="addItem4" class="btn btn-sm btn-secondary">Добавить</button>
+    </div>
     <h4>5.Сведения о вознаграждении должностных лиц</h4>
     <!-- table_5 -->
     <b-table-simple bordered hover :fields="table_5_fields" head-variant="light">
@@ -203,16 +210,7 @@
       <tbody>
         <b-tr>
           <b-td v-for="(item, index) in table_6_items" :key="index">
-            <template v-if="index == 'date'">
-              <b-datepicker
-                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-                name="inputs"
-                v-model="table_6_items[index]"
-              ></b-datepicker>
-            </template>
-            <template v-else>
               <b-input type="text" name="inputs" v-model="table_6_items[index]"></b-input>
-            </template>
           </b-td>
         </b-tr>
       </tbody>
@@ -244,16 +242,7 @@
       <tbody>
         <b-tr>
           <b-td v-for="(item, index) in table_8_items" :key="index">
-            <template v-if="index == 'date'">
-              <b-datepicker
-                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-                name="inputs"
-                v-model="table_8_items[index]"
-              ></b-datepicker>
-            </template>
-            <template v-else>
               <b-input type="text" name="inputs" v-model="table_8_items[index]"></b-input>
-            </template>
           </b-td>
         </b-tr>
       </tbody>
@@ -285,16 +274,7 @@
       <tbody>
         <b-tr>
           <b-td v-for="(item, index) in table_10_items" :key="index">
-            <template v-if="index == 'date'">
-              <b-datepicker
-                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-                name="inputs"
-                v-model="table_10_items[index]"
-              ></b-datepicker>
-            </template>
-            <template v-else>
               <b-input type="text" name="inputs" v-model="table_10_items[index]"></b-input>
-            </template>
           </b-td>
         </b-tr>
       </tbody>
@@ -486,7 +466,7 @@ export default {
       },
       kvartal: '',
       year: '',
-      table_2_items: {
+      table_2_items: [{
         title1: '',
         title2: '',
         title3: '',
@@ -497,8 +477,8 @@ export default {
         title8: '',
         title9: '',
         title10: ''
-      },
-      table_3_items: {
+      }],
+      table_3_items: [{
         title1: '',
         title2: '',
         title3: '',
@@ -509,8 +489,8 @@ export default {
         title8: '',
         title9: '',
         title10: ''
-      },
-      table_4_items: {
+      }],
+      table_4_items: [{
         title1: '',
         title2: '',
         title3: '',
@@ -521,7 +501,7 @@ export default {
         title8: '',
         title9: '',
         title10: ''
-      },
+      }],
       table_5_fields: {
         title1: 'Должностные лица общества',
         title2: 'Размер выплачиваемого вознаграждения и компенсаций'
@@ -698,8 +678,17 @@ export default {
   },
 
   methods: {
+    addItem2() {
+      this.table_2_items.push({title1: '', title2: '', title3: '', title4: '', title5: '', title6: '', title7: '', title8: '', title9: '', title10: ''})
+    },
+    addItem3() {
+      this.table_3_items.push({title1: '', title2: '', title3: '', title4: '', title5: '', title6: '', title7: '', title8: '', title9: '', title10: ''})
+    },
+    addItem4() {
+      this.table_4_items.push({title1: '', title2: '', title3: '', title4: '', title5: '', title6: '', title7: '', title8: '', title9: '', title10: ''})
+    },
     setinfo() {
-      return Queries.getReportById(this.$route.params.id)
+      return Queries.getReportById(this.$route.params.idreport)
         .then(response => {
           (this.table_2_items = response.data.doc.table2),
             (this.table_3_items = response.data.doc.table3),
@@ -761,7 +750,9 @@ export default {
       let status = 1;
       this.$store
         .dispatch('report/insert', { typedoc, xmldoc, sender, status, kvartal })
-        .then(response => {})
+        .then(response => {
+          this.$router.push('/reporting');
+        })
         .catch(function(error) {
           console.log(error);
         });

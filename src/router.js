@@ -44,7 +44,7 @@ export const router = new Router({
       component: () => import('./views/Report.vue')
     },
     {
-      path: '/report/:id',
+      path: '/report/:idreport',
       name: 'ReportView',
       meta: { layout: 'main' },
       // lazy-loaded
@@ -107,14 +107,14 @@ export const router = new Router({
       component: () => import('./views/Anex_2.vue')
     },
     {
-      path: '/anex-1/:id',
+      path: '/anex-1/:idreport',
       name: 'Anex_1_View',
       meta: { layout: 'main' },
       // lazy-loaded
       component: () => import('./views/Anex_1.vue')
     },
     {
-      path: '/anex-2/:id',
+      path: '/anex-2/:idreport',
       name: 'Anex_2_View',
       meta: { layout: 'main' },
       // lazy-loaded
@@ -128,25 +128,25 @@ export const router = new Router({
       component: () => import('./components/FinNadzorReport.vue'),
       children: [
         {
-          path: 'report/:id',
+          path: 'report/:idreport',
           components: {
             anex2_1: () => import('./components/ReportComponent.vue')
           }
         },
         {
-          path: 'anex1/:id',
+          path: 'anex1/:idreport',
           components: {
             anex1: () => import('./views/Anex_1.vue')
           }
         },
         {
-          path: 'anex2/:id',
+          path: 'anex2/:idreport',
           components: {
             anex2: () => import('./views/Anex_2.vue')
           }
         },
         {
-          path: 'fact/:id',
+          path: 'fact/:idreport',
           components: {
             fact: () => import('./components/FactComponent.vue')
           }

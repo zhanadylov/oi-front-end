@@ -9,11 +9,9 @@
       <b-col sm="12">
         <p class="d-inline">к Положению о порядке представления</p>
       </b-col>
-      <br />
       <b-col sm="12">
         <p class="d-inline">отчетности (информации) и раскрытии</p>
       </b-col>
-      <br />
       <b-col sm="12">
         <p class="d-inline">информации субъектами финансового рынка</p>
       </b-col>
@@ -147,8 +145,8 @@
               <input
                 class="form-control form-control-sm"
                 @blur="sendData"
-                type="number"
-                v-model.number="item.qty"
+                type="text"
+                v-model="item.qty"
               />
             </span>
           </td>
@@ -177,25 +175,51 @@
     </div>
     <h4>4. Информация о существенных фактах (далее - факт), затрагивающих деятельность эмитента ценных бумаг в отчетном периоде.</h4>
 
-    <b-table bordered :items="tblfactitems" :fields="tblfactfields" head-variant="light">
-      <template #cell(Name)="row">
-        <input type="text" @blur="sendData" v-model="row.item.Name" />
-      </template>
-      <template #cell(DateCreate)="row">
-        <b-datepicker
-          :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-          today-button
-          v-model="row.item.DateCreate"
-        ></b-datepicker>
-      </template>
-      <template #cell(Influence)="row">
-        <input type="text" @blur="sendData" v-model="row.item.Influence" />
-      </template>
-      <template #cell(DateDisclosure)="row">
-        <input type="text" @blur="sendData" v-model="row.item.DateDisclosure" />
-      </template>
-    </b-table>
-
+    <b-table-simple class="table table-bordered mt-4">
+      <b-thead class="thead-light">
+        <b-th>Наименование факта</b-th>
+        <b-th>Дата появления факта</b-th>
+        <b-th>Влиянии факта на деятельность</b-th>
+        <b-th>Дата и форма раскрытия</b-th>
+        <b-th></b-th>
+      </b-thead>
+      <b-tbody>
+        <b-tr v-for="(item, index) in tblfactitems" :key="index">
+          <b-td>
+            <input class="text" type="text" @blur="sendData" v-model="tblfactitems[index].Name" />
+          </b-td>
+          <b-td>
+            <b-datepicker
+              :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+              today-button
+              v-model="tblfactitems[index].DateCreate"
+            ></b-datepicker>
+          </b-td>
+          <b-td>
+            <input
+              class="text"
+              type="text"
+              @blur="sendData"
+              v-model="tblfactitems[index].Influence"
+            />
+          </b-td>
+          <b-td>
+            <input
+              class="text"
+              type="text"
+              @blur="sendData"
+              v-model="tblfactitems[index].DateDisclosure"
+            />
+          </b-td>
+          <b-td>
+            <button
+              @click="removeInFact(item, index)"
+              class="btn btn-sm btn-outline-secondary mr-2"
+            >Удалить</button>
+          </b-td>
+        </b-tr>
+      </b-tbody>
+    </b-table-simple>
     <div class="col-3 offset-9 text-right my-3 hide-print">
       <button @click="addFact" class="btn btn-sm btn-secondary">Добавить</button>
     </div>
@@ -448,7 +472,7 @@ export default {
   name: 'ReportComponent',
   mixins: [tables],
   created() {
-    this.getInfoCompany(), this.setinfo();
+    this.getInfoCompany(), this.setinfo(), this.Text();
   },
   data() {
     return {
@@ -485,7 +509,7 @@ export default {
       });
     },
     setinfo() {
-      return Queries.getReportById(this.$route.params.id)
+      return Queries.getReportById(this.$route.params.idreport)
         .then(response => {
           //let xmldoc = JSON.parse(response.data.xmldoc)
           this.tblfactitems = response.data.doc.tblfact;
@@ -514,6 +538,21 @@ export default {
       else if (item == 'tblprofititems') this.tblprofititems[index][elem] = val;
       else this.tblcapitalitems[index][elem] = val;
       return (input.value = val);
+    },
+
+    Text() {
+      if (this.status != 0) {
+        
+        let input = document.querySelectorAll('.text');
+          for (let i = 0; i < input.length; i++) {
+            let span = document.createElement('span');
+            span.innerHTML = input[i].value;
+            input[i].parentNode.replaceChild(span, input[i]);
+            
+            console.log(input[i].value)
+          }
+          console.log('sdsd',input)
+        }
     }
   },
   computed: {
@@ -524,8 +563,10 @@ export default {
         this.status == null ||
         this.status == 0
       ) {
+        
         return true;
       }
+      
       return false;
     }
   }
@@ -562,10 +603,14 @@ table {
   text-align: center;
 }
 
+.reportcomponent {
+  position: relative;
+}
+
 .active {
   height: 100%;
   width: 100%;
-  position: fixed;
+  position: absolute;
   z-index: 20;
   top: 0;
 }
