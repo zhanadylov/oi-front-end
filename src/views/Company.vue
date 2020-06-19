@@ -36,7 +36,6 @@
     <b-form-group id="input-group-8" label="E-mail:" label-for="input-8">
       <b-form-input id="input-8" v-model="content.email"  placeholder="E-mail"></b-form-input>
     </b-form-group>
-
     <b-form-group id="input-group-9" label="Глав.бух.:" label-for="input-9">
       <b-form-input id="input-9" v-model="content.sepervisor.buh"  placeholder="Глав.бух."></b-form-input>
     </b-form-group>

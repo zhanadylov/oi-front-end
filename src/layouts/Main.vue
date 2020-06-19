@@ -108,7 +108,7 @@ export default {
     },
 
     isFin() {
-      if (localStorage.getItem('role') == 'fin') {
+      if (localStorage.getItem('fin') ) {
         return false
       }
       return true

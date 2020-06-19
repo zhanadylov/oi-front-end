@@ -40,19 +40,28 @@
         name="radio-btn-outline"
       ></b-form-radio-group>
     </b-form-group>
-
-    <h4>Выберите квартал:</h4>
-    <b-form-select v-model="kvartal" @change="sendData" class="mb-3">
-      <b-form-select-option value="1 квартал">Квартал 1</b-form-select-option>
-      <b-form-select-option value="2 квартал">Квартал 2</b-form-select-option>
-      <b-form-select-option value="3 квартал">Квартал 3</b-form-select-option>
-      <b-form-select-option value="4 квартал">Квартал 4</b-form-select-option>
-    </b-form-select>
-    <h4>Выберите год</h4>
-    <b-form-select v-model="year" @change="sendData" class="mb-3">
-      <b-form-select-option value="2019">2019</b-form-select-option>
-      <b-form-select-option value="2020">2020</b-form-select-option>
-    </b-form-select>
+    <b-col sm="12" class="hide-print">
+      <h4>Выберите квартал и год:</h4>
+      <b-form-select v-model="kvartal" @change="sendData" class="mb-3 col-3 d-inline">
+        <b-form-select-option value="1 квартал">Квартал 1</b-form-select-option>
+        <b-form-select-option value="2 квартал">Квартал 2</b-form-select-option>
+        <b-form-select-option value="3 квартал">Квартал 3</b-form-select-option>
+        <b-form-select-option value="4 квартал">Квартал 4</b-form-select-option>
+      </b-form-select>
+      <b-form-select v-model="year" @change="sendData" class="mb-3 offset-1 col-3 d-inline">
+        <b-form-select-option value="2010">2010</b-form-select-option>
+        <b-form-select-option value="2011">2011</b-form-select-option>
+        <b-form-select-option value="2012">2012</b-form-select-option>
+        <b-form-select-option value="2013">2013</b-form-select-option>
+        <b-form-select-option value="2014">2014</b-form-select-option>
+        <b-form-select-option value="2015">2015</b-form-select-option>
+        <b-form-select-option value="2016">2016</b-form-select-option>
+        <b-form-select-option value="2017">2017</b-form-select-option>
+        <b-form-select-option value="2018">2018</b-form-select-option>
+        <b-form-select-option value="2019">2019</b-form-select-option>
+        <b-form-select-option value="2020">2020</b-form-select-option>
+      </b-form-select>
+    </b-col>
 
     <h4>1. Данные об эмитенте:</h4>
     <b-input-group prepend="полное и сокращенное наименование эмитента" class="mt-3">
@@ -558,16 +567,15 @@ export default {
   computed: {
     EditReport() {
       if (
-        this.status == 1 ||
-        this.status == 4 ||
-        this.status == null ||
-        this.status == 0
+        this.status == 2 ||
+        this.status == 3 ||
+        localStorage.getItem('role') == 'admin'
       ) {
         
-        return true;
+        return false;
       }
       
-      return false;
+      return true;
     }
   }
 };

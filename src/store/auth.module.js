@@ -64,6 +64,8 @@ export const auth = {
     },
     infoData(state, data) {
       state.me = data
+      if (data.login == 'fin')
+      localStorage.setItem('fin', true)
     },
     update(state) {
       state.update = true

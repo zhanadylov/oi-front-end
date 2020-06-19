@@ -33,7 +33,7 @@ export default {
   computed: {
     ...mapState({ content: store => store.auth.me }),
     whoAmI() {
-      if (localStorage.getItem('role') == 'fin')
+      if (localStorage.getItem('fin'))
         return false
       return true
     }

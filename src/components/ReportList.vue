@@ -1,19 +1,55 @@
 <template>
   <div>
-    <b-select v-model="selected" :options="options" @change="getReportList" class="mb-3">
-      <!-- This slot appears above the options from 'options' prop -->
-      <template v-slot:first>
-        <b-select-option :value="null" disabled>-- Выберите тип документа --</b-select-option>
-      </template>
-    </b-select>
+    
+    <!-- Сортировка таблицы -->
+    <b-row>
+      <b-col lg="6" class="my-1" v-show="isadmin">
+        <b-form-group
+          label="Поиск"
+          label-cols-sm="2"
+          label-align-sm="left"
+          label-size="sm"
+          label-for="filterInput"
+          class="mb-3"
+        >
+          <b-input-group size="sm">
+            <b-form-input v-model="filter" type="search" id="filterInput" placeholder="Текст"></b-form-input>
+            <b-input-group-append>
+              <b-button :disabled="!filter" @click="filter = ''">Очистить</b-button>
+            </b-input-group-append>
+          </b-input-group>
+        </b-form-group>
+      </b-col>
+
+      <b-col lg="6" class="my-1">
+        <b-form-group
+          label="Сортировка"
+          label-cols-sm="3"
+          label-align-sm="left"
+          label-size="sm"
+          label-for="sortBySelect"
+          class="mb-3"
+        >
+          <b-input-group size="sm">
+            <b-form-select v-model="selected" id="sortBySelect" :options="options" @change="getReportList">
+              <template v-slot:first>
+                <option value>-- Все --</option>
+              </template>
+            </b-form-select>
+          </b-input-group>
+        </b-form-group>
+      </b-col>
+    </b-row>
+
 
     <!-- Список отчетов -->
-
     <b-table
       :fields="reportList"
       bordered
       hover
       :items="addKvartal"
+      :filter="filter"
+      :filterIncludedFields="filterRow"
       class="reportList"
       head-variant="light"
     >
@@ -75,14 +111,20 @@
           v-else-if="row.item.typedoc == 'fin'"
           class="nav-link"
           :to="`fin/${row.item.id}/anex1/${row.item.doc.anex1}`"
-        >Отчет финнадзору</router-link>
+        >Отчет</router-link>
         <router-link
           v-else
           :to="`/report/${row.item.id}?type=${row.item.typedoc}`"
           class="nav-link"
         >
-          <span v-if="row.item.typedoc == 'RKV01'">Квартальный отчет <br> (Приложение 2-1)</span>
-          <span v-else-if="row.item.typedoc == 'RKV02'">Годовой отчет <br> (Приложение 2-1)</span>
+          <span v-if="row.item.typedoc == 'RKV01'">
+            Квартальный отчет
+            <br />(Приложение 2-1)
+          </span>
+          <span v-else-if="row.item.typedoc == 'RKV02'">
+            Годовой отчет
+            <br />(Приложение 2-1)
+          </span>
           <span v-else-if="row.item.typedoc[0] == 'f'">Существенный факт</span>
         </router-link>
       </template>
@@ -121,7 +163,6 @@
           <template v-if="row.item.title">
             <b-button
               v-b-modal.modal-form
-              pill
               @click="kvartalBtn(addKvartal[row.index + 1].kvartal)"
               variant="outline-dark"
             >Сформировать</b-button>
@@ -152,22 +193,31 @@
 
     <!-- Модальное окно квитанции -->
     <b-modal id="modal-center" size="lg" centered title="Квитанция">
-      <img src="../assets/head.png" alt />
+      <img src="../assets/head.png" v-if="doctype != 'fin'" alt />
+      <img style="width: 100%" src="../assets/head_fin.jpg" v-else alt />
+
       <p class="my-4 bold">{{companyname}}</p>
       <p class="my-4 bold">
         Основание документа:
         <span v-if="doctype == 'RKV01'">Квартальный отчет</span>
         <span v-else-if="doctype == 'RKV02'">Годовой отчет</span>
-        <span v-else>Существенный факт</span>
+        <span v-else-if="doctype == 'fin'">Отчет</span>
+        <span v-else>{{this.factNames[this.doctype]}}</span>
       </p>
       <p class="my-4 bold">Дата: {{getDate(date)}}</p>
-      <p class="my-4">
+      <p class="my-4" v-if="doctype != 'fin'">
         Опубликовано на официальном сайте
         <template v-if="link == 0">
           <a href="www.kse.kg">ЗАО "Кыргызская Фондовая Биржа"</a>
         </template>
         <template v-else>
           <a
+            v-if="doctype[0] == 'R'"
+            :href="'http://www.kse.kg/files/BusinessReports/' + link"
+            target="_blank"
+          >ЗАО "Кыргызская Фондовая Биржа"</a>
+          <a
+            v-else
             :href="'http://www.kse.kg/ru/RussianAllNewsBlog/' + link"
             target="_blank"
           >ЗАО "Кыргызская Фондовая Биржа"</a>
@@ -177,7 +227,7 @@
     </b-modal>
 
     <!-- Модальное окно для финнадзора -->
-    <b-modal id="modal-form" size="lg" centered title="Сформировать отчет">
+    <b-modal id="modal-form" size="lg" centered title="Сформировать отчет" @ok="finnadzor">
       <b-form-group label="Приложение 1:">
         <b-form-radio-group id="anex1" name="anex1" v-for="(item, index) in items" :key="index">
           <template v-if="item.typedoc == 'anex-1' && item.kvartal == selectedKvartal">
@@ -221,7 +271,6 @@
           </template>
         </b-form-radio-group>
       </b-form-group>
-      <b-button @click="finnadzor">Отправить</b-button>
     </b-modal>
   </div>
 </template>
@@ -237,6 +286,8 @@ export default {
   mixins: [facts],
   data() {
     return {
+      filter: null,
+      filterRow: ['name'],
       selectedKvartal: 'sss', // Для модального окна формирования отчета финнадзору
       link: 0, // Возврат ссылки подтвержденного отчета
       date: '', // Модальное окно квитанции
@@ -244,7 +295,7 @@ export default {
       selected: '', // Модальное окно квитанции
       options: [
         // Выбор типа документа для сортировки списка отчетов
-        { value: '', text: 'Все' },
+        //{ value: '', text: 'Все' },
         { value: 'RKV', text: 'Отчетность' },
         { value: 'fact', text: 'Существенные факты' }
       ],
@@ -324,20 +375,30 @@ export default {
       // Разделение списка отчетов по кварталам
       let kvartal = '';
       let arr = [];
-      this.items.forEach(item => {
-        if (item.kvartal != kvartal) {
-          // Если текущий квартал не равен переменной
-          let titleKvartal = item.kvartal.split(';');
-          arr.push({
-            // Добавляеться разделитель т.е номер текущего квартала
-            title: titleKvartal[1] + ' ' + titleKvartal[0],
-            typedoc: '',
-            _rowVariant: 'info'
-          });
-          kvartal = item.kvartal; // Перезаписываем переменную для следующей проверке
-        }
-        arr.push(item);
-      });
+      if (localStorage.getItem('role') != 'admin') {
+        this.items.forEach(item => {
+          if (item.kvartal != kvartal) {
+            // Если текущий квартал не равен переменной
+            let titleKvartal = item.kvartal.split(';');
+            arr.push({
+              // Добавляеться разделитель т.е номер текущего квартала
+              title: titleKvartal[1] + ' ' + titleKvartal[0],
+              typedoc: '',
+              _rowVariant: 'info'
+            });
+            kvartal = item.kvartal; // Перезаписываем переменную для следующей проверке
+          }
+          arr.push(item);
+        });
+      } else {
+        arr = this.items;
+        arr.sort(function(a, b) {
+          let dateA = new Date(a.datesend),
+            dateB = new Date(b.datesend);
+          return dateB - dateA; //сортировка по убывающей дате
+        });
+      }
+
       return arr;
     }
   },
@@ -348,7 +409,9 @@ export default {
       let anex1 = document.querySelector('input[name="anex1"]:checked').value;
       let anex2 = document.querySelector('input[name="anex2"]:checked').value;
       let anex2_1 = document.querySelector('input[name="rkv01"]:checked').value;
-      let facts = document.querySelector('input[name="facts"]:checked').value;
+      let facts = document.querySelector('input[name="facts"]:checked')
+        ? document.querySelector('input[name="facts"]:checked').value
+        : '';
 
       let arr = { anex1, anex2, anex2_1, facts };
 
@@ -358,11 +421,16 @@ export default {
       let sender = this.$store.state.company.info.kod;
       let status = 1;
 
+      console.log(arr);
+
       this.$store
         .dispatch('report/insert', { typedoc, xmldoc, sender, status, kvartal })
-        .then(response => {})
+        .then(response => {
+          this.getReportList();
+        })
         .catch(function(error) {
           console.log(error);
+          alert('Отчет не отправлен');
         });
     },
     kvartalBtn(kvartal) {
@@ -425,8 +493,7 @@ export default {
 
       this.$store
         .dispatch('report/getList', type)
-        .then(response => {
-        })
+        .then(response => {})
         .catch(function(error) {
           console.log(error);
         });
@@ -458,14 +525,16 @@ export default {
         });
     },
 
-    sendReportKse(doc, id) {
+    sendReportKse(doc, idfact) {
       // Отправка квартального/годового отчета в kse.kg
       return Queries.addReportInKSE(doc).then(response => {
         console.log(response);
         let link = response.data;
         this.$store
-          .dispatch('report/addLink', { id, link })
-          .then(response => {})
+          .dispatch('report/addLink', { idfact, link })
+          .then(response => {
+            console.log(response);
+          })
           .catch(function(error) {
             console.log(error);
           });
@@ -490,6 +559,10 @@ export default {
 </script>
 
 <style>
+table button {
+  width: 80%;
+}
+
 @media print {
   .modal,
   .modal-dialog {

@@ -1,16 +1,16 @@
 <template>
   <div>
     <b-tabs content-class="mt-3" class="nav-tabs" fill>
-      <b-tab title="Приложение 1" @click="link('/fin/'+id+'/anex1/' + anex1)">
+      <b-tab title="Приложение 1" @click="link('/fin/'+id+'/anex1/' + anex1)" v-if="anex1 != ''">
         <router-view name="anex1" />
       </b-tab>
-      <b-tab title="Приложение 2" @click="link('/fin/'+id+'/anex2/' + anex2)">
+      <b-tab title="Приложение 2" @click="link('/fin/'+id+'/anex2/' + anex2)" v-if="anex2 != ''">
         <router-view name="anex2" />
       </b-tab>
-      <b-tab title="Приложение 2-1" @click="link('/fin/'+id+'/report/' + anex2_1)">
+      <b-tab title="Приложение 2-1" @click="link('/fin/'+id+'/report/' + anex2_1)" v-if="anex2_1 != ''">
         <router-view name="anex2_1" />
       </b-tab>
-      <b-tab title="Существенные факты" @click="link('/fin/'+id+'/fact/' + fact)">
+      <b-tab title="Существенные факты" @click="link('/fin/'+id+'/fact/' + fact)" v-if="fact != ''">
         <router-view name="fact" />
       </b-tab>
     </b-tabs>

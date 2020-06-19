@@ -1,7 +1,12 @@
 <template>
-  <div>
+  <div class="anex-1">
     
-
+    <template v-if="!EditReport">
+      <div class="anex1-block"></div>
+    </template>
+    <div class="col-3 offset-9 text-right my-3 hide-print" style="z-index: 40;">
+      <b-button class="print hide-print" onclick="window.print()">Печать</b-button>
+    </div>
     <div class="col-5 offset-7 text-right my-3">
       <b-col sm="12">
         <h5 class="d-inline">Приложение 1</h5>
@@ -9,33 +14,45 @@
 
       <br />
       <b-col sm="12">
-        <p class="d-inline">к Положению о порядке </p>
+        <p class="d-inline">к Положению о порядке</p>
       </b-col>
       <b-col sm="12">
-        <p class="d-inline">представления отчетности </p>
+        <p class="d-inline">представления отчетности</p>
       </b-col>
       <b-col sm="12">
-        <p class="d-inline">(информации) и раскрытии </p>
+        <p class="d-inline">(информации) и раскрытии</p>
       </b-col>
       <b-col sm="12">
-        <p class="d-inline">информации субъектами </p>
+        <p class="d-inline">информации субъектами</p>
       </b-col>
       <b-col sm="12">
         <p class="d-inline">финансового рынка</p>
       </b-col>
     </div>
-    <h4>Выберите квартал:</h4>
-    <b-form-select v-model="kvartal" class="mb-3">
-      <b-form-select-option value="1 квартал">Квартал 1</b-form-select-option>
-      <b-form-select-option value="2 квартал">Квартал 2</b-form-select-option>
-      <b-form-select-option value="3 квартал">Квартал 3</b-form-select-option>
-      <b-form-select-option value="4 квартал">Квартал 4</b-form-select-option>
-    </b-form-select>
-    <h4>Выберите год</h4>
-    <b-form-select v-model="year" class="mb-3">
-      <b-form-select-option value="2019">2019</b-form-select-option>
-      <b-form-select-option value="2020">2020</b-form-select-option>
-    </b-form-select>
+
+    <b-col sm="12" class="d-print-none">
+      <h4>Выберите квартал и год:</h4>
+      <b-form-select v-model="kvartal" class="mb-3 col-3 d-inline">
+        <b-form-select-option value="1 квартал">Квартал 1</b-form-select-option>
+        <b-form-select-option value="2 квартал">Квартал 2</b-form-select-option>
+        <b-form-select-option value="3 квартал">Квартал 3</b-form-select-option>
+        <b-form-select-option value="4 квартал">Квартал 4</b-form-select-option>
+      </b-form-select>
+      <b-form-select v-model="year" class="mb-3 offset-1 col-3 d-inline">
+        <b-form-select-option value="2010">2010</b-form-select-option>
+        <b-form-select-option value="2011">2011</b-form-select-option>
+        <b-form-select-option value="2012">2012</b-form-select-option>
+        <b-form-select-option value="2013">2013</b-form-select-option>
+        <b-form-select-option value="2014">2014</b-form-select-option>
+        <b-form-select-option value="2015">2015</b-form-select-option>
+        <b-form-select-option value="2016">2016</b-form-select-option>
+        <b-form-select-option value="2017">2017</b-form-select-option>
+        <b-form-select-option value="2018">2018</b-form-select-option>
+        <b-form-select-option value="2019">2019</b-form-select-option>
+        <b-form-select-option value="2020">2020</b-form-select-option>
+      </b-form-select>
+    </b-col>
+
     <h4>1. Данные о регулируемом субъекте финансового рынка:</h4>
     <b-input-group
       prepend="полное и сокращенное наименование регулируемого субъекта финансового рынка"
@@ -104,7 +121,7 @@
         </b-tr>
       </b-tbody>
     </b-table-simple>
-    
+
     <div class="col-3 offset-9 text-right my-3 hide-print">
       <button @click="addItem2" class="btn btn-sm btn-secondary">Добавить</button>
     </div>
@@ -141,7 +158,7 @@
         </b-tr>
       </b-tbody>
     </b-table-simple>
-    
+
     <div class="col-3 offset-9 text-right my-3 hide-print">
       <button @click="addItem3" class="btn btn-sm btn-secondary">Добавить</button>
     </div>
@@ -188,13 +205,16 @@
         </b-tr>
       </b-thead>
       <tbody>
-        <b-tr>
-          <b-td v-for="(item, index) in table_5_items" :key="index">
-            <b-input type="text" name="inputs" v-model="table_5_items[index]"></b-input>
+        <b-tr v-for="(item, index) in table_5_items" :key="index">
+          <b-td v-for="(it, ix) in item" :key="ix">
+            <b-input type="text" name="inputs" v-model="item[ix]"></b-input>
           </b-td>
         </b-tr>
       </tbody>
     </b-table-simple>
+    <div class="col-3 offset-9 text-right my-3 hide-print">
+      <button @click="addItem5" class="btn btn-sm btn-secondary">Добавить</button>
+    </div>
     <h4>
       6. Сведения о привлечении руководящих лиц к ответственности за совершение нарушения, проступка и
       к уголовной ответственности. Сведения о привлечении руководящих лиц к уголовной ответственности за
@@ -208,13 +228,16 @@
         </b-tr>
       </b-thead>
       <tbody>
-        <b-tr>
-          <b-td v-for="(item, index) in table_6_items" :key="index">
-              <b-input type="text" name="inputs" v-model="table_6_items[index]"></b-input>
+        <b-tr v-for="(item, index) in table_6_items" :key="index">
+          <b-td v-for="(it, ix) in item" :key="ix">
+            <b-input type="text" name="inputs" v-model="item[ix]"></b-input>
           </b-td>
         </b-tr>
       </tbody>
     </b-table-simple>
+    <div class="col-3 offset-9 text-right my-3 hide-print">
+      <button @click="addItem6" class="btn btn-sm btn-secondary">Добавить</button>
+    </div>
     <h4>7. Количество владельцев долей/ценных бумаг и работников общества</h4>
     <!-- table_7 -->
     <b-table-simple bordered hover head-variant="light">
@@ -224,13 +247,16 @@
         </b-tr>
       </b-thead>
       <tbody>
-        <b-tr>
-          <b-td v-for="(item, index) in table_7_items" :key="index">
-            <b-input type="text" name="inputs" v-model="table_7_items[index]"></b-input>
+        <b-tr v-for="(item, index) in table_7_items" :key="index">
+          <b-td v-for="(it, ix) in item" :key="ix">
+            <b-input type="text" name="inputs" v-model="item[ix]"></b-input>
           </b-td>
         </b-tr>
       </tbody>
     </b-table-simple>
+    <div class="col-3 offset-9 text-right my-3 hide-print">
+      <button @click="addItem7" class="btn btn-sm btn-secondary">Добавить</button>
+    </div>
     <h4>8. Список иностранных владельцев долей/ценных бумаг</h4>
     <!-- table_8 -->
     <b-table-simple bordered hover head-variant="light">
@@ -242,7 +268,7 @@
       <tbody>
         <b-tr>
           <b-td v-for="(item, index) in table_8_items" :key="index">
-              <b-input type="text" name="inputs" v-model="table_8_items[index]"></b-input>
+            <b-input type="text" name="inputs" v-model="table_8_items[index]"></b-input>
           </b-td>
         </b-tr>
       </tbody>
@@ -272,13 +298,16 @@
         </b-tr>
       </b-thead>
       <tbody>
-        <b-tr>
-          <b-td v-for="(item, index) in table_10_items" :key="index">
-              <b-input type="text" name="inputs" v-model="table_10_items[index]"></b-input>
+        <b-tr v-for="(item, index) in table_10_items" :key="index">
+          <b-td v-for="(it, ix) in item" :key="ix">
+            <b-input type="text" name="inputs" v-model="item[ix]"></b-input>
           </b-td>
         </b-tr>
       </tbody>
     </b-table-simple>
+    <div class="col-3 offset-9 text-right my-3 hide-print">
+      <button @click="addItem10" class="btn btn-sm btn-secondary">Добавить</button>
+    </div>
     <h4>11. Список аффилированных лиц регулируемого субъекта финансового рынка</h4>
     <!-- table_11 -->
     <b-table-simple bordered hover head-variant="light">
@@ -288,13 +317,16 @@
         </b-tr>
       </b-thead>
       <tbody>
-        <b-tr>
-          <b-td v-for="(item, index) in table_11_items" :key="index">
-            <b-input type="text" name="inputs" v-model="table_11_items[index]"></b-input>
+        <b-tr v-for="(item, index) in table_11_items" :key="index">
+          <b-td v-for="(it, ix) in item" :key="ix">
+            <b-input type="text" name="inputs" v-model="item[ix]"></b-input>
           </b-td>
         </b-tr>
       </tbody>
     </b-table-simple>
+    <div class="col-3 offset-9 text-right my-3 hide-print">
+      <button @click="addItem11" class="btn btn-sm btn-secondary">Добавить</button>
+    </div>
     <h4>12. Список юридических лиц, в которых данный регулируемый субъект финансового рынка владеет 5 процентами и более уставного капитала</h4>
     <!-- table_12 -->
     <b-table-simple bordered hover head-variant="light">
@@ -304,13 +336,16 @@
         </b-tr>
       </b-thead>
       <tbody>
-        <b-tr>
-          <b-td v-for="(item, index) in table_12_items" :key="index">
-            <b-input type="text" name="inputs" v-model="table_12_items[index]"></b-input>
+        <b-tr v-for="(item, index) in table_12_items" :key="index">
+          <b-td v-for="(it, ix) in item" :key="ix">
+            <b-input type="text" name="inputs" v-model="item[ix]"></b-input>
           </b-td>
         </b-tr>
       </tbody>
     </b-table-simple>
+    <div class="col-3 offset-9 text-right my-3 hide-print">
+      <button @click="addItem12" class="btn btn-sm btn-secondary">Добавить</button>
+    </div>
     <h4>13. Список филиалов и представительств регулируемого субъекта финансового рынка</h4>
     <!-- table_13 -->
     <b-table-simple bordered hover head-variant="light">
@@ -336,22 +371,16 @@
         </b-tr>
       </b-thead>
       <tbody>
-        <b-tr>
-          <b-td v-for="(item, index) in table_14_items" :key="index">
-            <template v-if="index == 'date'">
-              <b-datepicker
-                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-                name="inputs"
-                v-model="table_14_items[index]"
-              ></b-datepicker>
-            </template>
-            <template v-else>
-              <b-input type="text" name="inputs" v-model="table_14_items[index]"></b-input>
-            </template>
+        <b-tr v-for="(item, index) in table_14_items" :key="index">
+          <b-td v-for="(it, ix) in item" :key="ix">
+            <b-input type="text" name="inputs" v-model="item[ix]"></b-input>
           </b-td>
         </b-tr>
       </tbody>
     </b-table-simple>
+    <div class="col-3 offset-9 text-right my-3 hide-print">
+      <button @click="addItem14" class="btn btn-sm btn-secondary">Добавить</button>
+    </div>
     <h4>14-1. Информация об объектах недвижимого имущества</h4>
     <!-- table_14_1 -->
     <b-table-simple bordered hover head-variant="light">
@@ -361,13 +390,16 @@
         </b-tr>
       </b-thead>
       <tbody>
-        <b-tr>
-          <b-td v-for="(item, index) in table_14_1_items" :key="index">
-            <b-input type="text" name="inputs" v-model="table_14_1_items[index]"></b-input>
+        <b-tr v-for="(item, index) in table_14_1_items" :key="index">
+          <b-td v-for="(it, ix) in item" :key="ix">
+            <b-input type="text" name="inputs" v-model="item[ix]"></b-input>
           </b-td>
         </b-tr>
       </tbody>
     </b-table-simple>
+    <div class="col-3 offset-9 text-right my-3 hide-print">
+      <button @click="addItem14_1" class="btn btn-sm btn-secondary">Добавить</button>
+    </div>
     <h4>15. Данные о финансовом положении регулируемого субъекта финансового рынка.</h4>
     <p>1) Сведения об использовании прибыли общества, полученной в отчетном году</p>
     <!-- table_15_1 -->
@@ -438,10 +470,6 @@
     <p>2) К отчету прилагаются все протоколы общих собраний владельцев ценных бумаг/участников в отчетном году и отчеты счетной комиссии этих собраний, а также копия публикации о созыве общего собрания, если они ранее не были представлены в уполномоченный государственный орган.</p>
     <Supervisor />
     <b-button @click="save">Сохранить</b-button>
-    <div class="col-3 offset-9 text-right my-3 hide-print" style="z-index: 40;">
-      <b-button class="print hide-print" onclick="window.print()">Печать</b-button>
-    </div>
-    
   </div>
 </template>
 
@@ -458,6 +486,7 @@ export default {
   },
   data() {
     return {
+      status: null,
       info: {
         name: '',
         opforma: '',
@@ -466,48 +495,54 @@ export default {
       },
       kvartal: '',
       year: '',
-      table_2_items: [{
-        title1: '',
-        title2: '',
-        title3: '',
-        title4: '',
-        title5: '',
-        title6: '',
-        title7: '',
-        title8: '',
-        title9: '',
-        title10: ''
-      }],
-      table_3_items: [{
-        title1: '',
-        title2: '',
-        title3: '',
-        title4: '',
-        title5: '',
-        title6: '',
-        title7: '',
-        title8: '',
-        title9: '',
-        title10: ''
-      }],
-      table_4_items: [{
-        title1: '',
-        title2: '',
-        title3: '',
-        title4: '',
-        title5: '',
-        title6: '',
-        title7: '',
-        title8: '',
-        title9: '',
-        title10: ''
-      }],
+      table_2_items: [
+        {
+          title1: '',
+          title2: '',
+          title3: '',
+          title4: '',
+          title5: '',
+          title6: '',
+          title7: '',
+          title8: '',
+          title9: '',
+          title10: ''
+        }
+      ],
+      table_3_items: [
+        {
+          title1: '',
+          title2: '',
+          title3: '',
+          title4: '',
+          title5: '',
+          title6: '',
+          title7: '',
+          title8: '',
+          title9: '',
+          title10: ''
+        }
+      ],
+      table_4_items: [
+        {
+          title1: '',
+          title2: '',
+          title3: '',
+          title4: '',
+          title5: '',
+          title6: '',
+          title7: '',
+          title8: '',
+          title9: '',
+          title10: ''
+        }
+      ],
       table_5_fields: {
         title1: 'Должностные лица общества',
         title2: 'Размер выплачиваемого вознаграждения и компенсаций'
       },
 
-      table_5_items: { title1: '', title2: '' },
+      table_5_items: [{ title1: '', title2: '' }],
 
       table_6_fields: {
         title1: 'ФИО руководителя',
@@ -515,7 +550,7 @@ export default {
         title2: 'Статья, краткое описание'
       },
 
-      table_6_items: { title1: '', date: '', title2: '' },
+      table_6_items: [{ title1: '', date: '', title2: '' }],
 
       table_7_fields: {
         title1:
@@ -524,7 +559,7 @@ export default {
           'Количество работников регулируемого субъекта финансового рынка на конец отчетного периода'
       },
 
-      table_7_items: { title1: '', title2: '' },
+      table_7_items: [{ title1: '', title2: '' }],
 
       table_8_fields: {
         title1:
@@ -573,16 +608,18 @@ export default {
           'Основание: - сводный приказ на депонирование;- сделка на бирже;- сводное передаточное распоряжение и др.'
       },
 
-      table_10_items: {
-        date: '',
-        title1: '',
-        title2: '',
-        title3: '',
-        title4: '',
-        title5: '',
-        title6: '',
-        title7: ''
-      },
+      table_10_items: [
+        {
+          date: '',
+          title1: '',
+          title2: '',
+          title3: '',
+          title4: '',
+          title5: '',
+          title6: '',
+          title7: ''
+        }
+      ],
 
       table_11_fields: {
         title1: 'Полное наименование, организационно-правовая форма',
@@ -590,7 +627,7 @@ export default {
           'Местонахождение, почтовый адрес, телефон, факс, адрес электронной почты, код ОКПО'
       },
 
-      table_11_items: { title1: '', title2: '' },
+      table_11_items: [{ title1: '', title2: '' }],
 
       table_12_fields: {
         title1: 'Полное наименование, организационно-правовая форма',
@@ -598,7 +635,7 @@ export default {
           'Местонахождение, почтовый адрес, телефон, факс, адрес электронной почты, код ОКПО',
         title3: 'Доля участия в уставном капитале (в %)'
       },
-      table_12_items: { title1: '', title2: '', title3: '' },
+      table_12_items: [{ title1: '', title2: '', title3: '' }],
 
       table_13_fields: {
         title1: 'ФИО руководителя',
@@ -617,7 +654,7 @@ export default {
           'Орган, принявший решение о реорганизации регулируемого субъекта финансового рынка'
       },
 
-      table_14_items: { name: '', title1: '', title2: '' },
+      table_14_items: [{ name: '', title1: '', title2: '' }],
 
       table_14_1_fields: {
         title1: 'Наименование',
@@ -627,13 +664,15 @@ export default {
         title5: 'Наличие либо отсутствие обременения'
       },
 
-      table_14_1_items: {
-        title1: '',
-        title2: '',
-        title3: '',
-        title4: '',
-        title5: ''
-      },
+      table_14_1_items: [
+        {
+          title1: '',
+          title2: '',
+          title3: '',
+          title4: '',
+          title5: ''
+        }
+      ],
 
       table_15_1_fields: {
         title1: 'Уплаченные налоги',
@@ -676,16 +715,102 @@ export default {
       arr: []
     };
   },
+  computed: {
+    EditReport() {
+      if (
+        this.status == 2 ||
+        this.status == 3 ||
+        localStorage.getItem('role') == 'admin'
+      ) {
+        
+        return false;
+      }
+      
+      return true;
+    }
+  },
 
   methods: {
     addItem2() {
-      this.table_2_items.push({title1: '', title2: '', title3: '', title4: '', title5: '', title6: '', title7: '', title8: '', title9: '', title10: ''})
+      this.table_2_items.push({
+        title1: '',
+        title2: '',
+        title3: '',
+        title4: '',
+        title5: '',
+        title6: '',
+        title7: '',
+        title8: '',
+        title9: '',
+        title10: ''
+      });
     },
     addItem3() {
-      this.table_3_items.push({title1: '', title2: '', title3: '', title4: '', title5: '', title6: '', title7: '', title8: '', title9: '', title10: ''})
+      this.table_3_items.push({
+        title1: '',
+        title2: '',
+        title3: '',
+        title4: '',
+        title5: '',
+        title6: '',
+        title7: '',
+        title8: '',
+        title9: '',
+        title10: ''
+      });
     },
     addItem4() {
-      this.table_4_items.push({title1: '', title2: '', title3: '', title4: '', title5: '', title6: '', title7: '', title8: '', title9: '', title10: ''})
+      this.table_4_items.push({
+        title1: '',
+        title2: '',
+        title3: '',
+        title4: '',
+        title5: '',
+        title6: '',
+        title7: '',
+        title8: '',
+        title9: '',
+        title10: ''
+      });
+    },
+    addItem5() {
+      this.table_5_items.push({ title1: '', title2: '' });
+    },
+    addItem6() {
+      this.table_6_items.push({ title1: '', data: '', title2: '' });
+    },
+    addItem7() {
+      this.table_7_items.push({ title1: '', title2: '' });
+    },
+    addItem10() {
+      this.table_10_items.push({
+        date: '',
+        title1: '',
+        title2: '',
+        title3: '',
+        title4: '',
+        title5: '',
+        title6: '',
+        title7: ''
+      });
+    },
+    addItem11() {
+      this.table_11_items.push({ title1: '', title2: '' });
+    },
+    addItem12() {
+      this.table_12_items.push({ title1: '', title2: '', title3: '' });
+    },
+    addItem14() {
+      this.table_14_items.push({ name: '', title1: '', title2: '' });
+    },
+    addItem14_1() {
+      this.table_14_1_items.push({
+        title1: '',
+        title2: '',
+        title3: '',
+        title4: '',
+        title5: ''
+      });
     },
     setinfo() {
       return Queries.getReportById(this.$route.params.idreport)
@@ -707,6 +832,11 @@ export default {
             (this.table_15_1_items = response.data.doc.table15_1),
             (this.table_15_2_items = response.data.doc.table15_2),
             (this.table_17_2_items = response.data.doc.table17_2);
+            this.info = response.data.doc.info;
+            let titleKvartal = response.data.kvartal.split(';');
+            this.year = titleKvartal[0];
+            this.kvartal = titleKvartal[1].slice(1);
+            this.status = response.data.status;
         })
         .catch(function(error) {
           console.log(error);
@@ -742,8 +872,8 @@ export default {
         table15_2: this.table_15_2_items,
         table17_2: this.table_17_2_items
       };
-      
-      let kvartal = this.year + '; ' + this.kvartal //2020; 2 квартал
+
+      let kvartal = this.year + '; ' + this.kvartal; //2020; 2 квартал
       let typedoc = 'anex-1';
       let xmldoc = JSON.stringify(table);
       let sender = this.$store.state.company.info.kod;
@@ -762,9 +892,20 @@ export default {
 </script>
 
 <style>
+.anex-1 {
+  position: relative;
+}
+
+.anex1-block {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 20;
+  top: 0;
+}
 @media print {
-	@page	{
-		size: landscape;
-	}
+  @page {
+    size: landscape;
+  }
 }
 </style>

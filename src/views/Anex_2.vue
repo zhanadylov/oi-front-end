@@ -1,5 +1,12 @@
 <template>
-  <div>
+  <div class="anex-2">
+    
+    <div class="col-3 offset-9 text-right my-3 hide-print" style="z-index: 40;">
+      <b-button class="print hide-print" onclick="window.print()">Печать</b-button>
+    </div>
+    <template v-if="!EditReport">
+      <div class="anex2-block"></div>
+    </template>
     <div class="col-5 offset-7 text-right my-3">
       <b-col sm="12">
         <h5 class="d-inline">Приложение 2</h5>
@@ -22,18 +29,28 @@
         <p class="d-inline">финансового рынка</p>
       </b-col>
     </div>
-    <h4>Выберите квартал:</h4>
-    <b-form-select v-model="kvartal" class="mb-3">
-      <b-form-select-option value="1 квартал">Квартал 1</b-form-select-option>
-      <b-form-select-option value="2 квартал">Квартал 2</b-form-select-option>
-      <b-form-select-option value="3 квартал">Квартал 3</b-form-select-option>
-      <b-form-select-option value="4 квартал">Квартал 4</b-form-select-option>
-    </b-form-select>
-    <h4>Выберите год</h4>
-    <b-form-select v-model="year" class="mb-3">
-      <b-form-select-option value="2019">2019</b-form-select-option>
-      <b-form-select-option value="2020">2020</b-form-select-option>
-    </b-form-select>
+    <b-col sm="12" class="d-print-none">
+      <h4>Выберите квартал и год:</h4>
+      <b-form-select v-model="kvartal" class="mb-3 col-3 d-inline">
+        <b-form-select-option value="1 квартал">Квартал 1</b-form-select-option>
+        <b-form-select-option value="2 квартал">Квартал 2</b-form-select-option>
+        <b-form-select-option value="3 квартал">Квартал 3</b-form-select-option>
+        <b-form-select-option value="4 квартал">Квартал 4</b-form-select-option>
+      </b-form-select>
+      <b-form-select v-model="year" class="mb-3 offset-1 col-3 d-inline">
+        <b-form-select-option value="2010">2010</b-form-select-option>
+        <b-form-select-option value="2011">2011</b-form-select-option>
+        <b-form-select-option value="2012">2012</b-form-select-option>
+        <b-form-select-option value="2013">2013</b-form-select-option>
+        <b-form-select-option value="2014">2014</b-form-select-option>
+        <b-form-select-option value="2015">2015</b-form-select-option>
+        <b-form-select-option value="2016">2016</b-form-select-option>
+        <b-form-select-option value="2017">2017</b-form-select-option>
+        <b-form-select-option value="2018">2018</b-form-select-option>
+        <b-form-select-option value="2019">2019</b-form-select-option>
+        <b-form-select-option value="2020">2020</b-form-select-option>
+      </b-form-select>
+    </b-col>
 
     <h4>1. Сведения о секретаре общества</h4>
 
@@ -122,8 +139,22 @@ export default {
   components: {
     Supervisor: () => import('../components/Supervisor.vue')
   },
+  computed: {
+    EditReport() {
+      if (
+        this.status == 2 ||
+        this.status == 3 ||
+        localStorage.getItem('role') == 'admin'
+      ) {
+        return false;
+      }
+      
+      return true;
+    }
+  },
   data() {
     return {
+      status: null,
       arr: [],
       kvartal: '',
       year: '',
@@ -178,6 +209,10 @@ export default {
             this.table_1_items = response.data.doc.table1
             this.table_2_items = response.data.doc.table2
             this.table_3_items = response.data.doc.table3
+            let titleKvartal = response.data.kvartal.split(';');
+            this.year = titleKvartal[0];
+            this.kvartal = titleKvartal[1].slice(1);
+            this.status = response.data.status;
         })
         .catch(function(error) {
           console.log(error);
@@ -209,3 +244,18 @@ export default {
   }
 };
 </script>
+
+<style>
+
+.anex-2 {
+  position: relative;
+}
+
+.anex2-block {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 20;
+  top: 0;
+}
+</style>

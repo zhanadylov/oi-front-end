@@ -12,14 +12,16 @@ class AuthService {
     if (response.data.jwt) {
       await localStorage.setItem('token', response.data.jwt);
       await localStorage.setItem('role', response.data.role)
+      if (user.username == 'fin')
+        localStorage.setItem('fin', true)
     }
     return response.data.jwt;
-    ;
   }
 
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
+    localStorage.removeItem('fin');
   }
 
   info() {
