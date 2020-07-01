@@ -152,6 +152,20 @@ export const router = new Router({
           }
         }
       ]
+    },
+    {
+      path: '/addcompany',
+      name: 'AddCompany',
+      meta: { layout: 'main' },
+      // lazy-loaded
+      component: () => import('./views/AddCompany.vue')
+    },
+    {
+      path: '/acts',
+      name: 'Acts',
+      meta: { layout: 'main' },
+      // lazy-loaded
+      component: () => import('./views/Acts.vue')
     }
     
   ]

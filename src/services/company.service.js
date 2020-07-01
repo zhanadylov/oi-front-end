@@ -48,6 +48,14 @@ class CompanyService {
         return instance.put('', {name, opforma, activity, address, phone, fax, email, supervisor, id})
     }
 
+    addCompany(name, kod) {
+        return instance.post('', {name, kod})
+    }
+
+    addUser(login, idcompany) {
+        return instance.post('/user', {login, idcompany})
+    }
+
 }
 
 export default new CompanyService();

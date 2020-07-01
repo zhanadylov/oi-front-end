@@ -34,6 +34,9 @@
               </li>
             </ul>
           </li>
+           <li class="nav-item">
+            <router-link to="/acts" class="nav-link">Нормативные акты</router-link>
+          </li>
         </ul>
       </div>
     </nav>
@@ -63,6 +66,11 @@
               <li class="nav-item">
                 <router-link to="/reporting" v-show="!isFin" class="nav-link">
                   Архив
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link to="/addcompany" v-show="isAdmin" class="nav-link">
+                  Добавить компанию
                 </router-link>
               </li>
               <li class="nav-item">
@@ -112,6 +120,14 @@ export default {
         return false
       }
       return true
+    },
+
+    isAdmin() {
+      if (localStorage.getItem('role') == 'admin' && !localStorage.getItem('fin')) {
+        return true
+      }
+
+      return false
     }
   }
 };

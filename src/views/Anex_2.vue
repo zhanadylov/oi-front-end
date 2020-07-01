@@ -29,7 +29,7 @@
         <p class="d-inline">финансового рынка</p>
       </b-col>
     </div>
-    <b-col sm="12" class="d-print-none">
+    <b-col sm="12" class="d-print-none" v-show="EditReport">
       <h4>Выберите квартал и год:</h4>
       <b-form-select v-model="kvartal" class="mb-3 col-3 d-inline">
         <b-form-select-option value="1 квартал">Квартал 1</b-form-select-option>

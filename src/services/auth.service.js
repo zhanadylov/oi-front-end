@@ -1,10 +1,46 @@
 import axios from 'axios';
 
+const instance = axios.create({
+  baseURL: 'http://212.42.101.4:8769/api/users/',
+  timeout: 1000
+});
+
 const API_URL = 'http://212.42.101.4:8769/api/users/';
+
+instance.interceptors.request.use(
+  (response) => {
+      let token = localStorage.getItem('token')
+
+      if (token) {
+          response.headers['Authorization'] = `Bearer ${token}`
+      }
+
+      return response
+  },
+
+  (error) => {
+    return error
+  }
+)
+
+instance.interceptors.response.use(
+  (response) => {
+      return response
+  },
+  (error) => {
+      if (error.response.status === 401) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('role')
+          window.location = "/login"
+      } else {
+          console.log(error)
+      }
+  }
+)
 
 class AuthService {
   async login(user) {
-    const response = await axios
+    const response = await instance
       .post(API_URL + 'auth', {
         login: user.username,
         password: user.password
@@ -25,11 +61,11 @@ class AuthService {
   }
 
   info() {
-    return axios.get(API_URL + 'me', { headers: { 'Content-Type': 'Applicationjson', 'Authorization': 'Bearer ' + localStorage.getItem('token') } })
+    return instance.get('me', { headers: { 'Content-Type': 'Applicationjson', 'Authorization': 'Bearer ' + localStorage.getItem('token') } })
   }
 
   update(login, fullname) {
-    return axios.put(API_URL, {login, fullname}, { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') } })
+    return instance.put('', {login, fullname}, { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') } })
   }
 
 }

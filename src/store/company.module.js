@@ -6,7 +6,8 @@ export const company = {
   state: {
     info: [],
     reject: false,
-    updateStatus: false
+    updateStatus: false,
+    idCompany: null
   },
   actions: {
 
@@ -44,6 +45,29 @@ export const company = {
           return Promise.reject(error)
         }
       )
+    },
+
+    addCompany({commit}, {name, kod}) {
+      return CompanyService.addCompany(name, kod).then(
+        (idCompany) => {
+          commit('idCompany', idCompany.data)
+          return idCompany.data;
+        },
+        error => {
+          return Promise.reject(error)
+        }
+      )
+    },
+
+    addUser({commit}, {login, idcompany}) {
+      return CompanyService.addUser(login, idcompany).then(
+        () => {
+          return Promise.resolve(true)
+        },
+        error => {
+          return Promise.reject(error)
+        }
+      )
     }
   },
   mutations: {
@@ -55,6 +79,9 @@ export const company = {
     },
     update(state) {
       state.updateStatus = true
+    },
+    idCompany(state, idCompany) {
+      state.idCompany = idCompany
     }
   }
 };

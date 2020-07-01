@@ -186,13 +186,16 @@
             <b-col>{{ getDate(row.item.datesend) }}</b-col>
           </b-row>
 
-          <b-button size="sm" @click="row.toggleDetails">Скрыть</b-button>
+          <b-col sm="3" class="text-sm-right">
+              <b-button size="sm" sm="3" @click="row.toggleDetails">Скрыть</b-button>
+            </b-col>
+          
         </b-card>
       </template>
     </b-table>
 
     <!-- Модальное окно квитанции -->
-    <b-modal id="modal-center" size="lg" centered title="Квитанция">
+    <b-modal id="modal-center" ref="my-modal" size="lg" centered title="Квитанция" hide-footer>
       <img src="../assets/head.png" v-if="doctype != 'fin'" alt />
       <img style="width: 100%" src="../assets/head_fin.jpg" v-else alt />
 
@@ -224,6 +227,7 @@
         </template>
       </p>
       <b-button class="print" onclick="window.print()">Печать</b-button>
+      <b-button class="mt-3" block @click="hideModal">Закрыть</b-button>
     </b-modal>
 
     <!-- Модальное окно для финнадзора -->
@@ -262,14 +266,14 @@
       </b-form-group>
 
       <b-form-group label="Существенные факты:">
-        <b-form-radio-group id="facts" name="facts" v-for="(item, index) in items" :key="index">
+        <b-form-checkbox-group id="facts" name="facts" v-for="(item, index) in items" :key="index">
           <template v-if="item.typedoc[0] == 'f' && item.kvartal == selectedKvartal">
-            <b-form-radio :value="item.id">
+            <b-form-checkbox :value="item.id">
               <b>Дата регистрации</b>
               {{getDate(item.createdate)}}
-            </b-form-radio>
+            </b-form-checkbox>
           </template>
-        </b-form-radio-group>
+        </b-form-checkbox-group>
       </b-form-group>
     </b-modal>
   </div>
@@ -404,16 +408,25 @@ export default {
   },
 
   methods: {
+    hideModal() {
+        this.$refs['my-modal'].hide()
+      },
     finnadzor() {
       // Отправка сформированного отчета в финнадзор
       let anex1 = document.querySelector('input[name="anex1"]:checked').value;
       let anex2 = document.querySelector('input[name="anex2"]:checked').value;
       let anex2_1 = document.querySelector('input[name="rkv01"]:checked').value;
-      let facts = document.querySelector('input[name="facts"]:checked')
-        ? document.querySelector('input[name="facts"]:checked').value
+      let facts = document.querySelectorAll('input[name="facts"]:checked')
+        ? document.querySelectorAll('input[name="facts"]:checked')
         : '';
+      let factsObj = {}
+      if (facts != '') {
+        for(let i = 0; i < facts.length; i++) {
+          factsObj[i] = facts[i].value
+        }
+      }
 
-      let arr = { anex1, anex2, anex2_1, facts };
+      let arr = { anex1, anex2, anex2_1, factsObj };
 
       let kvartal = this.selectedKvartal; //2020; 2 квартал
       let typedoc = 'fin';
@@ -421,7 +434,7 @@ export default {
       let sender = this.$store.state.company.info.kod;
       let status = 1;
 
-      console.log(arr);
+      console.log(factsObj);
 
       this.$store
         .dispatch('report/insert', { typedoc, xmldoc, sender, status, kvartal })

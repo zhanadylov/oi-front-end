@@ -20,7 +20,7 @@
       Данные, включаемые в краткий годовой и ежеквартальный отчет
       для публикации в средствах массовой информации
     </h2>
-    <h3 class="hide-print">
+    <h3 class="hide-print" v-show="EditReport">
       Выберите вид
       <b-badge>ОТЧЕТА</b-badge>
     </h3>
@@ -28,7 +28,7 @@
     <template v-if="!EditReport">
       <div class="active"></div>
     </template>
-    <b-form-group class="hide-print">
+    <b-form-group class="hide-print" v-show="EditReport">
       <b-form-radio-group
         id="btn-radios-2"
         v-model="selected"
@@ -40,7 +40,7 @@
         name="radio-btn-outline"
       ></b-form-radio-group>
     </b-form-group>
-    <b-col sm="12" class="hide-print">
+    <b-col sm="12" class="hide-print" v-show="EditReport">
       <h4>Выберите квартал и год:</h4>
       <b-form-select v-model="kvartal" @change="sendData" class="mb-3 col-3 d-inline">
         <b-form-select-option value="1 квартал">Квартал 1</b-form-select-option>

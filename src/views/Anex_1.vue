@@ -1,6 +1,5 @@
 <template>
   <div class="anex-1">
-    
     <template v-if="!EditReport">
       <div class="anex1-block"></div>
     </template>
@@ -29,8 +28,7 @@
         <p class="d-inline">финансового рынка</p>
       </b-col>
     </div>
-
-    <b-col sm="12" class="d-print-none">
+    <b-col sm="12" class="d-print-none" v-show="EditReport">
       <h4>Выберите квартал и год:</h4>
       <b-form-select v-model="kvartal" class="mb-3 col-3 d-inline">
         <b-form-select-option value="1 квартал">Квартал 1</b-form-select-option>
@@ -116,7 +114,7 @@
       <b-tbody>
         <b-tr v-for="(item, index) in table_2_items" :key="index">
           <b-td v-for="(it, ix) in item" :key="ix">
-            <b-input type="text" name="inputs" v-model="item[ix]"></b-input>
+            <b-input type="text" name="inputs" class="simpleCart_input" v-model="item[ix]"></b-input>
           </b-td>
         </b-tr>
       </b-tbody>
@@ -153,7 +151,7 @@
       <b-tbody>
         <b-tr v-for="(item, index) in table_3_items" :key="index">
           <b-td v-for="(it, ix) in item" :key="ix">
-            <b-input type="text" name="inputs" v-model="item[ix]"></b-input>
+            <b-input type="text" name="inputs" class="simpleCart_input" v-model="item[ix]"></b-input>
           </b-td>
         </b-tr>
       </b-tbody>
@@ -188,7 +186,7 @@
       <b-tbody>
         <b-tr v-for="(item, index) in table_4_items" :key="index">
           <b-td v-for="(it, ix) in item" :key="ix">
-            <b-input type="text" name="inputs" v-model="item[ix]"></b-input>
+            <b-input type="text" name="inputs" class="simpleCart_input" v-model="item[ix]"></b-input>
           </b-td>
         </b-tr>
       </b-tbody>
@@ -207,7 +205,7 @@
       <tbody>
         <b-tr v-for="(item, index) in table_5_items" :key="index">
           <b-td v-for="(it, ix) in item" :key="ix">
-            <b-input type="text" name="inputs" v-model="item[ix]"></b-input>
+            <b-input type="text" name="inputs" class="simpleCart_input" v-model="item[ix]"></b-input>
           </b-td>
         </b-tr>
       </tbody>
@@ -230,7 +228,7 @@
       <tbody>
         <b-tr v-for="(item, index) in table_6_items" :key="index">
           <b-td v-for="(it, ix) in item" :key="ix">
-            <b-input type="text" name="inputs" v-model="item[ix]"></b-input>
+            <b-input type="text" name="inputs" class="simpleCart_input" v-model="item[ix]"></b-input>
           </b-td>
         </b-tr>
       </tbody>
@@ -249,7 +247,7 @@
       <tbody>
         <b-tr v-for="(item, index) in table_7_items" :key="index">
           <b-td v-for="(it, ix) in item" :key="ix">
-            <b-input type="text" name="inputs" v-model="item[ix]"></b-input>
+            <b-input type="text" name="inputs" class="simpleCart_input" v-model="item[ix]"></b-input>
           </b-td>
         </b-tr>
       </tbody>
@@ -268,7 +266,12 @@
       <tbody>
         <b-tr>
           <b-td v-for="(item, index) in table_8_items" :key="index">
-            <b-input type="text" name="inputs" v-model="table_8_items[index]"></b-input>
+            <b-input
+              type="text"
+              name="inputs"
+              class="simpleCart_input"
+              v-model="table_8_items[index]"
+            ></b-input>
           </b-td>
         </b-tr>
       </tbody>
@@ -284,7 +287,12 @@
       <tbody>
         <b-tr>
           <b-td v-for="(item, index) in table_9_items" :key="index">
-            <b-input type="text" name="inputs" v-model="table_9_items[index]"></b-input>
+            <b-input
+              type="text"
+              name="inputs"
+              class="simpleCart_input"
+              v-model="table_9_items[index]"
+            ></b-input>
           </b-td>
         </b-tr>
       </tbody>
@@ -300,7 +308,7 @@
       <tbody>
         <b-tr v-for="(item, index) in table_10_items" :key="index">
           <b-td v-for="(it, ix) in item" :key="ix">
-            <b-input type="text" name="inputs" v-model="item[ix]"></b-input>
+            <b-input type="text" name="inputs" class="simpleCart_input" v-model="item[ix]"></b-input>
           </b-td>
         </b-tr>
       </tbody>
@@ -319,7 +327,7 @@
       <tbody>
         <b-tr v-for="(item, index) in table_11_items" :key="index">
           <b-td v-for="(it, ix) in item" :key="ix">
-            <b-input type="text" name="inputs" v-model="item[ix]"></b-input>
+            <b-input type="text" name="inputs" class="simpleCart_input" v-model="item[ix]"></b-input>
           </b-td>
         </b-tr>
       </tbody>
@@ -338,7 +346,7 @@
       <tbody>
         <b-tr v-for="(item, index) in table_12_items" :key="index">
           <b-td v-for="(it, ix) in item" :key="ix">
-            <b-input type="text" name="inputs" v-model="item[ix]"></b-input>
+            <b-input type="text" name="inputs" class="simpleCart_input" v-model="item[ix]"></b-input>
           </b-td>
         </b-tr>
       </tbody>
@@ -357,7 +365,12 @@
       <tbody>
         <b-tr>
           <b-td v-for="(item, index) in table_13_items" :key="index">
-            <b-input type="text" name="inputs" v-model="table_13_items[index]"></b-input>
+            <b-input
+              type="text"
+              name="inputs"
+              class="simpleCart_input"
+              v-model="table_13_items[index]"
+            ></b-input>
           </b-td>
         </b-tr>
       </tbody>
@@ -373,7 +386,7 @@
       <tbody>
         <b-tr v-for="(item, index) in table_14_items" :key="index">
           <b-td v-for="(it, ix) in item" :key="ix">
-            <b-input type="text" name="inputs" v-model="item[ix]"></b-input>
+            <b-input type="text" name="inputs" class="simpleCart_input" v-model="item[ix]"></b-input>
           </b-td>
         </b-tr>
       </tbody>
@@ -392,7 +405,7 @@
       <tbody>
         <b-tr v-for="(item, index) in table_14_1_items" :key="index">
           <b-td v-for="(it, ix) in item" :key="ix">
-            <b-input type="text" name="inputs" v-model="item[ix]"></b-input>
+            <b-input type="text" name="inputs" class="simpleCart_input" v-model="item[ix]"></b-input>
           </b-td>
         </b-tr>
       </tbody>
@@ -412,7 +425,12 @@
       <tbody>
         <b-tr>
           <b-td v-for="(item, index) in table_15_1_items" :key="index">
-            <b-input type="text" name="inputs" v-model="table_15_1_items[index]"></b-input>
+            <b-input
+              type="text"
+              name="inputs"
+              class="simpleCart_input"
+              v-model="table_15_1_items[index]"
+            ></b-input>
           </b-td>
         </b-tr>
       </tbody>
@@ -428,7 +446,12 @@
       <tbody>
         <b-tr>
           <b-td v-for="(item, index) in table_15_2_items" :key="index">
-            <b-input type="text" name="inputs" v-model="table_15_2_items[index]"></b-input>
+            <b-input
+              type="text"
+              name="inputs"
+              class="simpleCart_input"
+              v-model="table_15_2_items[index]"
+            ></b-input>
           </b-td>
         </b-tr>
       </tbody>
@@ -461,15 +484,21 @@
               ></b-datepicker>
             </template>
             <template v-else>
-              <b-input type="text" name="inputs" v-model="table_17_2_items[index]"></b-input>
+              <b-input
+                type="text"
+                name="inputs"
+                class="simpleCart_input"
+                v-model="table_17_2_items[index]"
+              ></b-input>
             </template>
           </b-td>
         </b-tr>
       </tbody>
     </b-table-simple>
     <p>2) К отчету прилагаются все протоколы общих собраний владельцев ценных бумаг/участников в отчетном году и отчеты счетной комиссии этих собраний, а также копия публикации о созыве общего собрания, если они ранее не были представлены в уполномоченный государственный орган.</p>
-    <Supervisor />
+
     <b-button @click="save">Сохранить</b-button>
+
   </div>
 </template>
 
@@ -479,11 +508,11 @@ import Queries from '../services/report.service'; // axios запросы на �
 export default {
   name: 'Anex_1',
   created() {
-    this.getInfoCompany(), this.setinfo();
+    this.getInfoCompany(), this.setinfo(), this.test();
   },
-  components: {
-    Supervisor: () => import('../components/Supervisor.vue')
-  },
+  // components: {
+  //   Supervisor: () => import('../components/Supervisor.vue')
+  // },
   data() {
     return {
       status: null,
@@ -722,15 +751,27 @@ export default {
         this.status == 3 ||
         localStorage.getItem('role') == 'admin'
       ) {
-        
         return false;
       }
-      
+
       return true;
     }
   },
 
   methods: {
+    test() {
+      if (localStorage.getItem('role') == 'admin') {
+          let $input = document.querySelectorAll('.simpleCart_input');
+          for (let i = 0; i < $input.length; i++) {
+            let $p = document.createElement('p');
+
+            $p.innerHTML = $input[i].value;
+            $p.classList.add("text-center")
+
+            $input[i].parentNode.replaceChild($p, $input[i]);
+          }
+      }
+    },
     addItem2() {
       this.table_2_items.push({
         title1: '',
@@ -832,11 +873,15 @@ export default {
             (this.table_15_1_items = response.data.doc.table15_1),
             (this.table_15_2_items = response.data.doc.table15_2),
             (this.table_17_2_items = response.data.doc.table17_2);
-            this.info = response.data.doc.info;
-            let titleKvartal = response.data.kvartal.split(';');
-            this.year = titleKvartal[0];
-            this.kvartal = titleKvartal[1].slice(1);
-            this.status = response.data.status;
+          this.info = response.data.doc.info;
+          let titleKvartal = response.data.kvartal.split(';');
+          this.year = titleKvartal[0];
+          this.kvartal = titleKvartal[1].slice(1);
+          this.status = response.data.status;
+          this.$nextTick(function () {
+            this.test()
+          })
+          
         })
         .catch(function(error) {
           console.log(error);
