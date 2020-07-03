@@ -71,7 +71,7 @@
       <b-tbody>
         <b-tr>
           <b-td v-for="(item, index) in table_1_items" :key="index">
-            <b-input type="text" name="inputs" v-model="table_1_items[index]"></b-input>
+            <b-input type="text" class="simpleCart_input" name="inputs" v-model="table_1_items[index]"></b-input>
           </b-td>
         </b-tr>
       </b-tbody>
@@ -89,7 +89,7 @@
       <tbody>
         <b-tr>
           <b-td v-for="(item, index) in table_2_items" :key="index">
-              <b-input type="text" name="inputs" v-model="table_2_items[index]"></b-input>
+              <b-input type="text" class="simpleCart_input" name="inputs" v-model="table_2_items[index]"></b-input>
           </b-td>
         </b-tr>
       </tbody>
@@ -105,7 +105,7 @@
       <tbody>
         <b-tr>
           <b-td v-for="(item, index) in table_3_items" :key="index">
-              <b-input type="text" name="inputs" v-model="table_3_items[index]"></b-input>
+              <b-input type="text" class="simpleCart_input" name="inputs" v-model="table_3_items[index]"></b-input>
           </b-td>
         </b-tr>
       </tbody>
@@ -203,6 +203,19 @@ export default {
   },
 
   methods: {
+    test() {
+      if (localStorage.getItem('role') == 'admin') {
+          let $input = document.querySelectorAll('.simpleCart_input');
+          for (let i = 0; i < $input.length; i++) {
+            let $p = document.createElement('p');
+
+            $p.innerHTML = $input[i].value;
+            $p.classList.add("text-center")
+
+            $input[i].parentNode.replaceChild($p, $input[i]);
+          }
+      }
+    },
     setinfo() {
       return Queries.getReportById(this.$route.params.idreport)
         .then(response => {
@@ -213,6 +226,9 @@ export default {
             this.year = titleKvartal[0];
             this.kvartal = titleKvartal[1].slice(1);
             this.status = response.data.status;
+            this.$nextTick(function () {
+            this.test()
+          })
         })
         .catch(function(error) {
           console.log(error);

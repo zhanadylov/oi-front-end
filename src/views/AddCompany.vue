@@ -37,8 +37,8 @@ export default {
               login,
               idcompany
             })
-            .then(response => {
-              console.log(response);
+            .then(() => {
+              this.$router.push('/reporting');
             })
             .catch(function(error) {
               console.log(error);

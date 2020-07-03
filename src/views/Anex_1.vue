@@ -89,6 +89,7 @@
     </b-input-group>
 
     <h4>2.Список всех членов исполнительного органа регулируемого субъекта финансового рынка</h4>
+    
     <b-table-simple hover bordered small stacked>
       <b-thead>
         <tr>

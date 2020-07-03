@@ -1,6 +1,5 @@
 <template>
   <div>
-    
     <!-- Сортировка таблицы -->
     <b-row>
       <b-col lg="6" class="my-1" v-show="isadmin">
@@ -31,7 +30,12 @@
           class="mb-3"
         >
           <b-input-group size="sm">
-            <b-form-select v-model="selected" id="sortBySelect" :options="options" @change="getReportList">
+            <b-form-select
+              v-model="selected"
+              id="sortBySelect"
+              :options="options"
+              @change="getReportList"
+            >
               <template v-slot:first>
                 <option value>-- Все --</option>
               </template>
@@ -40,7 +44,6 @@
         </b-form-group>
       </b-col>
     </b-row>
-
 
     <!-- Список отчетов -->
     <b-table
@@ -63,27 +66,21 @@
 
       <template #cell(createdate)="row">
         <!-- Дата регистрации -->
-        <template v-if="row.item.title">
-          <!-- Номер(Разделитель) квартала  -->
-          <h5>{{row.item.title}}</h5>
-        </template>
-        <template v-else>
-          <p v-if="isadmin">
-            {{getDate(row.item.datesend) }}
-            <!-- Дата отправки для админа -->
-          </p>
-          <p v-else>
-            <!-- Дата регистрации для компании -->
-            <span>{{getDate(row.item.createdate)}}</span>
-            <br />
-            <b-button
-              size="sm"
-              @click="row.toggleDetails"
-              class="mr-2"
-              v-if="row.item.datesend || row.item.updatedate"
-            >{{ row.detailsShowing ? 'Скрыть' : 'Показать'}} Детали</b-button>
-          </p>
-        </template>
+        <p v-if="isadmin">
+          {{getDate(row.item.datesend) }}
+          <!-- Дата отправки для админа -->
+        </p>
+        <p v-else>
+          <!-- Дата регистрации для компании -->
+          <span>{{getDate(row.item.createdate)}}</span>
+          <br />
+          <b-button
+            size="sm"
+            @click="row.toggleDetails"
+            class="mr-2"
+            v-if="row.item.datesend || row.item.updatedate"
+          >{{ row.detailsShowing ? 'Скрыть' : 'Показать'}} Детали</b-button>
+        </p>
       </template>
       <!-- Статус документа -->
       <template #cell(status)="row">
@@ -97,36 +94,46 @@
       <!-- Тип документа -->
 
       <template #cell(typedoc)="row">
-        <router-link
-          :to="`/anex-1/${row.item.id}`"
-          v-if="row.item.typedoc == 'anex-1'"
-          class="nav-link"
-        >Приложение 1</router-link>
-        <router-link
-          :to="`/anex-2/${row.item.id}`"
-          v-else-if="row.item.typedoc == 'anex-2'"
-          class="nav-link"
-        >Приложение 2</router-link>
-        <router-link
-          v-else-if="row.item.typedoc == 'fin'"
-          class="nav-link"
-          :to="`fin/${row.item.id}/anex1/${row.item.doc.anex1}`"
-        >Отчет</router-link>
-        <router-link
-          v-else
-          :to="`/report/${row.item.id}?type=${row.item.typedoc}`"
-          class="nav-link"
-        >
-          <span v-if="row.item.typedoc == 'RKV01'">
-            Квартальный отчет
-            <br />(Приложение 2-1)
-          </span>
-          <span v-else-if="row.item.typedoc == 'RKV02'">
-            Годовой отчет
-            <br />(Приложение 2-1)
-          </span>
-          <span v-else-if="row.item.typedoc[0] == 'f'">Существенный факт</span>
-        </router-link>
+        <template v-if="row.item.title">
+          <!-- Номер(Разделитель) квартала  -->
+          <h5>{{row.item.title}}</h5>
+        </template>
+        <template v-else>
+          <router-link
+            :to="`/anex-1/${row.item.id}`"
+            v-if="row.item.typedoc == 'anex-1'"
+            class="nav-link"
+          >Приложение 1</router-link>
+          <router-link
+            :to="`/anex-2/${row.item.id}`"
+            v-else-if="row.item.typedoc == 'anex-2'"
+            class="nav-link"
+          >Приложение 2</router-link>
+          <router-link
+            v-else-if="row.item.typedoc == 'fin'"
+            class="nav-link"
+            :to="`fin/${row.item.id}/anex1/${row.item.doc.anex1}`"
+          >Отчет</router-link>
+          <router-link
+            v-else
+            :to="`/report/${row.item.id}?type=${row.item.typedoc}`"
+            class="nav-link"
+          >
+            <span v-if="row.item.typedoc == 'RKV01'">
+              Квартальный отчет
+              <br />(Приложение 2-1)
+            </span>
+            <span v-else-if="row.item.typedoc == 'RKV02'">
+              Годовой отчет
+              <br />(Приложение 2-1)
+            </span>
+            <span v-else-if="row.item.typedoc[0] == 'f'">
+              Существенный факт
+              <br />
+              ( {{factNames[row.item.typedoc]}} )
+            </span>
+          </router-link>
+        </template>
       </template>
 
       <!-- Подтвердить -->
@@ -187,9 +194,8 @@
           </b-row>
 
           <b-col sm="3" class="text-sm-right">
-              <b-button size="sm" sm="3" @click="row.toggleDetails">Скрыть</b-button>
-            </b-col>
-          
+            <b-button size="sm" sm="3" @click="row.toggleDetails">Скрыть</b-button>
+          </b-col>
         </b-card>
       </template>
     </b-table>
@@ -327,44 +333,7 @@ export default {
           label: 'Тип документа'
         },
         { key: 'refer', headerTitle: 'Подтвердить', label: 'Подтвердить' }
-      ],
-      factNames: {
-        fact1: 'Изменение в составе Исполнительного органа',
-        fact1_1: 'Изменение в составе Совета директоров',
-        fact2:
-          ' Изменение размера участия члена Исполнительного органа в уставном капитале компаний',
-        fact2_1:
-          'Изменение размера участия члена Совета директоров в уставном капитале компаний',
-        fact3: 'Изменение в списке владельцев ценных бумаг',
-        fact3_1: 'Изменение в списке владельцев ценных бумаг',
-        fact4:
-          'Изменения в списке юридических лиц, в которых эмитент владеет 20 и более процентами уставного капитала',
-
-        fact5:
-          'Появление в реестре лица, владеющего более чем 5 процентами ценных бумаг',
-        fact5_1:
-          ' Появление в реестре лица, владеющего более чем 5 процентами ценных бумаг',
-        fact6:
-          'Разовые сделки эмитента, размер которых, либо стоимость имущества по которым составляет 10 и более процентов от активов эмитента на дату сделки',
-
-        fact6_1:
-          ' Факт заключения договора или иного документа и/или факт государственной регистрации такого договора, предметом которого является приобретение, получение или передача во временное пользование сроком свыше одного года, либо отчуждение недвижимого имущества, независимо от площади недвижимого имущества.',
-        fact7:
-          ' Факт, повлекший разовое увеличение стоимости активов более чем на 10 процентов',
-        fact7_1:
-          'Факт, повлекший разовое уменьшение стоимости активов более чем на 10 процентов',
-        fact8:
-          'Факт, повлекший разовое увеличение чистой прибыли более чем на 10 процентов',
-        fact8_1:
-          ' Факт, повлекший разовое увеличение чистых убытков более чем на 10 процентов',
-        fact9: 'Реорганизация эмитента, его дочерних и зависимых обществ',
-        fact10: 'Начисленные доходы по ценным бумагам (дивиденды)',
-        fact10_1: 'Выплаченные доходы по ценным бумагам (дивиденды)',
-        fact10_2: 'Начисленные доходы по облигациям',
-        fact10_3: 'Выплаченные доходы по облигациям',
-        fact11: 'Решения общих собраний',
-        fact12: 'Погашение ценных бумаг эмитента'
-      }
+      ]
     };
   },
   computed: {
@@ -390,7 +359,7 @@ export default {
               typedoc: '',
               _rowVariant: 'info'
             });
-            kvartal = item.kvartal; // Перезаписываем переменную для следующей проверке
+            kvartal = item.kvartal; // Перезаписываем переменную для следующей проверки
           }
           arr.push(item);
         });
@@ -409,8 +378,8 @@ export default {
 
   methods: {
     hideModal() {
-        this.$refs['my-modal'].hide()
-      },
+      this.$refs['my-modal'].hide();
+    },
     finnadzor() {
       // Отправка сформированного отчета в финнадзор
       let anex1 = document.querySelector('input[name="anex1"]:checked').value;
@@ -419,10 +388,10 @@ export default {
       let facts = document.querySelectorAll('input[name="facts"]:checked')
         ? document.querySelectorAll('input[name="facts"]:checked')
         : '';
-      let factsObj = {}
+      let factsObj = {};
       if (facts != '') {
-        for(let i = 0; i < facts.length; i++) {
-          factsObj[i] = facts[i].value
+        for (let i = 0; i < facts.length; i++) {
+          factsObj[i] = facts[i].value;
         }
       }
 
@@ -573,7 +542,7 @@ export default {
 
 <style>
 table button {
-  width: 80%;
+  width: 100%;
 }
 
 @media print {

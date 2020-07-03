@@ -3,6 +3,7 @@
     <template v-if="!EditReport">
       <div class="not_edit"></div>
     </template>
+      <b-alert variant="success" show>{{factNames[$route.query.type]}}</b-alert>
       <b-alert variant="success" show>{{facts[result.typedoc].crib}}</b-alert>
       <b-table-simple hover small stacked>
         <b-tbody>
@@ -19,7 +20,9 @@
             <template v-else>
               <b-td width="40%">{{facts[result.typedoc]['titles']['title' + index]}}</b-td>
               <b-td>
-                <b-input type="text" @blur="sendData" name="inputs" :data-option="index" :value="item"></b-input>
+                <p>
+                <b-form-textarea id="textarea-rows" @blur="sendData" class="simpleCart_input" rows="2" name="inputs" :data-option="index" :value="item"></b-form-textarea>
+                </p>
               </b-td>
             </template>
           </b-tr>
@@ -47,12 +50,27 @@ export default {
       props: ['input'],
       template: '<h3>{{ input }}</h3>',
       arr: []
+      
     };
   },
   components: {
     Supervisor: () => import('../components/Supervisor.vue')
   },
   methods: {
+    test() {
+      if (/*localStorage.getItem('role') == 'admin' || */this.status == 2 || this.status == 3) {
+          let $input = document.querySelectorAll('.simpleCart_input');
+          for (let i = 0; i < $input.length; i++) {
+            let $p = document.createElement('p');
+            //let $p = document.createElement('plaintext');
+            $input[i].value = $input[i].value.replace(/\n/g, '<br>');
+            $p.innerHTML = $input[i].value;
+            $p.classList.add("text-center")
+
+            $input[i].parentNode.replaceChild($p, $input[i]);
+          }
+      }
+    },
     setinfo() {
       return Queries.getReportById(this.$route.params.idreport)
         .then(response => {
@@ -60,6 +78,9 @@ export default {
           this.result = response.data;
           this.content = response.data.doc;
           this.status = response.data.status;
+          this.$nextTick(function () {
+            this.test()
+          })
         })
         .catch(function(error) {
           console.log(error);

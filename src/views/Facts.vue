@@ -1,8 +1,7 @@
 <template>
   <div class="facts">
     <h3>
-      Выберите
-      <b-badge>существенный факт</b-badge>
+      Выберите <b-badge>существенный факт</b-badge>
     </h3>
     <b-form-group v-if="show">
       <b-radio-group
@@ -19,6 +18,7 @@
     </b-form-group>
     <template v-else>
       <b-button @click="back" variant="outline-primary">Назад</b-button><br><br>
+      
       <b-alert variant="success" show>{{facts[selected].crib}}</b-alert> <br>
         <b-table-simple hover small stacked>
           <b-tbody>
@@ -32,15 +32,17 @@
               <template v-else-if="item.type == 'header'">
                 <b-td colspan="2" class='text'><h5>{{item.text}}</h5><b-input style="display: none" type="text" name="inputs" :data-option="index"></b-input></b-td>
               </template>
+              
               <template v-else>
                 <b-td width="40%">{{item}}</b-td>
                 <b-td>
-                  <b-input type="text" name="inputs" :data-option="index"></b-input>
+                  <b-form-textarea id="textarea-rows" rows="2" name="inputs"></b-form-textarea>
                 </b-td>
               </template>
             </b-tr>
           </b-tbody>
         </b-table-simple>
+        {{arr}}
       
       <b-button @click="save">Сохранить</b-button>
     </template>
@@ -62,6 +64,7 @@ export default {
     return {
       content: {},
       selected: '',
+      text: '',
       options: [
         {
           text: '1 (a).	Изменение в составе Исполнительного органа',
@@ -148,7 +151,7 @@ export default {
         },
         { text: '10 (в). Начисленные доходы по облигациям', value: 'fact10_2' },
         { text: '10 (г). Выплаченные доходы по облигациям', value: 'fact10_3' },
-        { text: '11 (а). Решения общих собраний', value: 'fact11' },
+        { text: '11 (а). Решение общего собрания акционеров', value: 'fact11' },
         { text: '12 (а). Погашение ценных бумаг эмитента', value: 'fact12' },
         { text: '13 (а). Выход эмитента из статуса публичной компании', value: 'fact13' },
         { text: '13 (б). Добровольная ликвидация', value: 'fact13_1' }
@@ -165,7 +168,7 @@ export default {
   },
   methods: {
     viewFactBody() {
-      this.content = this.facts[this.selected];
+      this.content = this.facts[this.selected]
     },
     back() {
       this.selected = '';

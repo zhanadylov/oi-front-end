@@ -48,8 +48,8 @@
         <b-form-input id="input-10" v-model="content.sepervisor.dir" placeholder="ФИО"></b-form-input>
       </b-form-group>
 
-      <b-form-group id="input-group-9" label="Глав.бух.:" label-for="input-9">
-        <b-form-input id="input-9" v-model="content.sepervisor.buh" placeholder="Глав.бух."></b-form-input>
+      <b-form-group id="input-group-9" label="ФИО Главного бухгалтера:" label-for="input-9">
+        <b-form-input id="input-9" v-model="content.sepervisor.buh" placeholder="ФИО"></b-form-input>
       </b-form-group>
       <b-button variant="success" @click="save" class="m-1">Сохранить</b-button>
     </b-col>
