@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://212.42.101.4:8769/api/users/',
+  baseURL: 'https://m.kse.kg/api/users/',
   timeout: 1000
 });
 
-const API_URL = 'http://212.42.101.4:8769/api/users/';
+const API_URL = 'https://m.kse.kg/api/users/';
 
 instance.interceptors.request.use(
   (response) => {

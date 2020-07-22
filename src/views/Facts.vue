@@ -23,13 +23,8 @@
         <b-table-simple hover small stacked>
           <b-tbody>
             <b-tr v-for="(item, index) in content.titles" :key="index">
-              <template v-if="item.type == 'date'">
-                <b-td width="40%">{{item.text}}</b-td>
-                <b-td>
-                  <b-datepicker :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }" name="inputs" :data-option="index"></b-datepicker>
-                </b-td>
-              </template>
-              <template v-else-if="item.type == 'header'">
+              
+              <template v-if="item.type == 'header'">
                 <b-td colspan="2" class='text'><h5>{{item.text}}</h5><b-input style="display: none" type="text" name="inputs" :data-option="index"></b-input></b-td>
               </template>
               

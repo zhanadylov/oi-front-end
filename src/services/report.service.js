@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: 'http://212.42.101.4:8769/api',
+    baseURL: 'https://m.kse.kg/api',
     timeout: 1000
 });
 
@@ -78,15 +78,23 @@ class ReportService {
     }
 
     test(doAddEntry, BlogId, mEntryText, mEntryName, mEntryCompany, title) {
-        return axios.post('http://www.kse.kg/modules/Blog/addFact.php', doAddEntry, BlogId, mEntryText, mEntryName, mEntryCompany, title)
+        return axios.post('https://www.kse.kg/modules/Blog/addFact.php', doAddEntry, BlogId, mEntryText, mEntryName, mEntryCompany, title)
     }
 
     addReportInKSE(doc) {
-        return axios.post('http://www.kse.kg/modules/Blog/addReport.php', doc)
+        return axios.post('https://www.kse.kg/modules/Blog/addReport.php', doc)
     }
 
     addLinkToFact(idfact, link) {
         return instance.put('/reports/link/' + link, {idfact, link})
+    }
+
+    deleteReport(id) {
+        return instance.delete('/reports/' + id)
+    }
+
+    deleteReportInKSE(id, type) {
+        return axios.post('https://www.kse.kg/modules/Blog/delReport.php', {id, type})
     }
 }
 

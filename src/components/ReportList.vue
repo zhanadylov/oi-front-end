@@ -145,7 +145,8 @@
               v-if="row.item.refer == null"
               @click="confirm(row.item.id, row.item.sender, row.item.doc, row.item.name, row.item.typedoc)"
             >Подтвердить</b-button>
-            <b-button variant="outline-primary" v-else>Подтверждено</b-button>
+            <b-button variant="outline-primary" v-else>Подтверждено</b-button> <br>
+            <b-button variant="outline-primary" @click="deleteReport(row.item.id, row.item.typedoc, row.item.linkkse)">Удалить</b-button>
           </span>
         </p>
         <p v-else>
@@ -233,7 +234,7 @@
         </template>
       </p>
       <b-button class="print" onclick="window.print()">Печать</b-button>
-      <b-button class="mt-3" block @click="hideModal">Закрыть</b-button>
+      <b-button class="mt-3 print" block @click="hideModal">Закрыть</b-button>
     </b-modal>
 
     <!-- Модальное окно для финнадзора -->
@@ -306,7 +307,8 @@ export default {
       options: [
         // Выбор типа документа для сортировки списка отчетов
         //{ value: '', text: 'Все' },
-        { value: 'RKV', text: 'Отчетность' },
+        { value: 'RKV01', text: 'Квартальный отчет' },
+        { value: 'RKV02', text: 'Годовой отчет' },
         { value: 'fact', text: 'Существенные факты' }
       ],
       companyname: '', // Модальное окно квитанции
@@ -469,6 +471,23 @@ export default {
           console.log(error);
         });
     },
+
+    deleteReport(id, type, kseId) {
+      let isBoss = confirm("Вы действительно хотите удалить отчет?");
+      if(isBoss == true) {
+        this.$store
+        .dispatch('report/deleteReport', id)
+        .then(response => {
+          this.deleteReportInKSE(kseId, type)
+          this.getReportList();
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+        
+      }
+    },
+
     getReportList() {
       // Список отчетов
       const type = this.selected;
@@ -479,6 +498,7 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
+      
     },
 
     sendToKSE(mEntryText, mEntryName, mEntryCompany, title, idfact) {
@@ -535,6 +555,13 @@ export default {
         let newDate = new Date(date);
         return newDate.toLocaleString('ru', options);
       }
+    },
+
+    deleteReportInKSE(id, type) {
+      // Удаление квартального/годового отчета в kse.kg
+      return Queries.deleteReportInKSE({id, type}).then(response => {
+        console.log(response);
+      });
     }
   }
 };
@@ -545,7 +572,12 @@ table button {
   width: 100%;
 }
 
+
 @media print {
+  
+  @page {
+    orientation: portrait;
+  }
   .modal,
   .modal-dialog {
     height: auto !important;

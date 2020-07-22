@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: 'http://212.42.101.4:8769/api/company/',
+    baseURL: 'https://m.kse.kg/api/company/',
     timeout: 1000
 });
 

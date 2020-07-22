@@ -323,7 +323,7 @@ export default {
         },
         activities_End: function () { // Прибыль (убыток) от обычной деятельности (060-070)
 
-            this.tblprofititems[7].End = this.minus(this.tblprofititems[5].Start, this.tblprofititems[6].Start)
+            this.tblprofititems[7].End = this.minus(this.tblprofititems[5].End, this.tblprofititems[6].End)
 
             return this.tblprofititems[7].End
         },

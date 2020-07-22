@@ -72,10 +72,10 @@ export default {
             },
             error => {
               this.loading = false;
-              this.message = 'Неправильный логин или пароль'
-                // (error.response && error.response.data) ||
-                // error.message ||
-                // error.toString();
+              //this.message = 'Неправильный логин или пароль'
+                (error.response && error.response.data) ||
+                error.message ||
+                error.toString();
             }
           );
         }

@@ -86,6 +86,17 @@ export const report = {
       )
     },
 
+    deleteReport({commit}, id) {
+      return ReportService.deleteReport(id).then(
+        () => {
+          return Promise.resolve(true)
+        },
+        error => {
+          return Promise.reject(error)
+        }
+      )
+    },
+
     rejectReport({commit}, id) {
       return ReportService.rejectReport(id).then(
         () => {

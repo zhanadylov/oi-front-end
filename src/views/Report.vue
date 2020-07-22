@@ -112,6 +112,7 @@ export default {
           .catch(function(error) {
             console.log(error);
           });
+        console.log(doc)
       }
       else {
         this.$router.push('/reporting')

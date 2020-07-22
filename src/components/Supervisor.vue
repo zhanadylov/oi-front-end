@@ -1,7 +1,7 @@
 <template>
   <div>
     <br><br>
-    <div class="col-5 my-3">
+    <div class="col-7 my-3">
       <b-col sm="12" v-show="content.sepervisor.dir">
         <h5 class="d-inline">
           <span v-if="content.sepervisor.position">{{content.sepervisor.position + ' ' + content.sepervisor.dir}}</span> 

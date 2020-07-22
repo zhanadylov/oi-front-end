@@ -190,23 +190,26 @@
         <b-th>Дата появления факта</b-th>
         <b-th>Влиянии факта на деятельность</b-th>
         <b-th>Дата и форма раскрытия</b-th>
-        <b-th></b-th>
+        <b-th class="hide-print"></b-th>
       </b-thead>
       <b-tbody>
         <b-tr v-for="(item, index) in tblfactitems" :key="index">
           <b-td>
-            <input class="text" type="text" @blur="sendData" v-model="tblfactitems[index].Name" />
+            <input class="text simpleCart_input"  type="text" @blur="sendData" v-model="tblfactitems[index].Name" />
           </b-td>
           <b-td>
-            <b-datepicker
-              :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-              today-button
+            
+            <input
+              class="text simpleCart_input"
+              placeholder="01.07.2020"
+              type="text"
+              @blur="sendData"
               v-model="tblfactitems[index].DateCreate"
-            ></b-datepicker>
+            />
           </b-td>
           <b-td>
             <input
-              class="text"
+              class="text simpleCart_input"
               type="text"
               @blur="sendData"
               v-model="tblfactitems[index].Influence"
@@ -214,13 +217,14 @@
           </b-td>
           <b-td>
             <input
-              class="text"
+              class="text simpleCart_input"
               type="text"
               @blur="sendData"
+              placeholder="01.07.2020"
               v-model="tblfactitems[index].DateDisclosure"
             />
           </b-td>
-          <b-td>
+          <b-td class="hide-print">
             <button
               @click="removeInFact(item, index)"
               class="btn btn-sm btn-outline-secondary mr-2"
@@ -245,11 +249,11 @@
       <template #cell(Start)="row">
         <span>
           <template v-if="row.item.Code==='050'">
-            <input type="text" step="0.01" placeholder="0,00" readonly v-model="assets_Start" />
+            <input type="text" class="simpleCart_input" step="0.01" placeholder="0,00" readonly v-model="assets_Start" />
           </template>
           <template v-else-if="row.item.Code===''"></template>
           <template v-else-if="row.item.Code === '080'">
-            <input type="text" step="0.01" placeholder="0,00" readonly v-model="liabilities_Start" />
+            <input type="text" class="simpleCart_input" step="0.01" placeholder="0,00" readonly v-model="liabilities_Start" />
           </template>
           <template v-else-if="row.item.Code === '100'">
             <input
@@ -258,6 +262,7 @@
               placeholder="0,00"
               readonly
               v-model="totaltblbalance_Start"
+              class="simpleCart_input"
             />
           </template>
           <template v-else>
@@ -267,6 +272,7 @@
               placeholder="0,00"
               name="input"
               @blur="sendData"
+              class="simpleCart_input"
               :value="row.item.Start"
               :id="'blncStart' + row.index"
               @change="sum('blncStart' + row.index, 'tblbalanceitems', row.index, 'Start')"
@@ -277,12 +283,12 @@
       <template #cell(End)="row">
         <span>
           <template v-if="row.item.Code==='050'">
-            <input type="text" step="0.01" placeholder="0,00" readonly v-model="assets_End" />
+            <input type="text" class="simpleCart_input" step="0.01" placeholder="0,00" readonly v-model="assets_End" />
           </template>
 
           <template v-else-if="row.item.Code===''"></template>
           <template v-else-if="row.item.Code === '080'">
-            <input type="text" step="0.01" placeholder="0,00" readonly v-model="liabilities_End" />
+            <input type="text" class="simpleCart_input" step="0.01" placeholder="0,00" readonly v-model="liabilities_End" />
           </template>
           <template v-else-if="row.item.Code === '100'">
             <input
@@ -291,6 +297,7 @@
               placeholder="0,00"
               readonly
               v-model="totaltblbalance_End"
+              class="simpleCart_input"
             />
           </template>
           <template v-else>
@@ -301,6 +308,7 @@
               @blur="sendData"
               :value="row.item.End"
               :id="'blncEnd' + row.index"
+              class="simpleCart_input"
               @change="sum('blncEnd' + row.index, 'tblbalanceitems', row.index, 'End')"
             />
           </template>
@@ -319,16 +327,17 @@
               placeholder="0,00"
               readonly
               v-model="operatingActivities_Start"
+              class="simpleCart_input"
             />
           </template>
           <template v-else-if="row.item.Code==='060'">
-            <input type="text" step="0.01" placeholder="0,00" readonly v-model="beforeTax_Start" />
+            <input type="text" step="0.01" placeholder="0,00" class="simpleCart_input" readonly v-model="beforeTax_Start" />
           </template>
           <template v-else-if="row.item.Code==='080'">
-            <input type="text" step="0.01" placeholder="0,00" readonly v-model="activities_Start" />
+            <input type="text" step="0.01" placeholder="0,00" class="simpleCart_input" readonly v-model="activities_Start" />
           </template>
           <template v-else-if="row.item.Code==='100'">
-            <input type="text" step="0.01" placeholder="0,00" readonly v-model="netprofit_Start" />
+            <input type="text" step="0.01" placeholder="0,00" class="simpleCart_input" readonly v-model="netprofit_Start" />
           </template>
           <template v-else>
             <input
@@ -338,6 +347,7 @@
               @blur="sendData"
               :value="row.item.Start"
               :id="'profitStart' + row.index"
+              class="simpleCart_input"
               @change="sum('profitStart' + row.index, 'tblprofititems', row.index, 'Start')"
             />
           </template>
@@ -351,17 +361,18 @@
               step="0.01"
               placeholder="0,00"
               readonly
+              class="simpleCart_input"
               v-model="operatingActivities_End"
             />
           </template>
           <template v-else-if="row.item.Code==='060'">
-            <input type="text" step="0.01" placeholder="0,00" readonly v-model="beforeTax_End" />
+            <input type="text" step="0.01" placeholder="0,00" class="simpleCart_input" readonly v-model="beforeTax_End" />
           </template>
           <template v-else-if="row.item.Code==='080'">
-            <input type="text" step="0.01" placeholder="0,00" readonly v-model="activities_End" />
+            <input type="text" step="0.01" placeholder="0,00" class="simpleCart_input" readonly v-model="activities_End" />
           </template>
           <template v-else-if="row.item.Code==='100'">
-            <input type="text" step="0.01" placeholder="0,00" readonly v-model="netprofit_End" />
+            <input type="text" step="0.01" placeholder="0,00" class="simpleCart_input" readonly v-model="netprofit_End" />
           </template>
           <template v-else>
             <input
@@ -371,6 +382,7 @@
               @blur="sendData"
               :value="row.item.End"
               :id="'profitEnd' + row.index"
+              class="simpleCart_input"
               @change="sum('profitEnd' + row.index, 'tblprofititems', row.index, 'End')"
             />
           </template>
@@ -389,12 +401,14 @@
       <template #cell(TItle)="row">
         <template v-if="row.item.Code==='100' || row.item.Code==='010'">
           <label>Сальдо на</label>
-          <b-datepicker
-            :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-            today-button
-            v-model="row.item.TItle"
-            @change="sendData"
-          ></b-datepicker>
+          
+           <input
+              placeholder="01.07.2020"
+              type="text"
+              @blur="sendData"
+              v-model="row.item.TItle"
+              class="simpleCart_input"
+            />
         </template>
         <template v-else>
           <span>{{row.item.TItle}}</span>
@@ -409,6 +423,7 @@
             @blur="sendData"
             :value="row.item.Start"
             :id="'capitalStart' + row.index"
+            class="simpleCart_input"
             @change="sum('capitalStart' + row.index, 'tblcapitalitems', row.index, 'Start')"
           />
         </span>
@@ -422,6 +437,7 @@
             @blur="sendData"
             :value="row.item.End"
             :id="'capitalEnd' + row.index"
+            class="simpleCart_input"
             @change="sum('capitalEnd' + row.index, 'tblcapitalitems', row.index, 'End')"
           />
         </span>
@@ -431,13 +447,13 @@
     <b-row>
       <b-col sm="12">
         <p>6. Сведения о направлении средств, привлеченных эмитентом в результате размещения эмиссионных ценных бумаг, которые включают в себя: общий объем привлеченных средств, сведения о привлеченных средствах, использованных по каждому из направлений, и о направлениях использования привлеченных средств.</p>
-        <b-form-textarea id="textarea-rows" rows="2" v-model="textareas.placement" @blur="sendData"></b-form-textarea>
+        <b-form-textarea id="textarea-rows" class="simpleCart_text" rows="2" v-model="textareas.placement" @blur="sendData"></b-form-textarea>
       </b-col>
     </b-row>
     <b-row>
       <b-col sm="12">
         <p>7. Заемные средства, полученные эмитентом и его дочерними обществами в отчетном квартале. Данный пункт отражает заемные средства, полученные эмитентом в отчетном квартале, и заемные средства, полученные дочерними обществами в отчетном квартале.</p>
-        <b-form-textarea id="textarea-rows" rows="2" v-model="textareas.funds" @blur="sendData"></b-form-textarea>
+        <b-form-textarea id="textarea-rows" class="simpleCart_text" rows="2" v-model="textareas.funds" @blur="sendData"></b-form-textarea>
       </b-col>
     </b-row>
     <b-row>
@@ -448,25 +464,26 @@
           rows="2"
           v-model="textareas.investment"
           @blur="sendData"
+          class="simpleCart_text"
         ></b-form-textarea>
       </b-col>
     </b-row>
     <b-row>
       <b-col sm="12">
         <p>9. Доходы по ценным бумагам эмитента. Эта информация представляется при начислении доходов по ценным бумагам эмитента в отчетном квартале или в квартале, предшествующем отчетному кварталу, и включает: вид ценной бумаги, размер доходов, начисленных на одну ценную бумагу,и общую сумму доходов, начисленных по ценным бумагам данного вида.</p>
-        <b-form-textarea id="textarea-rows" rows="2" v-model="textareas.income" @blur="sendData"></b-form-textarea>
+        <b-form-textarea id="textarea-rows" class="simpleCart_text" rows="2" v-model="textareas.income" @blur="sendData"></b-form-textarea>
       </b-col>
     </b-row>
     <b-row>
       <b-col sm="12">
         <p>10. Информация об условиях и характере сделки, совершенной лицами, заинтересованными в совершении обществом сделки, включает: дату совершения сделки, информацию о влиянии сделки на деятельность эмитента (финансовый результат, дополнительные инвестиции и т.д.), информацию об условиях и характере заключенной сделки (предмет, условия, цена сделки и т.д.), степень имеющейся заинтересованности (лица, заинтересованного в сделке), дату опубликования информации о сделке в средствах массовой информации (прилагается копия опубликованного сообщения), а также дату направления уведомления с информацией о сделке в уполномоченный орган по регулированию рынка ценных бумаг.</p>
-        <b-form-textarea id="textarea-rows" rows="2" v-model="textareas.deal" @blur="sendData"></b-form-textarea>
+        <b-form-textarea id="textarea-rows" class="simpleCart_text" rows="2" v-model="textareas.deal" @blur="sendData"></b-form-textarea>
       </b-col>
     </b-row>
     <b-row v-if="auditView">
       <b-col sm="12">
         <p>11. Аудиторское заключение</p>
-        <b-form-textarea id="textarea-rows" rows="2" v-model="textareas.audit" @blur="sendData"></b-form-textarea>
+        <b-form-textarea id="textarea-rows" class="simpleCart_text" rows="2" v-model="textareas.audit" @blur="sendData"></b-form-textarea>
       </b-col>
     </b-row>
     <Supervisor />
@@ -494,6 +511,28 @@ export default {
     Supervisor: () => import('../components/Supervisor.vue')
   },
   methods: {
+    test() {
+      if (/*localStorage.getItem('role') == 'admin' || */this.status == 2 || this.status == 3) {
+          let $input = document.querySelectorAll('.simpleCart_input');
+          let textarea = document.querySelectorAll('.simpleCart_text')
+          for (let i = 0; i < $input.length; i++) {
+            let $p = document.createElement('p');
+            //let $p = document.createElement('plaintext');
+            //$input[i].value = $input[i].value.replace(/\n/g, '<br>');
+            $p.innerHTML = $input[i].value;
+            $p.classList.add("text-center")
+
+            $input[i].parentNode.replaceChild($p, $input[i]);
+          }
+
+          for (let i = 0; i < textarea.length; i++) {
+            let $p = document.createElement('p');
+            $p.innerHTML = textarea[i].value;
+
+            textarea[i].parentNode.replaceChild($p, textarea[i]);
+          }
+      }
+    },
     getInfoCompany() {
       return Queries.getInfoCompanyById()
         .then(response => {
@@ -530,9 +569,13 @@ export default {
           this.tblcapitalitems = response.data.doc.tblCapital;
           this.textareas = response.data.doc.reportFooter;
           this.status = response.data.status;
+          this.selected = response.data.typedoc;
           let titleKvartal = response.data.kvartal.split(';');
           this.year = titleKvartal[0];
           this.kvartal = titleKvartal[1].slice(1);
+          this.$nextTick(function () {
+            this.test()
+          })
         })
         .catch(function(error) {
           console.log(error);
