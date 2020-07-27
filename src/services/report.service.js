@@ -81,8 +81,8 @@ class ReportService {
         return axios.post('https://www.kse.kg/modules/Blog/addFact.php', doAddEntry, BlogId, mEntryText, mEntryName, mEntryCompany, title)
     }
 
-    addReportInKSE(doc) {
-        return axios.post('https://www.kse.kg/modules/Blog/addReport.php', doc)
+    addReportInKSE(doc, kvartal) {
+        return axios.post('https://www.kse.kg/modules/Blog/addReport.php', {doc, kvartal})
     }
 
     addLinkToFact(idfact, link) {
@@ -96,6 +96,7 @@ class ReportService {
     deleteReportInKSE(id, type) {
         return axios.post('https://www.kse.kg/modules/Blog/delReport.php', {id, type})
     }
+    
 }
 
 export default new ReportService();

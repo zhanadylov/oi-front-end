@@ -7,9 +7,9 @@ import AuthService from '../services/auth.service';
 
 export const auth = {
   namespaced: true,
-  state: { status: { loggedIn: false }, token: null, me: null, update: false },
+  state: { status: { loggedIn: false }, token: null, me: null, update: false, pass: false },
   actions: {
-     login({ commit }, user) {
+    login({ commit }, user) {
       return AuthService.login(user).then(
         res => {
           commit('loginSuccess', res)
@@ -25,7 +25,7 @@ export const auth = {
       AuthService.logout();
       commit('logout');
     },
-    info( {commit} ) {
+    info({ commit }) {
       AuthService.info().then(
         (dates) => {
           commit('infoData', dates.data)
@@ -37,16 +37,30 @@ export const auth = {
       )
     },
 
-    update ({commit}, {login, fullname}) {
+    update({ commit }, { login, fullname }) {
       AuthService.update(login, fullname).then(
         () => {
           commit('update')
-          return '123 '
+          return Promise.resolve(true);
         },
         error => {
           return Promise.reject(error)
         }
       )
+    },
+
+    updatePassword({commit}, password) {
+      console.log('module', password)
+      return AuthService.updatePassword(password).then(
+        () => {
+          commit('password')
+          return Promise.resolve(true);
+        },
+        error => {
+          return Promise.reject(error)
+        }
+      )
+      //console.log(password)
     }
   },
   mutations: {
@@ -65,10 +79,13 @@ export const auth = {
     infoData(state, data) {
       state.me = data
       if (data.login == 'fin')
-      localStorage.setItem('fin', true)
+        localStorage.setItem('fin', true)
     },
     update(state) {
       state.update = true
+    },
+    password(state) {
+      state.pass = true
     }
   }
 };

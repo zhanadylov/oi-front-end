@@ -48,6 +48,7 @@ class AuthService {
     if (response.data.jwt) {
       await localStorage.setItem('token', response.data.jwt);
       await localStorage.setItem('role', response.data.role)
+      await localStorage.setItem('changePas', response.data.changePas)
       if (user.username == 'fin')
         localStorage.setItem('fin', true)
     }
@@ -66,6 +67,11 @@ class AuthService {
 
   update(login, fullname) {
     return instance.put('', {login, fullname}, { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') } })
+  }
+
+  updatePassword(password) {
+    //console.log('service', password)
+    return instance.put('password', password, { headers: { 'Content-Type': 'Applicationjson', 'Authorization': 'Bearer ' + localStorage.getItem('token') } })
   }
 
 }

@@ -143,7 +143,7 @@
             <b-button
               variant="success"
               v-if="row.item.refer == null"
-              @click="confirm(row.item.id, row.item.sender, row.item.doc, row.item.name, row.item.typedoc)"
+              @click="confirm(row.item.id, row.item.sender, row.item.doc, row.item.name, row.item.typedoc, row.item.kvartal)"
             >Подтвердить</b-button>
             <b-button variant="outline-primary" v-else>Подтверждено</b-button> <br>
             <b-button variant="outline-primary" @click="deleteReport(row.item.id, row.item.typedoc, row.item.linkkse)">Удалить</b-button>
@@ -218,7 +218,7 @@
       <p class="my-4" v-if="doctype != 'fin'">
         Опубликовано на официальном сайте
         <template v-if="link == 0">
-          <a href="www.kse.kg">ЗАО "Кыргызская Фондовая Биржа"</a>
+          <a href="https://www.kse.kg" target="_blank">ЗАО "Кыргызская Фондовая Биржа"</a>
         </template>
         <template v-else>
           <a
@@ -421,7 +421,7 @@ export default {
       // Для сортировки в модальном окне выбранного квартала
       this.selectedKvartal = kvartal;
     },
-    confirm(id, interrefer, mEntryText, mEntryCompany, type) {
+    confirm(id, interrefer, mEntryText, mEntryCompany, type, kvartal) {
       // Подтверждение отчета в админке
       if (type.indexOf('fact') >= 0) {
         // Если тип отчета существенный факт
@@ -430,7 +430,7 @@ export default {
         this.sendToKSE(mEntryText, name, mEntryCompany, titles, id); // Отправка существенного факта в kse.kg
       } else if (type.indexOf('RKV') >= 0) {
         // если тип отчета квартальный или годовой
-        this.sendReportKse(mEntryText, id); // отправка отчета в kse.kg
+        this.sendReportKse(mEntryText, id, kvartal); // отправка отчета в kse.kg
       }
 
       this.$store
@@ -527,9 +527,9 @@ export default {
         });
     },
 
-    sendReportKse(doc, idfact) {
+    sendReportKse(doc, idfact, kvartal) {
       // Отправка квартального/годового отчета в kse.kg
-      return Queries.addReportInKSE(doc).then(response => {
+      return Queries.addReportInKSE(doc, kvartal).then(response => {
         console.log(response);
         let link = response.data;
         this.$store
