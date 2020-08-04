@@ -74,13 +74,14 @@
           <!-- Дата регистрации для компании -->
           <span>{{getDate(row.item.createdate)}}</span>
           <br />
-          <b-button
+          
+        </p>
+        <b-button
             size="sm"
             @click="row.toggleDetails"
             class="mr-2"
             v-if="row.item.datesend || row.item.updatedate"
           >{{ row.detailsShowing ? 'Скрыть' : 'Показать'}} Детали</b-button>
-        </p>
       </template>
       <!-- Статус документа -->
       <template #cell(status)="row">
@@ -180,7 +181,7 @@
 
       <!-- Детали -->
       <template v-slot:row-details="row">
-        <b-card>
+        <b-card v-if="!isadmin">
           <b-row class="mb-2">
             <b-col sm="3" class="text-sm-right" v-if="row.item.updatedate">
               <b>Дата последнего изменения:</b>
@@ -197,6 +198,33 @@
           <b-col sm="3" class="text-sm-right">
             <b-button size="sm" sm="3" @click="row.toggleDetails">Скрыть</b-button>
           </b-col>
+        </b-card>
+        <b-card v-else>
+          <b-row class="mb-2">
+            <b-col sm="3" class="text-sm-right">
+              <b>Ссылка:</b>
+            </b-col>
+            <b-col>
+                <a
+                  v-if="row.item.typedoc[0] == 'R'"
+                  :href="'http://www.kse.kg/files/BusinessReports/' + row.item.linkkse"
+                  target="_blank"
+                >Перейти</a>
+                <a
+                  v-else
+                  :href="'http://www.kse.kg/ru/RussianAllNewsBlog/' + row.item.linkkse"
+                  target="_blank"
+                >Перейти</a>
+            </b-col>
+          </b-row>
+          <b-row class="mb-2">
+            <b-col sm="3" class="text-sm-right">
+              <b>Квартал:</b>
+            </b-col>
+            <b-col>
+                {{row.item.kvartal}}
+            </b-col>
+          </b-row>
         </b-card>
       </template>
     </b-table>

@@ -6,7 +6,7 @@ import { router } from './router';
 
 import { BootstrapVue } from 'bootstrap-vue';
 import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.css';
 import './assets/style.css'
 
 

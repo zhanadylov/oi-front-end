@@ -49,9 +49,9 @@ export const auth = {
       )
     },
 
-    updatePassword({commit}, password) {
+    updatepassword({commit}, password) {
       console.log('module', password)
-      return AuthService.updatePassword(password).then(
+      return AuthService.updatepassword(password).then(
         () => {
           commit('password')
           return Promise.resolve(true);

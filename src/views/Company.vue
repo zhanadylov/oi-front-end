@@ -101,7 +101,9 @@ export default {
           supervisor,
           id
         })
-        .then(response => {})
+        .then(response => {
+          this.$router.push('/reporting');
+        })
         .catch(function(error) {
           console.log(error);
         });

@@ -1,10 +1,15 @@
 <template>
   <div class="reportcomponent">
+
+    <div class="col-5 text-left my-3 hide-print" v-if="$route.params.idreport" style="z-index: 40">
+      <router-link to="/report?type=report">Экспортировать в новый отчет</router-link>
+      <br />
+    </div>
+
     <div class="col-5 offset-7 text-right my-3">
       <b-col sm="12">
         <h5 class="d-inline">Приложение 2-1</h5>
       </b-col>
-
       <br />
       <b-col sm="12">
         <p class="d-inline">к Положению о порядке представления</p>
@@ -62,7 +67,7 @@
         <b-form-select-option value="2020">2020</b-form-select-option>
       </b-form-select>
     </b-col>
-
+    <h4 class="text-center">{{kvartal + ' ' + year}}</h4>
     <h4>1. Данные об эмитенте:</h4>
     <b-input-group prepend="полное и сокращенное наименование эмитента" class="mt-3">
       <b-form-input style="background: #fff;" readonly v-model="info.name"></b-form-input>
@@ -646,6 +651,7 @@ a {
 }
 textarea {
   margin: 10px 0;
+  font-size: 1.03rem;
 }
 table input {
   text-align: center;

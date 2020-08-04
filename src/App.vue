@@ -35,4 +35,7 @@ export default {
 .js-fullheight {
   height: 100%;
 }
+
+
+
 </style>

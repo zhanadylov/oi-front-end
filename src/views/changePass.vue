@@ -17,19 +17,14 @@
         </li>
       </ul>
       <div class="form-field">
-        <input class="form-input" id="password" v-model="pass" type="text" />
+        <input class="form-input" id="password" v-model="pass" type="password" />
         <label class="form-label" for="password">Пароль</label>
-        <div class="form-input-lock">
-          <svg xmlns="http://www.w3.org/2000/svg" class="lock-icon locked" width="20" height="20">
-            <path
-              d="M4 8V6a6 6 0 1112 0v2h1a2 2 0 012 2v8a2 2 0 01-2 2H3a2 2 0 01-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 10-2.009-.005L9 14.73zM7 6v2h6V6a3 3 0 10-6 0z"
-            />
-          </svg>
+        <div class="form-input-lock" v-html="passChech">
         </div>
       </div>
       <br />
       <br />
-      <button class="save" @click="save">сохранить</button>
+      <button class="save" id="save" disabled @click="save">сохранить</button>
     </div>
   </div>
 </template>
@@ -39,73 +34,96 @@ export default {
   computed: {
     minCharCheck() {
       if (this.pass.length < 8) {
+        this.countItem(3, 0)
         return this.checkFalse;
       }
+      this.countItem(3, 1)
       return this.checkTrue;
     },
 
     numCheck() {
       let numbers = this.pass.match(/(\d+)/g); // массив с числами str.matches("A-Z")
       if (!numbers) {
+        this.countItem(2, 0)
         return this.checkFalse;
       }
+      this.countItem(2, 1)
       return this.checkTrue;
     },
 
     upCheck() {
       let numbers = this.pass.match(/([A-Z]+)/g); // массив с числами str.matches("A-Z")
       if (!numbers) {
+        this.countItem(0, 0)
         return this.checkFalse;
       }
+      this.countItem(0, 1)
       return this.checkTrue;
     },
 
     lowCheck() {
       let numbers = this.pass.match(/([a-z]+)/g); // массив с числами str.matches("A-Z")
       if (!numbers) {
+        this.countItem(1, 0)
         return this.checkFalse;
       }
+      this.countItem(1, 1)
       return this.checkTrue;
     },
+
+    passChech() {
+      if (this.items[0].status == false || this.items[1].status == false || this.items[2].status == false || this.items[3].status == false) {
+        //document.getElementById('save').setAttribute("disabled", "disabled")
+        return this.passFalse
+      }
+      document.getElementById('save').removeAttribute('disabled')
+      return this.passTrue
+    }
   },
   data() {
     return {
-      upperCase: 0,
-      lowerCase: 0,
-      number: 0,
-      minChar: 0,
+      items: [{status: false /*upperCase*/}, {status: false/**lowerCase */}, {status: false /*number*/}, {status: false /*minChar*/}],
       pass: '',
       checkFalse:
-        '<svg width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 6A6 6 0 110 6a6 6 0 0112 0z" fill="#5B9A78"></path></svg>',
+        '<svg width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 6A6 6 0 110 6a6 6 0 0112 0z" fill="#FFFFFF"></path></svg>',
       checkTrue:
         '<svg width="14" height="12" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline class="check" points="1,7 5,11 13,1" fill="none" stroke="#FFFFFF" stroke-width="2px" stroke-linecap="round"></polyline></svg>',
+      passTrue: '<svg xmlns="http://www.w3.org/2000/svg" class="lock-icon locked" width="20" height="20"><path d="M4 8V6a6 6 0 1112 0v2h1a2 2 0 012 2v8a2 2 0 01-2 2H3a2 2 0 01-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 10-2.009-.005L9 14.73zM7 6v2h6V6a3 3 0 10-6 0z"></path></svg>',
+      passFalse: '<svg xmlns="http://www.w3.org/2000/svg" class="lock-icon false" width="20" height="20"><path d="M4 8V6a6 6 0 1112 0h-3v2h4a2 2 0 012 2v8a2 2 0 01-2 2H3a2 2 0 01-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 10-2.009-.005L9 14.73zM7 6v2h6V6a3 3 0 10-6 0z"></path></svg>'
     };
   },
 
   methods: {
     save() {
       let password = this.pass
-
-      this.$store
-        .dispatch('auth/updatePassword',  password)
+      if (this.items[0].status == true || this.items[1].status == true || this.items[2].status == true || this.items[3].status == true) {
+        this.$store
+        .dispatch('auth/updatepassword',  password)
         .then(() => {
-            console.log('res')
+            this.$router.push('/reporting');
         })
         .catch(function (error) {
           (error.response && error.response.data) ||
                 error.message ||
                 error.toString();
         });
+      }
+      
+    },
+
+    countItem(i, type) {
+      if (type == 1)
+        return this.items[i].status = true
+      return this.items[i].status = false
     }
   }
 };
 </script>
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+<style lang="scss">
 
 :root {
-  --dark-green: hsl(147, 26%, 27%);
+  --blue: #007bff;
   --green: hsl(148, 26%, 48%);
   --light-green: hsl(149, 34%, 88%);
   --white: hsl(0, 0%, 100%);
@@ -113,29 +131,6 @@ export default {
   --color: hsl(0, 0%, 20%);
   --color-focus: hsl(0, 0%, 50%);
   --transition: all 0.2s ease-out;
-}
-
-*,
-*:before,
-*:after {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-}
-html {
-  box-sizing: border-box;
-}
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  line-height: 1;
-  color: var(--color);
 }
 
 .form-box {
@@ -159,13 +154,14 @@ body {
   font-weight: 500;
   overflow: hidden;
   color: transparent;
-  text-shadow: 0 0 0 var(--green);
+  text-shadow: 0 0 0 var(--blue);
   text-transform: uppercase;
+  border: none
 }
 
 .validation-box {
   padding: var(--space);
-  background: var(--dark-green);
+  background: var(--blue);
   margin-bottom: var(--space);
   border-radius: 8px;
   -webkit-box-shadow: 0px 10px 43px 0px rgba(0, 0, 0, 0.12);
@@ -187,7 +183,7 @@ body {
 }
 
 .validation-item.done {
-  color: hsla(0, 0%, 100%, 40%);
+  color: hsla(0, 0%, 100%, 80%);
 }
 
 .validation-icon {
@@ -229,18 +225,7 @@ body {
   transition: var(--transition);
 }
 
-@font-face {
-  font-family: 'fontello';
-  src: url('../assets/fontello.eot');
-  src: url('../assets/fontello.eot')
-      format('embedded-opentype'),
-    url('../assets/fontello.woff')
-      format('woff'),
-    url('../assets/fontello.ttf')
-      format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
+
 
 .form-input {
   padding-left: var(--space);
@@ -253,6 +238,7 @@ body {
   font-style: normal;
   font-weight: normal;
   speak: none;
+  border: none;
   font-variant: normal;
   text-transform: none;
   -webkit-font-smoothing: antialiased;
@@ -262,7 +248,7 @@ body {
   height: 60px;
   overflow: hidden;
   color: transparent;
-  text-shadow: 0 0 0 var(--green);
+  text-shadow: 0 0 0 var(--blue);
 }
 
 .form-label {
