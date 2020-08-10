@@ -239,9 +239,11 @@ export default {
     computed: {
         
         auditView: function() {
-            if (this.selected == 'RKV02') { return true}
-
-            return false
+      
+            if (this.selected == 'RKV01') return false
+            else this.selectYear();
+            
+            return true
         },
 
         assets_Start: function() { // Итого активы (010+020+030+040)

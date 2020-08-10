@@ -29,7 +29,7 @@ export const auth = {
       AuthService.info().then(
         (dates) => {
           commit('infoData', dates.data)
-          return Promise.resolve(true);
+          return dates.data;
         },
         error => {
           return Promise.reject(error)
@@ -49,9 +49,8 @@ export const auth = {
       )
     },
 
-    updatepassword({commit}, password) {
-      console.log('module', password)
-      return AuthService.updatepassword(password).then(
+    updatepassword({commit}, {password, use}) {
+      return AuthService.updatepassword(password, use).then(
         () => {
           commit('password')
           return Promise.resolve(true);

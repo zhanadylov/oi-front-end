@@ -15,7 +15,6 @@
       
       <button v-else class="btn btn-primary btn-block hide-print"  @click="update">Обновить</button>
       
-      
     </template>
   </div>
 </template>
@@ -90,6 +89,8 @@ export default {
       let id = this.$route.params.idreport;
       let doc = JSON.stringify(this.report);
       let status = 1;
+      let kvartal = this.report.kvartal;
+      let typedoc = this.report.typedoc;
 
       if (this.$route.query.type.indexOf('RKV') >= 0) {
         let textareas = this.report.reportFooter;
@@ -105,7 +106,7 @@ export default {
 
       if (doc.length != 0) {
         this.$store
-          .dispatch('report/updateReport', { id, doc, status })
+          .dispatch('report/updateReport', { id, doc, status, kvartal, typedoc })
           .then(response => {
             this.$router.push('/reporting');
           })

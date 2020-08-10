@@ -170,11 +170,11 @@
             >Квитанция</b-button>
           </template>
           <template v-if="row.item.title">
-            <b-button
+            <!-- <b-button
               v-b-modal.modal-form
               @click="kvartalBtn(addKvartal[row.index + 1].kvartal)"
-              variant="outline-dark"
-            >Сформировать</b-button>
+              variant="outline-dark"  
+            >Сформировать</b-button> -->
           </template>
         </p>
       </template>
