@@ -14,7 +14,7 @@
       </button>
       
       <button v-else class="btn btn-primary btn-block hide-print"  @click="update">Обновить</button>
-      
+     
     </template>
   </div>
 </template>
@@ -87,12 +87,15 @@ export default {
     },
     update() {
       let id = this.$route.params.idreport;
-      let doc = JSON.stringify(this.report);
+      let doc
       let status = 1;
       let kvartal = this.report.kvartal;
       let typedoc = this.report.typedoc;
 
+
+
       if (this.$route.query.type.indexOf('RKV') >= 0) {
+        doc = JSON.stringify(this.report); // квартальные и годовой
         let textareas = this.report.reportFooter;
         if (
           textareas.placement == '' ||
@@ -102,6 +105,8 @@ export default {
           textareas.deal == ''
         ) 
           status = 0;
+      } else {
+        doc = JSON.stringify(this.report.reportbody); // существенные факты
       }
 
       if (doc.length != 0) {

@@ -173,6 +173,13 @@ export const router = new Router({
       meta: { layout: 'main' },
       // lazy-loaded
       component: () => import('./views/changePass.vue')
+    },
+    {
+      path: '/layouts',
+      name: 'ReportLayout',
+      meta: { layout: 'main' },
+      // lazy-loaded
+      component: () => import('./views/ReportLayout.vue')
     }
     
   ]

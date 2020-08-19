@@ -49,8 +49,8 @@ export const auth = {
       )
     },
 
-    updatepassword({commit}, {password, use}) {
-      return AuthService.updatepassword(password, use).then(
+    updatepassword({commit}, password) {
+      return AuthService.updatepassword(password).then(
         () => {
           commit('password')
           return Promise.resolve(true);
@@ -60,6 +60,17 @@ export const auth = {
         }
       )
       //console.log(password)
+    },
+
+    acceptToUse() {
+      return AuthService.acceptToUse().then(
+        () => {
+          return Promise.resolve(true);
+        },
+        error => {
+          return Promise.reject(error)
+        }
+      )
     }
   },
   mutations: {

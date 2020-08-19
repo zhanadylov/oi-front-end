@@ -102,7 +102,7 @@ export default {
       for (let i = 0; i < inputs.length; i++) {
         this.arr.push(inputs[i].value);
       }
-      this.$emit('input', this.arr);
+      this.$emit('input', {reportbody:this.arr, typedoc: this.result.typedoc, kvartal: this.result.kvartal});
     },
 
     textAreaAdjust(o) {

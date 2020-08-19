@@ -69,9 +69,13 @@ class AuthService {
     return instance.put('', {login, fullname}, { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') } })
   }
 
-  updatepassword(password, use) {
+  updatepassword(password) {
     //console.log('service', password)
-    return instance.put('password', {password, use})
+    return instance.put('password', password)
+  }
+
+  acceptToUse() {
+    return instance.put('use')
   }
 
 }
