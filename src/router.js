@@ -180,6 +180,13 @@ export const router = new Router({
       meta: { layout: 'main' },
       // lazy-loaded
       component: () => import('./views/ReportLayout.vue')
+    },
+    {
+      path: '/ecp',
+      name: 'ECP',
+      meta: { layout: 'main' },
+      // lazy-loaded
+      component: () => import('./views/ECP.vue')
     }
     
   ]

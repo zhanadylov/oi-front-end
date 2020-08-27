@@ -3,6 +3,7 @@ import App from './App.vue';
 import Vuex from 'vuex';
 import store from './store'; 
 import { router } from './router';
+import { getUserCertificates, Certificate } from 'crypto-pro';
 
 import { BootstrapVue } from 'bootstrap-vue';
 import 'bootstrap';
@@ -13,6 +14,8 @@ import './assets/style.css'
 
 // Install BootstrapVue
 Vue.use(BootstrapVue)
+
+
 // Optionally install the BootstrapVue icon components plugin
 //Vue.use(IconsPlugin)
 
@@ -23,5 +26,7 @@ Vue.use(Vuex);
 new Vue({
   store,
   router,
+  getUserCertificates,
+  Certificate,
   render: h => h(App)
 }).$mount('#app');
