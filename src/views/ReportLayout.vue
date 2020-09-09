@@ -6,19 +6,19 @@
         <thead>
           <tr>
             <th
-              v-for="(item, index) in arr.head"
+              v-for="(item, index) in form1.head"
               :key="index"
               :rowspan="item.rowspan"
               :colspan="item.colspan"
             >{{item.text}}</th>
           </tr>
           <tr>
-            <th v-for="(item, index) in arr.head2" :key="index">{{item}}</th>
+            <th v-for="(item, index) in form1.head2" :key="index">{{item}}</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td v-for="n in arr.body.count" :key="n">
+            <td v-for="n in form1.body.count" :key="n">
               <input type="text" class="input"/>
             </td>
           </tr>
@@ -32,23 +32,15 @@
 </template>
 
 <script>
-import forms from '../models/forms.js';
+
 export default {
   name: 'ReportLayout',
-  //mixins: [forms],
-  created() {
-    this.test()
-  },
   data() {
     return {
       arr: {}
     };
   },
   methods: {
-    test() {
-      this.arr = forms.form1()
-      
-    },
     save() {
       let inputs = document.getElementsByClassName('input');
 
