@@ -8,10 +8,6 @@
           <span v-else>Руководитель {{content.sepervisor.dir}}</span> 
         </h5>
       </b-col>
-      <!-- <br />
-      <b-col sm="12" v-show="dir != ''">
-        <h5 class="d-inline">Руководитель {{content.sepervisor.dir}}</h5>
-      </b-col> -->
 
       <br />
       <b-col sm="12"  v-show="content.sepervisor.buh">
