@@ -19,6 +19,7 @@
     "bootstrap": "^4.4.1",
     "bootstrap-vue": "^2.13.1",
     "core-js": "^2.6.11",
+    "crypto-pro": "^2.0.5",
     "jquery": "^3.5.1",
     "popper.js": "^1.16.1",
     "sass": "^1.26.5",
@@ -35,6 +36,8 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.3.0",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
