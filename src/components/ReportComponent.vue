@@ -206,7 +206,6 @@
             
             <input
               class="text simpleCart_input"
-              placeholder="01.07.2020"
               type="text"
               @blur="sendData"
               v-model="tblfactitems[index].DateCreate"
@@ -225,7 +224,6 @@
               class="text simpleCart_input"
               type="text"
               @blur="sendData"
-              placeholder="01.07.2020"
               v-model="tblfactitems[index].DateDisclosure"
             />
           </b-td>
@@ -408,7 +406,6 @@
           <label>Сальдо на</label>
           
            <input
-              placeholder="01.07.2020"
               type="text"
               @blur="sendData"
               v-model="row.item.TItle"
