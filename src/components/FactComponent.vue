@@ -94,18 +94,7 @@ export default {
         });
     },
     sendData() {
-<<<<<<< HEAD
-      let inputs = document.getElementsByName('inputs');
-
-      this.arr = [];
-
-      for (let i = 0; i < inputs.length; i++) {
-        this.arr.push(inputs[i].value);
-      }
-      this.$emit('input', this.arr);
-=======
       this.$emit('input', {reportbody:this.content, typedoc: this.result.typedoc, kvartal: this.result.kvartal});
->>>>>>> 80c03533ddb0a8ff08879f8d05f5d0d9c5f62452
     },
 
     textAreaAdjust(o) {
