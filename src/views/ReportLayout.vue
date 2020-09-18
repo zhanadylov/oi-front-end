@@ -344,10 +344,9 @@
 </template>
 
 <script>
-import forms from '../mixins/fromKSE.js';
+
 export default {
   name: 'ReportLayout',
-  mixins: [forms],
   data() {
     return {
       arr : []

@@ -7,7 +7,7 @@
     <b-alert variant="success" show>{{facts[result.typedoc].crib}}</b-alert>
     <b-table-simple hover small stacked>
       <b-tbody>
-        <b-tr v-for="(item, index) in content" :key="index++">
+        <b-tr v-for="(item, index) in content" :key="index">
           <template v-if="facts[$route.query.type]['titles']['title' + index].type == 'header'">
             <b-td colspan="2">
               <h5>{{facts[$route.query.type]['titles']['title' + index].text}}</h5>
@@ -25,9 +25,7 @@
                   @blur="sendData"
                   class="simpleCart_input"
                   rows="2"
-                  name="inputs"
-                  :data-option="index"
-                  :value="item"
+                  v-model="content[index]"
                 ></b-form-textarea>
               </p>
             </b-td>
@@ -35,6 +33,7 @@
         </b-tr>
       </b-tbody>
     </b-table-simple>
+    {{content}}
     <!-- <Supervisor /> -->
   </div>
 </template>
@@ -95,6 +94,7 @@ export default {
         });
     },
     sendData() {
+<<<<<<< HEAD
       let inputs = document.getElementsByName('inputs');
 
       this.arr = [];
@@ -103,6 +103,9 @@ export default {
         this.arr.push(inputs[i].value);
       }
       this.$emit('input', this.arr);
+=======
+      this.$emit('input', {reportbody:this.content, typedoc: this.result.typedoc, kvartal: this.result.kvartal});
+>>>>>>> 80c03533ddb0a8ff08879f8d05f5d0d9c5f62452
     },
 
     textAreaAdjust(o) {
