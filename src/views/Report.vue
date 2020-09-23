@@ -37,7 +37,8 @@ export default {
   components: {
     ReportComponent: () => import('../components/ReportComponent.vue'),
     FactComponent: () => import('../components/FactComponent.vue'),
-    FromKSEComponent: () => import('../components/FromKSE.vue')
+    FromKSEComponent: () => import('../components/FromKSE.vue'),
+    BrokerReports: () => import('../components/BrokerReports.vue')
   },
   computed: {
     isadmin() {
@@ -52,6 +53,10 @@ export default {
       }
       else if (this.$route.query.type.indexOf('kse') >= 0) {
         return 'FromKSEComponent'
+      }
+
+      else if (this.$route.query.type.indexOf('broker') >= 0) {
+        return 'BrokerReports'
       }
 
       return 'ReportComponent';
