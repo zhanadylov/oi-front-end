@@ -65,7 +65,7 @@ export default {
         return true
       }
       console.log('скрыть')
-      return false
+      return false 
       
     },
   },
