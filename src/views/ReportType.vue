@@ -22,13 +22,8 @@
       <router-link to="/report?type=report">Листинг</router-link>
     </b-button> <br><br>
     <b-button stacked variant="outline-primary" size="lg">
-<<<<<<< HEAD
-      <router-link to="/report?type=kse&btn=0">Отчеты для фондовой биржи</router-link>
-    </b-button> <br>
-=======
       <router-link to="/report?type=kse">Отчеты для фондовой биржи</router-link>
     </b-button> <br><br>
->>>>>>> 7653455311dbb24872c20d3fe01b0b7a432fc1f8
     <b-button stacked variant="outline-primary" size="lg">
       <router-link to="/report?type=broker">Отчеты для брокерских компаний</router-link>
     </b-button>
