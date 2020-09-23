@@ -22,7 +22,7 @@
       <router-link to="/report?type=report">Листинг</router-link>
     </b-button> <br>
     <b-button stacked variant="outline-primary" size="lg">
-      <router-link to="/report?type=kse">Отчеты для фондовой биржи</router-link>
+      <router-link to="/report?type=kse&btn=0">Отчеты для фондовой биржи</router-link>
     </b-button> <br>
     <b-button stacked variant="outline-primary" size="lg">
       <router-link to="/report?type=report">Отчеты для брокерских компаний</router-link>
@@ -34,6 +34,7 @@
 <script>
 export default {
   name: 'ReportType'
+  
 };
 </script>
 

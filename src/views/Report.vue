@@ -9,13 +9,10 @@
       <b-button class="btn btn-block hide-print" @click="rejectReport" variant="danger">Отклонить</b-button>
     </template>
     <template v-else>
-      <button class="btn btn-primary btn-block hide-print" v-if="!$route.params.idreport" @click="submit">
+      <button class="btn btn-primary btn-block hide-print" v-if="!$route.params.idreport" v-show="btnView" @click="submit">
         <span>Сохранить</span>
       </button>
-      
-      <button v-else class="btn btn-primary btn-block hide-print"  @click="update">Обновить</button>
-      
-      
+      <button v-else class="btn btn-primary btn-block hide-print"  @click="update">Обновить</button> 
     </template>
   </div>
 </template>
@@ -54,9 +51,16 @@ export default {
       else if (this.$route.query.type.indexOf('kse') >= 0) {
         return 'FromKSEComponent'
       }
-
       return 'ReportComponent';
-    }
+    },
+    btnView() {
+      if (this.$route.query.btn != 0) {
+        console.log('показать')
+        return true
+      }
+      console.log('скрыть')
+      return false
+    },
   },
   methods: {
     submit() {

@@ -338,7 +338,7 @@
     </div>
     {{arr}}
     <button class="btn btn-primary btn-block hide-print" @click="save">
-        <span>Сохранить</span>
+        <span>Сохранить1</span>
       </button>
   </div>
 </template>
