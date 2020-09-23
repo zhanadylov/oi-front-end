@@ -409,7 +409,7 @@
               type="text"
               @blur="sendData"
               v-model="row.item.TItle"
-              class="simpleCart_input"
+              class="simpleCart_input saldo_na"
             />
         </template>
         <template v-else>
@@ -667,6 +667,9 @@ table {
   position: absolute;
   z-index: 20;
   top: 0;
+}
+.saldo_na{
+  margin-left: 10px;
 }
 </style>
 
