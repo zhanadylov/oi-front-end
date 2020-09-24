@@ -14,7 +14,7 @@
             <template #cell(title)="row">
                 <input type="text" v-model="row.item.title" />
             </template>
-            <template #cell(title22)="row">
+            <template #cell(title2)="row">
                 <input type="text" v-model="row.item.title22" />
             </template>
             <template #cell(title3)="row">
@@ -38,7 +38,7 @@
             </b-table>
         </div>
 
-        <div class="forma4">
+        <!-- <div class="forma4">
             <h4><b>Структура
                 финансовых вложений
       </b></h4>
@@ -510,8 +510,8 @@
       <b-table-simple hover bordered small stacked>
         <thead>
           <tr>
-            <!-- <th v-for="(item, index) in form13PD5.head" :key="index"></th> -->
-          </tr>
+            <th v-for="(item, index) in form13PD5.head" :key="index"></th> -->
+          <!-- </tr>
         </thead>
         <tbody>
           <tr>
@@ -586,7 +586,7 @@
           </tr>
         </tbody>
       </b-table-simple>
-      </div>
+      </div> -->
       {{arr}}
     <button class="btn btn-primary btn-block hide-print" @click="save">
         <span>Сохранить</span>
@@ -619,6 +619,7 @@ export default {
   },
 };
 </script>
+
 <style>
 h4 {
   text-align: center;
