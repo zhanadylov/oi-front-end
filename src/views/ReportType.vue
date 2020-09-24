@@ -17,7 +17,7 @@
     <br />
     <b-button stacked variant="outline-primary" size="lg">
       <router-link to="/report?type=report">Приложение 2-1</router-link>
-    </b-button> <br><br><br>
+    </b-button> <br><br>
     <b-button stacked variant="outline-primary" size="lg">
       <router-link to="/report?type=report">Листинг</router-link>
     </b-button> <br><br>
