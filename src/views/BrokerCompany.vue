@@ -9,8 +9,7 @@
             hover
             :items="forma3BD1"
             :fields="tblforma3BD1fields"
-            head-variant="light"
-            >
+            head-variant="light">
             <template #cell(title)="row">
                 <input type="text" v-model="row.item.title" />
             </template>

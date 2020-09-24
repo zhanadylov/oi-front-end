@@ -677,6 +677,9 @@ table {
 .table-transparent {
   width: 40% !important;
 }
+.saldo_na{
+  margin-left: 10px;
+}
 @media print {
   #app {
     display: block !important;

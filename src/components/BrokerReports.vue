@@ -21,7 +21,32 @@
         <b-button @click="back" variant="outline-primary">Назад</b-button>
       <br />
       <br />
-      {{content}}
+      <b-table-simple hover bordered small stacked>
+          <thead>
+            <tr>
+              <th
+                v-for="(item, index) in content.head.first"
+                :key="index"
+                :rowspan="item.rowspan"
+                :colspan="item.colspan"
+              >{{item.text}}</th>
+            </tr>
+            <tr>
+              <th v-for="(item, index) in content.head.second" :key="index">{{item.text}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in content.body.names" :key="index">
+              <td>
+                <p>{{item}}</p>
+              </td>
+              <td v-for="n in content.body.count" :key="n">
+                <input type="text" class="input"/>
+              </td>
+            </tr>
+          </tbody>
+        </b-table-simple>
+      
       </template>
   </div>
 </template>
