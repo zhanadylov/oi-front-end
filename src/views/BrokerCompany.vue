@@ -38,7 +38,7 @@
             </b-table>
         </div>
 
-        <div class="forma4">
+         <div class="forma4">
             <h4><b>Структура
                 финансовых вложений
       </b></h4>
@@ -161,7 +161,7 @@
       </b-table-simple>
         </div>
 
-        <div class="forma5">
+         <div class="forma5">
             <h4><b>Сведения
                 о сделках с ценными бумагами
       </b></h4>
@@ -309,9 +309,9 @@
           </tr>
         </tbody>
       </b-table-simple>
-        </div>
+        </div> 
 
-      <div class="forma6">
+       <div class="forma6">
         <h4><b>Сведения
           об осуществлении брокерской деятельности
         </b></h4>
@@ -365,9 +365,9 @@
           </tr>
         </tbody>
       </b-table-simple>
-      </div>
+      </div> 
 
-      <div class="forma7">
+       <div class="forma7">
         <h4><b>Сведения
             об осуществлении деятельности по доверительному управлению инвестиционными активами
         </b></h4>
@@ -421,9 +421,9 @@
           </tr>
         </tbody>
       </b-table-simple>
-      </div>
+      </div> 
 
-      <div class="forma8">
+       <div class="forma8">
         <h4><b>Показатели, характеризующие финансовое состояние организации
         </b></h4>
       <b-table-simple hover bordered small stacked>
@@ -469,7 +469,7 @@
       </b-table-simple>
       </div>
 
-      <div class="forma9">
+       <div class="forma9">
         <h4><b>Расчет
               нормативов достаточности собственных средств
         </b></h4>
@@ -501,17 +501,17 @@
           </tr>
         </tbody>
       </b-table-simple>
-      </div>
+      </div> 
 
-      <div class="forma10">
+       <div class="forma10">
         <h4><b>Информация
             о совершении операции с 5% и более с одним видом ценных бумаг одного эмитента
         </b></h4>
       <b-table-simple hover bordered small stacked>
         <thead>
           <tr>
-            <!-- <th v-for="(item, index) in form13PD5.head" :key="index"></th> -->
-          </tr>
+            <th v-for="(item, index) in form13PD5.head" :key="index"></th>
+           </tr>
         </thead>
         <tbody>
           <tr>
@@ -586,7 +586,7 @@
           </tr>
         </tbody>
       </b-table-simple>
-      </div>
+      </div> 
       {{arr}}
     <button class="btn btn-primary btn-block hide-print" @click="save">
         <span>Сохранить</span>
@@ -619,6 +619,7 @@ export default {
   },
 };
 </script>
+
 <style>
 h4 {
   text-align: center;

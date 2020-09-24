@@ -338,16 +338,15 @@
     </div>
     {{arr}}
     <button class="btn btn-primary btn-block hide-print" @click="save">
-        <span>Сохранить</span>
+        <span>Сохранить1</span>
       </button>
   </div>
 </template>
 
 <script>
-import forms from '../mixins/fromKSE.js';
+
 export default {
   name: 'ReportLayout',
-  mixins: [forms],
   data() {
     return {
       arr : []
