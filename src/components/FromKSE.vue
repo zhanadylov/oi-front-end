@@ -85,9 +85,11 @@ export default {
       this.content = this.forms[this.selected];
       let h = document.getElementById('table-content');
       console.log(h)
+      this.$router.push({path: 'report', query:{type:'kse', btn:'1'}})
     },
     back() {
       this.selected = '';
+      this.$router.push({path: 'report', query:{type:'kse', btn:'0'}})
     },
   },
 };

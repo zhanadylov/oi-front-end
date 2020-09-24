@@ -14,6 +14,15 @@
     height: 100vh;
     width: 100%;
     position: absolute;
+    background-image: url(../assets/bg.jpg);
+    background-position: center center;
+  
+    background-repeat: no-repeat;
+    
+    background-attachment: fixed;
+    
+    /* Изменение размера картинки, в зависимости от экрана */
+    background-size: cover;
 }
 
 .bg {

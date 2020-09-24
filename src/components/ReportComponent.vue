@@ -432,11 +432,10 @@
           <label>Сальдо на</label>
           
            <input
-              placeholder="01.07.2020"
               type="text"
               @blur="sendData"
               v-model="row.item.TItle"
-              class="simpleCart_input"
+              class="simpleCart_input saldo_na"
             />
         </template>
         <template v-else>
@@ -752,6 +751,9 @@ table {
 <style >
 .table-transparent {
   width: 40% !important;
+}
+.saldo_na{
+  margin-left: 10px;
 }
 @media print {
   #app {
