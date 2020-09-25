@@ -45,6 +45,14 @@
                 <input type="text" class="input"/>
               </td>
             </tr>
+            <tr v-for="(item, index) in content.body" :key="index">
+              <td>
+                <p>{{item}}</p>
+              </td>
+              <td v-for="n in content.body.count" :key="n">
+                <input type="text" class="input"/>
+              </td>
+            </tr>
           </tbody>
         </b-table-simple>
       </div>

@@ -2,69 +2,66 @@ export default {
     data() {
         return {
             forms:{
-                
-            
-                // tblforma3BD1fields:
-                // form3: 
-                //      {
-                //          head:{
-                //         { 
-                //             key: 'title1',
-                //             headerTitle: 'С ведения о дебиторской и кредиторской задолженности №', 
-                //             label: 'С ведения о дебиторской и кредиторской задолженности №' 
-                //         },
-                //         { 
-                //             key: 'title2',
-                //             headerTitle: 'Наименование показателя', 
-                //             label: 'Наименование показателя' 
-                //         },
-                //         {
-                //             key: 'title3',
-                //             headerTitle: 'До 1 месяца',
-                //             label: 'До 1 месяца'
-                //         },
-                //         {
-                //             key: 'title4',
-                //             headerTitle: '1-3 месяца',
-                //             label: '1-3 месяца'
-                //         },      
-                //         {
-                //             key: 'title5',
-                //             headerTitle: '3-6 месяцев',
-                //             label: '3-6 месяцев'
-                //         },
-                //         {
-                //             key: 'title6',
-                //             headerTitle: '6-12 месяцев',
-                //             label: '6-12 месяцев'
-                //         },
-                //         {
-                //             key: 'title7',
-                //             headerTitle: 'Свыше 12 месяцев',
-                //             label: 'Свыше 12 месяцев'
-                //         },
-                //         {
-                //             key: 'title8',
-                //             headerTitle: 'Итого',
-                //             label: 'Итого'
-                //         }
-                //     },
+                fromy3:{
+                    form3bd: 
+                        [
+                            { 
+                                key: 'title1',
+                                headerTitle: 'С ведения о дебиторской и кредиторской задолженности №', 
+                                label: 'С ведения о дебиторской и кредиторской задолженности №' 
+                            },
+                            { 
+                                key: 'title2',
+                                headerTitle: 'Наименование показателя', 
+                                label: 'Наименование показателя' 
+                            },
+                            {
+                                key: 'title3',
+                                headerTitle: 'До 1 месяца',
+                                label: 'До 1 месяца'
+                            },
+                            {
+                                key: 'title4',
+                                headerTitle: '1-3 месяца',
+                                label: '1-3 месяца'
+                            },      
+                            {
+                                key: 'title5',
+                                headerTitle: '3-6 месяцев',
+                                label: '3-6 месяцев'
+                            },
+                            {
+                                key: 'title6',
+                                headerTitle: '6-12 месяцев',
+                                label: '6-12 месяцев'
+                            },
+                            {
+                                key: 'title7',
+                                headerTitle: 'Свыше 12 месяцев',
+                                label: 'Свыше 12 месяцев'
+                            },
+                            {
+                                key: 'title8',
+                                headerTitle: 'Итого',
+                                label: 'Итого'
+                            }
+                        ],
 
-                //     body: [
-                //         { title0: 1, title1: "Дебиторская задолженность всего:", title2: '', title3: '', title4: "", title5: "", title6: "", title7: "" },
-                //         { title0: 2, title1: "в том числе: - пролонгированная;", title2: '', title3: '', title4: "", title5: "", title6: "", title7: "" },
-                //         { title0: 3, title1: "- просроченная", title2: '', title3: '', title4: "", title5: "", title6: "", title7: "" },
-                //         { title0: 4, title1: "Дебиторская задолженность контрагентов по договорам купли-продажи ценных бумаг, заключенным организацией от своего имени и за свой счет", title2: '', title3: '', title4: "", title5: "", title6: "", title7: "" },
-                //         { title0: 5, title1: "Дебиторская задолженность клиентов всего:", title2: '', title3: '', title4: "", title5: "", title6: "", title7: "" },
-                //         { title0: 6, title1: "в том числе по договорам с физическими лицами", title2: '', title3: '', title4: "", title5: "", title6: "", title7: "" },
-                //         { title0: 7, title1: "Кредиторская задолженность всего:", title2: '', title3: '', title4: "", title5: "", title6: "", title7: "" },
-                //         { title0: 8, title1: "в том числе: - пролонгированная;", title2: '', title3: '', title4: "", title5: "", title6: "", title7: "" },
-                //         { title0: 9, title1: "- просроченная", title2: '', title3: '', title4: "", title5: "", title6: "", title7: "" },
-                //         { title0: 10, title1: "Кредиторская задолженность перед контрагентами по договорам купли-продажи ценных бумаг, заключенным организацией от своего имени и за свой счет", title2: '', title3: '', title4: "", title5: "", title6: "", title7: "" },
-                //         { title0: 11, title1: "Кредиторская задолженность перед клиентами", title2: '', title3: '', title4: "", title5: "", title6: "", title7: "" },
-                //         { title0: 12, title1: "в том числе по договорам с физическими лицами", title2: '', title3: '', title4: "", title5: "", title6: "", title7: "" },
-                //     ]       
-                // },
+                        body: [
+                            { title0: 1, title1: "Дебиторская задолженность всего:", title2: '', title3: '', title4: "", title5: "", title6: "", title7: "" },
+                            { title0: 2, title1: "в том числе: - пролонгированная;", title2: '', title3: '', title4: "", title5: "", title6: "", title7: "" },
+                            { title0: 3, title1: "- просроченная", title2: '', title3: '', title4: "", title5: "", title6: "", title7: "" },
+                            { title0: 4, title1: "Дебиторская задолженность контрагентов по договорам купли-продажи ценных бумаг, заключенным организацией от своего имени и за свой счет", title2: '', title3: '', title4: "", title5: "", title6: "", title7: "" },
+                            { title0: 5, title1: "Дебиторская задолженность клиентов всего:", title2: '', title3: '', title4: "", title5: "", title6: "", title7: "" },
+                            { title0: 6, title1: "в том числе по договорам с физическими лицами", title2: '', title3: '', title4: "", title5: "", title6: "", title7: "" },
+                            { title0: 7, title1: "Кредиторская задолженность всего:", title2: '', title3: '', title4: "", title5: "", title6: "", title7: "" },
+                            { title0: 8, title1: "в том числе: - пролонгированная;", title2: '', title3: '', title4: "", title5: "", title6: "", title7: "" },
+                            { title0: 9, title1: "- просроченная", title2: '', title3: '', title4: "", title5: "", title6: "", title7: "" },
+                            { title0: 10, title1: "Кредиторская задолженность перед контрагентами по договорам купли-продажи ценных бумаг, заключенным организацией от своего имени и за свой счет", title2: '', title3: '', title4: "", title5: "", title6: "", title7: "" },
+                            { title0: 11, title1: "Кредиторская задолженность перед клиентами", title2: '', title3: '', title4: "", title5: "", title6: "", title7: "" },
+                            { title0: 12, title1: "в том числе по договорам с физическими лицами", title2: '', title3: '', title4: "", title5: "", title6: "", title7: "" },
+                        ]
+                },
                 
                 form4: {
                     head: {
@@ -98,7 +95,7 @@ export default {
                         count: 5
                     }
                 },
-            },
+            
                 form5: { // Форма 5 БД-3
                     head: {
                         first: {
@@ -135,6 +132,7 @@ export default {
                         count: 6
                     }
                 },
+
                 form6: { // Форма 6 Б-1
                     head: [
                         { key: 'title0', label: '№ строки' },
@@ -153,6 +151,7 @@ export default {
                         { title0: '4', title1: "- нерезидентам", title2: ''}
                     ]
                 },
+
                 form7: { // Форма 7 ДУ-1
                     head: [
                         { key: 'title0', label: '№ строки' },
@@ -171,6 +170,7 @@ export default {
                         { title0: '4', title1: "- нерезидентам", title2: ''}
                     ]
                 },
+
                 form12: { //Форма 12 ПД-4
                     head: [
                         { key: 'title0', label: '№' },
@@ -186,8 +186,33 @@ export default {
                         { title0: '2', title1: "К2 (отношение привлеченных средств к собственному капиталу)", title2: ''},
                         { title0: '3', title1: "К3 (эффективность деятельности организации)", title2: ''},
                         { title0: '4', title1: "К5 (совокупные обязательства)", title2: ''}
-                    ]
+                    ],
+                },
+
+                form13: { //Форма 13 ПД-5
+                    // head: [
+                    //     { key: 'title0', label: '№' },
+                    //     { key: 'title1', label: 'Наименование показателей' },
+                    //     {
+                    //         key: 'title2',
+                    //         label: 'Значение показателя'
+                    //     }
+                    // ],
+
+                    body: [
+                        { title0: '1', title1: "Наименование эмитента", title2: ''},
+                        { title0: '2', title1: "Дата исполнения операции", title2: ''},
+                        { title0: '3', title1: "Тип операции", title2: ''},
+                        { title0: '4', title1: "Вид ценных бумаг", title2: ''},
+                        { title0: '5', title1: "Государственный регистрационный номер ценных бумаг", title2: ''},
+                        { title0: '6', title1: "Количество ценных бумаг ", title2: ''},
+                        { title0: '7', title1: "Лицо, передающее ценные бумаги", title2: ''},
+                        { title0: '8', title1: "Лицо, принимающее ценные бумаги", title2: ''},
+                        { title0: '9', title1: "Стоимость 1 ценной бумаги/общая стоимость (сом.)", title2: ''},
+                        { title0: '10', title1: "Доля операции в уставном капитале (%)", title2: ''}
+                    ],
                 }
+            }
         }
     }
 }
