@@ -21,7 +21,7 @@
         <b-button @click="back" variant="outline-primary">Назад</b-button>
       <br />
       <br />
-      <div class="forms-div" id="forma3-content">
+      <div class="forms-div" id="form3-content">
       <b-table-simple hover bordered small stacked>
           <thead>
             <tr>
@@ -85,18 +85,19 @@ export default {
             'Информация о совершении операции с 5% и более с одним видом ценных бумаг одного эмитента',
         }, //Форма 13 ПД-5
       ],
+      arr: [],
     };
   },
   computed: {
     show() {
       if (this.selected == '') return true;
-      return this.viewFactBody();
+      return this.viewFactBodys();
     },
   },
   methods: {
-    viewFactBody() {
+    viewFactBodys() {
       this.content = this.brokercompany[this.selected];
-      let h = document.getElementById('forma3-content').offsetHeight;
+      let h = document.getElementById('form3-content');//.offsetHeight;
       console.log(h)
     },
     back() {

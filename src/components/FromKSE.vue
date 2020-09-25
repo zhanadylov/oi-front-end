@@ -83,7 +83,7 @@ export default {
   methods: {
     viewFactBody() {
       this.content = this.forms[this.selected];
-      let h = document.getElementById('table-content').offsetHeight;
+      let h = document.getElementById('table-content');
       console.log(h)
       this.$router.push({path: 'report', query:{type:'kse', btn:'1'}})
     },
