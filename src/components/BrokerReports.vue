@@ -21,6 +21,7 @@
         <b-button @click="back" variant="outline-primary">Назад</b-button>
       <br />
       <br />
+      <div class="forms-div" id="forma3-content">
       <b-table-simple hover bordered small stacked>
           <thead>
             <tr>
@@ -46,7 +47,7 @@
             </tr>
           </tbody>
         </b-table-simple>
-      
+      </div>
       </template>
   </div>
 </template>
@@ -60,6 +61,7 @@ export default {
     return {
       content: {},
       selected: '',
+      text: '',
       formNames: [
         { value: 'form3', text: 'Форма 3 БД-1' },
         { value: 'form4', text: 'Структура финансовых вложений' }, //Форма 4 БД-2
@@ -94,6 +96,8 @@ export default {
   methods: {
     viewFactBody() {
       this.content = this.brokercompany[this.selected];
+      let h = document.getElementById('forma3-content').offsetHeight;
+      console.log(h)
     },
     back() {
       this.selected = '';
@@ -101,3 +105,21 @@ export default {
   },
 };
 </script>
+<style>
+.radio-fact label {
+  line-height: 2;
+  font-size: 17px;
+  color: #506780;
+  border-color: #506780;
+  text-align: left;
+  margin: 10px 0 !important;
+}
+.forms-div {
+  overflow: auto;
+  position: absolute;
+  width: 100%;
+}
+.BrokerReports {
+  position: relative;
+}
+</style>

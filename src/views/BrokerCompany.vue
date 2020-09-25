@@ -1,6 +1,30 @@
 <template>
  <div class="formaBroker">
-      <div class="forma3bd1">
+   <div class="forma3bd1" id="forma3bd1-content">
+        <b-table-simple hover bordered small stacked>
+          <thead>
+            <tr>
+              <th
+                v-for="(item, index) in content.tblforma3BD1fields"
+                :key="index"
+                :rowspan="item.rowspan"
+                :colspan="item.colspan"
+              >{{item.text}}</th>
+            </tr>
+            <!-- <tr>
+              <th v-for="(item, index) in content.body" :key="index">{{item}}</th>
+            </tr> -->
+          </thead>
+          <tbody>
+            <tr>
+              <td v-for="n in content.body.count" :key="n">
+                <input type="text" class="input" />
+              </td>
+            </tr>
+          </tbody>
+        </b-table-simple>
+      </div>
+      <!-- <div class="forma3bd1">
             <h4>
             Форма 3 БД-1
             </h4>
@@ -35,9 +59,9 @@
                 <input type="text" v-model="row.item.title8" />
             </template>
             </b-table>
-        </div>
+        </div> -->
 
-         <div class="forma4">
+         <!-- <div class="forma4">
             <h4><b>Структура
                 финансовых вложений
       </b></h4>
@@ -158,9 +182,9 @@
           </tr>
         </tbody>
       </b-table-simple>
-        </div>
+        </div> -->
 
-         <div class="forma5">
+         <!-- <div class="forma5">
             <h4><b>Сведения
                 о сделках с ценными бумагами
       </b></h4>
@@ -308,9 +332,9 @@
           </tr>
         </tbody>
       </b-table-simple>
-        </div> 
+        </div>  -->
 
-       <div class="forma6">
+       <!-- <div class="forma6">
         <h4><b>Сведения
           об осуществлении брокерской деятельности
         </b></h4>
@@ -364,9 +388,9 @@
           </tr>
         </tbody>
       </b-table-simple>
-      </div> 
+      </div>  -->
 
-       <div class="forma7">
+       <!-- <div class="forma7">
         <h4><b>Сведения
             об осуществлении деятельности по доверительному управлению инвестиционными активами
         </b></h4>
@@ -420,9 +444,9 @@
           </tr>
         </tbody>
       </b-table-simple>
-      </div> 
+      </div>  -->
 
-       <div class="forma8">
+       <!-- <div class="forma8">
         <h4><b>Показатели, характеризующие финансовое состояние организации
         </b></h4>
       <b-table-simple hover bordered small stacked>
@@ -466,9 +490,9 @@
           </tr>
         </tbody>
       </b-table-simple>
-      </div>
+      </div> -->
 
-       <div class="forma9">
+       <!-- <div class="forma9">
         <h4><b>Расчет
               нормативов достаточности собственных средств
         </b></h4>
@@ -500,9 +524,9 @@
           </tr>
         </tbody>
       </b-table-simple>
-      </div> 
+      </div>  -->
 
-       <div class="forma10">
+       <!-- <div class="forma10">
         <h4><b>Информация
             о совершении операции с 5% и более с одним видом ценных бумаг одного эмитента
         </b></h4>
@@ -585,7 +609,7 @@
           </tr>
         </tbody>
       </b-table-simple>
-      </div> 
+      </div>  -->
       {{arr}}
     <button class="btn btn-primary btn-block hide-print" @click="save">
         <span>Сохранить</span>
@@ -600,20 +624,20 @@ export default {
   mixins: [brokercompany],
   data() {
     return {
-        forma3BD1: [
-        {title1: '1', title2: 'Дебиторская задолженность всего:', title3: '', title4: '', title5: '', title6: '', title7: '', title8: ''},
-        {title1: '2', title2: 'в том числе:- пролонгированная', title3: '', title4: '', title5: '', title6: '', title7: '', title8: ''},
-        {title1: '3', title2: 'просроченная', title3: '', title4: '', title5: '', title6: '', title7: '', title8: ''},
-        {title1: '4', title2: 'Дебиторская задолженность контрагентов по договорам купли-продажи ценных бумаг, заключенным организацией от своего имени и за свой счет', title3: '', title4: '', title5: '', title6: '', title7: '', title8: ''},
-        {title1: '5', title2: 'Дебиторская задолженность клиентов всего::', title3: '', title4: '', title5: '', title6: '', title7: '', title8: ''},
-        {title1: '6', title2: 'в том числе по договорам с физическими лицами', title3: '', title4: '', title5: '', title6: '', title7: '', title8: ''},
-        {title1: '7', title2: 'Кредиторская задолженность всего:', title3: '', title4: '', title5: '', title6: '', title7: '', title8: ''},
-        {title1: '8', title2: 'в том числе:- пролонгированная;', title3: '', title4: '', title5: '', title6: '', title7: '', title8: ''},
-        {title1: '9', title2: 'просроченная', title3: '', title4: '', title5: '', title6: '', title7: '', title8: ''},
-        {title1: '10', title2: 'Кредиторская задолженность перед контрагентами по договорам купли-продажи ценных бумаг, заключенным организацией от своего имени и за свой счет', title3: '', title4: '', title5: '', title6: '', title7: '', title8: ''},
-        {title1: '11', title2: 'Кредиторская задолженность перед клиентами', title3: '', title4: '', title5: '', title6: '', title7: '', title8: ''},
-        {title1: '12', title2: 'в том числе по договорам с физическими лицами', title3: '', title4: '', title5: '', title6: '', title7: '', title8: ''},
-      ],
+      //   forma3BD1: [
+      //   {title1: '1', title2: 'Дебиторская задолженность всего:', title3: '', title4: '', title5: '', title6: '', title7: '', title8: ''},
+      //   {title1: '2', title2: 'в том числе:- пролонгированная', title3: '', title4: '', title5: '', title6: '', title7: '', title8: ''},
+      //   {title1: '3', title2: 'просроченная', title3: '', title4: '', title5: '', title6: '', title7: '', title8: ''},
+      //   {title1: '4', title2: 'Дебиторская задолженность контрагентов по договорам купли-продажи ценных бумаг, заключенным организацией от своего имени и за свой счет', title3: '', title4: '', title5: '', title6: '', title7: '', title8: ''},
+      //   {title1: '5', title2: 'Дебиторская задолженность клиентов всего::', title3: '', title4: '', title5: '', title6: '', title7: '', title8: ''},
+      //   {title1: '6', title2: 'в том числе по договорам с физическими лицами', title3: '', title4: '', title5: '', title6: '', title7: '', title8: ''},
+      //   {title1: '7', title2: 'Кредиторская задолженность всего:', title3: '', title4: '', title5: '', title6: '', title7: '', title8: ''},
+      //   {title1: '8', title2: 'в том числе:- пролонгированная;', title3: '', title4: '', title5: '', title6: '', title7: '', title8: ''},
+      //   {title1: '9', title2: 'просроченная', title3: '', title4: '', title5: '', title6: '', title7: '', title8: ''},
+      //   {title1: '10', title2: 'Кредиторская задолженность перед контрагентами по договорам купли-продажи ценных бумаг, заключенным организацией от своего имени и за свой счет', title3: '', title4: '', title5: '', title6: '', title7: '', title8: ''},
+      //   {title1: '11', title2: 'Кредиторская задолженность перед клиентами', title3: '', title4: '', title5: '', title6: '', title7: '', title8: ''},
+      //   {title1: '12', title2: 'в том числе по договорам с физическими лицами', title3: '', title4: '', title5: '', title6: '', title7: '', title8: ''},
+      // ],
     }
   },
 };
