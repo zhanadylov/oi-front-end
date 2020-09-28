@@ -45,9 +45,9 @@
                 <input type="text" class="input"/>
               </td>
             </tr>
-            <tr v-for="(item, index) in content.body" :key="index">
+            <tr v-for="(item, index) in content.body.names" :key="index">
               <td>
-                <p>{{item}}</p>
+                <!-- <p>{{item}}</p> -->
               </td>
               <td v-for="n in content.body.count" :key="n">
                 <input type="text" class="input"/>
@@ -61,10 +61,10 @@
 </template>
 
 <script>
-import brokercompany from '../mixins/brokercompany.js';
+import forms from '../mixins/brokercompany.js';
 export default {
   name: 'BrokerReports',
-  mixins: [brokercompany],
+  mixins: [forms],
   data() {
     return {
       content: {},
@@ -88,6 +88,10 @@ export default {
           text: 'Показатели, характеризующие финансовое состояние организации',
         }, //Форма 12 ПД-4
         {
+          value: 'form121',
+          text:'Расчет нормативов достаточности собственных средств',
+        },
+        {
           value: 'form13',
           text:
             'Информация о совершении операции с 5% и более с одним видом ценных бумаг одного эмитента',
@@ -104,7 +108,7 @@ export default {
   },
   methods: {
     viewFactBodys() {
-      this.content = this.brokercompany[this.selected];
+      this.content = this.forms[this.selected];
       let h = document.getElementById('form3-content');//.offsetHeight;
       console.log(h)
     },
