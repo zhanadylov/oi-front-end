@@ -45,7 +45,7 @@
                 <input type="text" class="input"/>
               </td>
             </tr>
-            <tr v-for="(item, index) in content.body.names" :key="index">
+            <tr v-for="(item, index) in content.body" :key="index">
               <td>
                 <!-- <p>{{item}}</p> -->
               </td>
