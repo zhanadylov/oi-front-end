@@ -46,7 +46,7 @@
             </tr>
             <tr>
               <td v-for="n in content.body.count" :key="n">
-                <input type="text" class="input" name="inputs" @blur="save"/>
+                <input type="text" class="input" name="inputs" @blur="sendData"/>
               </td>
             </tr>
           </tbody>
@@ -134,13 +134,10 @@ export default {
     },
     save() {
       let inputs = document.getElementsByName('inputs');
-
       this.arr = []
-
       for (let i = 0; i < inputs.length; i++) {
         this.arr.push(inputs[i].value)
       }
-
       let typedoc = this.selected;
       let xmldoc = JSON.stringify(this.arr);
       let sender = this.$store.state.company.info.kod;
@@ -156,9 +153,15 @@ export default {
       //   });
     },
     sendData() {
+      let inputs = document.getElementsByName('inputs');
+      this.arr = []
+      for (let i = 0; i < inputs.length; i++) {
+        this.arr.push(inputs[i].value)
+      }
+      console.log(2)
       this.$emit('input', {
         typedoc: this.selected,
-        reportbody: this.content,
+        reportbody: this.arr,
         kvartal: ';',
         reportHead: {kod: this.$store.state.company.info.kod}
       });
@@ -183,5 +186,8 @@ export default {
 }
 .ReportLayout {
   position: relative;
+}
+.btn-save {
+  margin-top: 200px;
 }
 </style>

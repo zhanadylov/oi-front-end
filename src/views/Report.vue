@@ -4,12 +4,13 @@
       <b-button class="print hide-print" onclick="window.print()">Печать</b-button>
     </div>
     <component :is="isReportView" v-model="report"></component>
+    {{report}}
     <template v-if="isadmin">
       <b-button class="btn btn-block hide-print" variant="success">Подтвердить</b-button>
       <b-button class="btn btn-block hide-print" @click="rejectReport" variant="danger">Отклонить</b-button>
     </template>
     <template v-else>
-      <button class="btn btn-primary btn-block hide-print" v-show="btnView" v-if="!$route.params.idreport" @click="submit">
+      <button class="btn btn-primary btn-block btn-save hide-print" v-show="btnView" v-if="!$route.params.idreport" @click="submit">
         <span>Сохранить</span>
       </button>
       <button v-else class="btn btn-primary btn-block hide-print"  @click="update">Обновить</button> 
