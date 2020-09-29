@@ -158,7 +158,9 @@ export default {
     sendData() {
       this.$emit('input', {
         typedoc: this.selected,
-        
+        reportbody: this.content,
+        kvartal: ';',
+        reportHead: {kod: this.$store.state.company.info.kod}
       });
     },
   },
