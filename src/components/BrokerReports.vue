@@ -18,36 +18,90 @@
       ></b-radio-group>
     </b-form-group>
     <template v-else>
-        <b-button @click="back" variant="outline-primary">Назад</b-button>
+      <b-button @click="back" variant="outline-primary">Назад</b-button>
       <br />
       <br />
-      <b-table-simple hover bordered small stacked>
-          <thead>
+      <!-- Если выбрана форма 6, 7, 12 -->
+      <template
+        v-if="
+          selected == 'brok6' || selected == 'brok7' || selected == 'brok12'
+        "
+      >
+        <b-table
+          bordered
+          hover
+          :items="content.body"
+          :fields="content.head"
+          head-variant="light"
+        >
+          <template #cell(title2)="row">
+            <input
+              type="text"
+              v-model="row.item.title2"
+              @blur="sendData"
+            />
+          </template>
+        </b-table>
+      </template>
+      <!-- Если выбрана форма 3 бд -->
+      <template v-else-if="selected == 'brok3'">
+        <b-table-simple bordered hover head-variant="light">
+          <b-thead>
+            <b-tr>
+              <b-th v-for="(item, index) in content.head" :key="index">{{
+                item.label
+              }}</b-th>
+            </b-tr>
+          </b-thead>
+          <tbody>
+            <b-tr v-for="(item, index) in content.body" :key="index">
+              <b-td v-for="(it, ix) in item" :key="ix">
+                <template v-if="ix == 'title0' || ix == 'title1'">
+                  {{ it }}
+                </template>
+                <template v-else>
+                  <input type="text" class="input" @blur="sendData" v-model="content.body[index][ix]"/>
+                </template>
+              </b-td>
+            </b-tr>
+          </tbody>
+        </b-table-simple>
+      </template>
+
+      <template v-else>
+        <b-table-simple hover bordered small stacked>
+          <thead v-if="content.head">
             <tr>
               <th
                 v-for="(item, index) in content.head.first"
                 :key="index"
                 :rowspan="item.rowspan"
                 :colspan="item.colspan"
-              >{{item.text}}</th>
+              >
+                {{ item.text }}
+              </th>
             </tr>
             <tr>
-              <th v-for="(item, index) in content.head.second" :key="index">{{item.text}}</th>
+              <th v-for="(item, index) in content.head.second" :key="index">
+                {{ item.text }}
+              </th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item, index) in content.body.names" :key="index">
-              <td>
-                <p>{{item}}</p>
-              </td>
-              <td v-for="n in content.body.count" :key="n">
-                <input type="text" class="input"/>
-              </td>
-            </tr>
+            <b-tr v-for="(item, index) in content.body" :key="index">
+              <b-td v-for="(it, ix) in item" :key="ix">
+                <template v-if="ix == 'title0'">
+                  {{ it }}
+                </template>
+                <template v-else>
+                  <input type="text" class="input" @blur="sendData" v-model="content.body[index][ix]"/>
+                </template>
+              </b-td>
+            </b-tr>
           </tbody>
         </b-table-simple>
-      
       </template>
+    </template>
   </div>
 </template>
 
@@ -60,25 +114,26 @@ export default {
     return {
       content: {},
       selected: '',
+      kod: {kod: this.$store.state.company.info.kod},
       formNames: [
-        { value: 'form3', text: 'Форма 3 БД-1' },
-        { value: 'form4', text: 'Структура финансовых вложений' }, //Форма 4 БД-2
-        { value: 'form5', text: 'Сведения о сделках с ценными бумагами' }, // Форма 5 БД-3
+        { value: 'brok3', text: 'Форма 3 БД-1' },
+        { value: 'brok4', text: 'Структура финансовых вложений' }, //Форма 4 БД-2
+        { value: 'brok5', text: 'Сведения о сделках с ценными бумагами' }, // Форма 5 БД-3
         {
-          value: 'form6',
+          value: 'brok6',
           text: 'Сведения об осуществлении брокерской деятельности',
         }, // Форма 6 Б-1
         {
-          value: 'form7',
+          value: 'brok7',
           text:
             'Сведения об осуществлении деятельности по доверительному управлению инвестиционными активами',
         }, // Форма 7 ДУ-1
         {
-          value: 'form12',
+          value: 'brok12',
           text: 'Показатели, характеризующие финансовое состояние организации',
         }, //Форма 12 ПД-4
         {
-          value: 'form13',
+          value: 'brok13',
           text:
             'Информация о совершении операции с 5% и более с одним видом ценных бумаг одного эмитента',
         }, //Форма 13 ПД-5
@@ -93,10 +148,21 @@ export default {
   },
   methods: {
     viewFactBody() {
+      
       this.content = this.brokercompany[this.selected];
+      this.$router.push({path: 'report', query:{type:'broker',btn:'1'}})
     },
     back() {
       this.selected = '';
+      this.$router.push({path: 'report', query:{type:'broker',btn:'0'}})
+    },
+    sendData() {
+      this.$emit('input', {
+        typedoc: this.selected, // выбранный документ в select
+        reportbody: this.content, // Сформированный документ из mixin
+        kvartal: ';', // Через сервер выставиться автоматически текущий квартал при таком значении
+        reportHead: {kod: this.$store.state.company.info.kod}
+      });
     },
   },
 };
