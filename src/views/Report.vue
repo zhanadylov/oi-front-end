@@ -62,10 +62,8 @@ export default {
     ,
     btnView() {
       if (this.$route.query.btn != 0) {
-        console.log('показать')
         return true
       }
-      console.log('скрыть')
       return false 
       
     }
@@ -89,9 +87,10 @@ export default {
           textareas.income == '' ||
           textareas.deal == ''
         )
+        
           status = 0; // Статус "0" - нельзя отправить отчет, т.е в общем списке отчетов у этого отчета не будет кнопки отправить
       }
-
+      
       let kvartal = this.report.kvartal;
       this.$store
         .dispatch('report/insert', { typedoc, xmldoc, sender, status, kvartal })
@@ -117,6 +116,8 @@ export default {
           textareas.deal == ''
         ) 
           status = 0;
+      } else {
+        doc = JSON.stringify(this.report.reportbody); // существенные факты, отчеты для брокерский компаний
       }
 
       if (doc.length != 0) {
