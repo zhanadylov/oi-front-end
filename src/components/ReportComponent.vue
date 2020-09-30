@@ -1,8 +1,31 @@
 <template>
   <div class="reportcomponent">
-
+    <div id="load-div"></div>
     <div class="col-5 text-left my-3 hide-print" v-if="$route.params.idreport" style="z-index: 40">
-      <router-link to="/report?type=report">Экспортировать в новый отчет</router-link>
+      <b-button variant="outline-success" id="export_btn" @click="exportReport">
+        Экспортировать в новый отчет
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: transparent; visibility: hidden" width="20px" height="20px" id="load" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+          <g transform="translate(50,50)"><circle cx="0" cy="0" r="5" fill="none" stroke="#eb7f19" stroke-width="9.4" stroke-dasharray="15.707963267948966 15.707963267948966">
+          <animateTransform attributeName="transform" type="rotate" values="0 0 0;360 0 0" times="0;1" dur="2.3255813953488373s" calcMode="spline" keySplines="0.2 0 0.8 1" begin="0" repeatCount="indefinite"></animateTransform>
+          </circle><circle cx="0" cy="0" r="10" fill="none" stroke="#dfa950" stroke-width="9.4" stroke-dasharray="31.41592653589793 31.41592653589793">
+          <animateTransform attributeName="transform" type="rotate" values="0 0 0;360 0 0" times="0;1" dur="2.3255813953488373s" calcMode="spline" keySplines="0.2 0 0.8 1" begin="-0.2041343669250646" repeatCount="indefinite"></animateTransform>
+          </circle><circle cx="0" cy="0" r="15" fill="none" stroke="#94733c" stroke-width="9.4" stroke-dasharray="47.12388980384689 47.12388980384689">
+          <animateTransform attributeName="transform" type="rotate" values="0 0 0;360 0 0" times="0;1" dur="2.3255813953488373s" calcMode="spline" keySplines="0.2 0 0.8 1" begin="-0.4082687338501292" repeatCount="indefinite"></animateTransform>
+          </circle><circle cx="0" cy="0" r="20" fill="none" stroke="#f4edd8" stroke-width="9.4" stroke-dasharray="62.83185307179586 62.83185307179586">
+          <animateTransform attributeName="transform" type="rotate" values="0 0 0;360 0 0" times="0;1" dur="2.3255813953488373s" calcMode="spline" keySplines="0.2 0 0.8 1" begin="-0.6124031007751938" repeatCount="indefinite"></animateTransform>
+          </circle><circle cx="0" cy="0" r="25" fill="none" stroke="#fae127" stroke-width="9.4" stroke-dasharray="78.53981633974483 78.53981633974483">
+          <animateTransform attributeName="transform" type="rotate" values="0 0 0;360 0 0" times="0;1" dur="2.3255813953488373s" calcMode="spline" keySplines="0.2 0 0.8 1" begin="-0.8165374677002584" repeatCount="indefinite"></animateTransform>
+          </circle><circle cx="0" cy="0" r="30" fill="none" stroke="#189ad2" stroke-width="9.4" stroke-dasharray="94.24777960769379 94.24777960769379">
+          <animateTransform attributeName="transform" type="rotate" values="0 0 0;360 0 0" times="0;1" dur="2.3255813953488373s" calcMode="spline" keySplines="0.2 0 0.8 1" begin="-1.020671834625323" repeatCount="indefinite"></animateTransform>
+          </circle><circle cx="0" cy="0" r="35" fill="none" stroke="#a5b5bc" stroke-width="9.4" stroke-dasharray="109.95574287564276 109.95574287564276">
+          <animateTransform attributeName="transform" type="rotate" values="0 0 0;360 0 0" times="0;1" dur="2.3255813953488373s" calcMode="spline" keySplines="0.2 0 0.8 1" begin="-1.2248062015503876" repeatCount="indefinite"></animateTransform>
+          </circle><circle cx="0" cy="0" r="40" fill="none" stroke="#53697e" stroke-width="9.4" stroke-dasharray="125.66370614359172 125.66370614359172">
+          <animateTransform attributeName="transform" type="rotate" values="0 0 0;360 0 0" times="0;1" dur="2.3255813953488373s" calcMode="spline" keySplines="0.2 0 0.8 1" begin="-1.4289405684754521" repeatCount="indefinite"></animateTransform>
+          </circle><circle cx="0" cy="0" r="45" fill="none" stroke="#2d2a2e" stroke-width="9.4" stroke-dasharray="141.3716694115407 141.3716694115407">
+          <animateTransform attributeName="transform" type="rotate" values="0 0 0;360 0 0" times="0;1" dur="2.3255813953488373s" calcMode="spline" keySplines="0.2 0 0.8 1" begin="-1.6330749354005167" repeatCount="indefinite"></animateTransform>
+          </circle></g>
+        </svg> 
+      </b-button>
       <br />
     </div>
 
@@ -31,7 +54,7 @@
     </h3>
     <br />
     <template v-if="!EditReport">
-      <div class="active"></div>
+      <div class="active" id="active"></div>
     </template>
     <b-form-group class="hide-print" v-show="EditReport">
       <b-form-radio-group
@@ -47,7 +70,8 @@
     </b-form-group>
     <b-col sm="12" class="hide-print" v-show="EditReport">
       <h4>Выберите квартал и год:</h4>
-      <b-form-select v-model="kvartal" @change="sendData" class="mb-3 col-3 d-inline">
+      <b-form-select v-model="kvartal"  id="kvartal" @change="sendData" class="mb-3 col-3 d-inline">
+        <b-form-select-option value="">--</b-form-select-option>
         <b-form-select-option value="1 квартал">Квартал 1</b-form-select-option>
         <b-form-select-option value="2 квартал">Квартал 2</b-form-select-option>
         <b-form-select-option value="3 квартал">Квартал 3</b-form-select-option>
@@ -70,18 +94,18 @@
     <h4 class="text-center">{{kvartal + ' ' + year}}</h4>
     <h4>1. Данные об эмитенте:</h4>
     <b-input-group prepend="полное и сокращенное наименование эмитента" class="mt-3">
-      <b-form-input style="background: #fff;" readonly v-model="info.name"></b-form-input>
+      <b-form-input style="background: #fff;" class="head-input" readonly v-model="info.name"></b-form-input>
     </b-input-group>
     <b-input-group prepend="организационно-правовая форма" class="mt-3">
-      <b-form-input style="background: #fff;" readonly v-model="info.opforma"></b-form-input>
+      <b-form-input style="background: #fff;" class="head-input" readonly v-model="info.opforma"></b-form-input>
     </b-input-group>
     <b-input-group
       prepend="юридический и почтовый адрес эмитента, номер телефона и факса"
       class="mt-3"
     >
-      <b-form-input style="background: #fff;" readonly v-model="info.address"></b-form-input>
+      <b-form-input style="background: #fff;" class="head-input" readonly v-model="info.address"></b-form-input>
     </b-input-group>
-    <b-input-group prepend="основной вид деятельности эмитента" class="mt-3">
+    <b-input-group prepend="основной вид деятельности эмитента" class="mt-3 head-textarea">
       <b-form-textarea
         id="textarea-auto-height"
         placeholder="Auto height textarea"
@@ -96,19 +120,19 @@
       <b-col cols="8">
         <b-input-group prepend="Количество владельцев" class="mt-3">
           <template v-slot:append>
-            <b-input-group-text class="hide-print">
+            <b-input-group-text class="hide-print head-input">
               <strong class="text-danger">!</strong>
             </b-input-group-text>
           </template>
-          <b-form-input @blur="sendData" required v-model="info.owners"></b-form-input>
+          <b-form-input @blur="sendData" class="head-input" required v-model="info.owners"></b-form-input>
         </b-input-group>
         <b-input-group prepend="Количество работников" class="mt-3">
           <template v-slot:append>
-            <b-input-group-text class="hide-print">
+            <b-input-group-text class="hide-print head-input">
               <strong class="text-danger">!</strong>
             </b-input-group-text>
           </template>
-          <b-form-input @blur="sendData" v-model="info.workers"></b-form-input>
+          <b-form-input @blur="sendData" class="head-input" v-model="info.workers"></b-form-input>
         </b-input-group>
       </b-col>
     </b-row>
@@ -206,6 +230,7 @@
             
             <input
               class="text simpleCart_input"
+              placeholder="01.07.2020"
               type="text"
               @blur="sendData"
               v-model="tblfactitems[index].DateCreate"
@@ -224,6 +249,7 @@
               class="text simpleCart_input"
               type="text"
               @blur="sendData"
+              placeholder="01.07.2020"
               v-model="tblfactitems[index].DateDisclosure"
             />
           </b-td>
@@ -489,6 +515,7 @@
       </b-col>
     </b-row>
     <Supervisor />
+    
   </div>
 </template>
 
@@ -523,14 +550,11 @@ export default {
             //$input[i].value = $input[i].value.replace(/\n/g, '<br>');
             $p.innerHTML = $input[i].value;
             $p.classList.add("text-center")
-
             $input[i].parentNode.replaceChild($p, $input[i]);
           }
-
           for (let i = 0; i < textarea.length; i++) {
             let $p = document.createElement('p');
             $p.innerHTML = textarea[i].value;
-
             textarea[i].parentNode.replaceChild($p, textarea[i]);
           }
       }
@@ -544,7 +568,6 @@ export default {
           console.log(error);
         });
     },
-
     sendData() {
       this.$emit('input', {
         typedoc: this.selected,
@@ -593,7 +616,6 @@ export default {
       else this.tblcapitalitems[index][elem] = val;
       return (input.value = val);
     },
-
     Text() {
       if (this.status != 0) {
         
@@ -603,10 +625,47 @@ export default {
             span.innerHTML = input[i].value;
             input[i].parentNode.replaceChild(span, input[i]);
             
-            console.log(input[i].value)
           }
-          console.log('sdsd',input)
         }
+    },
+    
+    exportReport() {
+      //this.report.typedoc, JSON.stringify(this.report), this.report.reportHead.kod, 'KSE00000'
+      let typedoc = this.selected;
+      let xmldoc = JSON.stringify(this.result);
+      let sender = this.result.reportHead.kod;
+      let status = 1; // Статус 1 - можно отправить на сервер
+        let textareas = this.result.reportFooter;
+        if (
+          textareas.placement == '' ||
+          textareas.funds == '' ||
+          textareas.investment == '' ||
+          textareas.income == '' ||
+          textareas.deal == ''
+        )
+          status = 0; // Статус "0" - нельзя отправить отчет, т.е в общем списке отчетов у этого отчета не будет кнопки отправить
+      
+      let kvartal = this.result.kvartal;
+      this.$store
+        .dispatch('report/insert', { typedoc, xmldoc, sender, status, kvartal })
+        .then(response => {
+          // this.$router.push('/reporting');
+          let id = response.idReport
+          //this.$router.push('/report/' + id + '?type=' + typedoc);
+          setTimeout(function(){
+            window.location.href = '/report/' + id + '?type=' + typedoc;
+          }, 2000);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+      document.getElementById('load').style.visibility = 'visible' //load-div
+      document.getElementById('load-div').style.display = 'block' //load-div
+      document.getElementById("export_btn").disabled = true; 
+      //setTimeout(document.getElementById('load').style.visibility = 'hidden', 2000);
+    },
+    selectYear() {
+      this.kvartal = ''
     }
   },
   computed: {
@@ -628,10 +687,18 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+#load-div {
+  width: 100%;
+    height: 100%;
+    position: absolute;
+    background: #eaeaea;
+    z-index: 2;
+    opacity: 0.7;
+    display: none
+}
 h3 {
   margin: 40px 0 0;
 }
-
 h4 {
   margin: 30px 0;
 }
@@ -656,20 +723,15 @@ table input {
 table {
   text-align: center;
 }
-
 .reportcomponent {
   position: relative;
 }
-
 .active {
   height: 100%;
   width: 100%;
   position: absolute;
   z-index: 20;
   top: 0;
-}
-.saldo_na{
-  margin-left: 10px;
 }
 </style>
 
@@ -684,13 +746,35 @@ table {
   #app {
     display: block !important;
   }
-
   input {
     border: none;
+    margin: 2px;
+    padding: 0;
   }
-
   .hide-print {
     display: none;
+  }
+  .reportcomponent {
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+  }  
+  .reportcomponent h4 {
+    margin: 0;
+    font-size: 15px;
+  }
+  .reportcomponent h2 {
+    font-size: 20px;
+    margin: 0;
+  }
+  .reportcomponent .table th, .reportcomponent .table td {
+    padding: 0;
+  }
+  .reportcomponent .table, .reportcomponent p {
+    margin-bottom: 0;
+  }
+  .reportcomponent textarea {
+    height: auto;
   }
 }
 </style>
