@@ -187,6 +187,13 @@ export const router = new Router({
       meta: { layout: 'main' },
       // lazy-loaded
       component: () => import('./views/ECP.vue')
+    },
+    {
+      path: '/form/:idreport',
+      name: 'FormView',
+      meta: { layout: 'main' },
+      // lazy-loaded
+      component: () => import('./views/Forms.vue')
     }
     
   ]
