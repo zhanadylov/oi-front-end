@@ -128,6 +128,9 @@
               Годовой отчет
               <br />(Приложение 2-1)
             </span>
+            <span v-else-if="row.item.typedoc.indexOf('form') >= 0">
+              Отчет для фондовой биржи
+            </span>
             <span v-else-if="row.item.typedoc[0] == 'f'">
               Существенный факт
               <br />

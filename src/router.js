@@ -187,10 +187,18 @@ export const router = new Router({
       component: () => import('./views/ReportLayout.vue')
     },
     {
-      path: '/broker',
-      name: 'BrokerCompany',
-      meta: {layout: 'main'},
-      component: () => import('./views/BrokerCompany.vue')
+      path: '/ecp',
+      name: 'ECP',
+      meta: { layout: 'main' },
+      // lazy-loaded
+      component: () => import('./views/ECP.vue')
+    },
+    {
+      path: '/form/:idreport',
+      name: 'FormView',
+      meta: { layout: 'main' },
+      // lazy-loaded
+      component: () => import('./views/Forms.vue')
     }
   ]
 });

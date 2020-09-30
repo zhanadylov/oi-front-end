@@ -33,7 +33,6 @@
         </b-tr>
       </b-tbody>
     </b-table-simple>
-    {{content}}
     <!-- <Supervisor /> -->
   </div>
 </template>

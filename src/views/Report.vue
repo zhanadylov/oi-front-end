@@ -4,7 +4,6 @@
       <b-button class="print hide-print" onclick="window.print()">Печать</b-button>
     </div>
     <component :is="isReportView" v-model="report"></component>
-    {{report}}
     <template v-if="isadmin">
       <b-button class="btn btn-block hide-print" variant="success">Подтвердить</b-button>
       <b-button class="btn btn-block hide-print" @click="rejectReport" variant="danger">Отклонить</b-button>
@@ -50,7 +49,7 @@ export default {
       if (this.$route.query.type.indexOf('fact') >= 0) {
         return 'FactComponent';
       }
-      else if (this.$route.query.type.indexOf('kse') >= 0) {
+      else if (this.$route.query.type.indexOf('kse') >= 0 || this.$route.query.type.indexOf('form') >= 0) {
         return 'FromKSEComponent'
       }
 
