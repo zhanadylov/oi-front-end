@@ -199,6 +199,12 @@ export const router = new Router({
       meta: { layout: 'main' },
       // lazy-loaded
       component: () => import('./views/Forms.vue')
+    },
+    {
+       path: '/upload',
+       name: 'FileUpload',
+       meta: { layout: 'main' },
+       component: () => import('./views/FileUpload.vue')
     }
   ]
 });
