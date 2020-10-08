@@ -1,68 +1,66 @@
 <template>
-  <div class="file-upload">
-    <input type="file" id="files" ref="files" multiple v-on:change="handleFileUploads()" @change="onFileChange" />
-    <div v-if="progress" class="progess-bar" :style="{'width': progress}">{{progress}}</div>
-    <div class="large-12 medium-12 small-12 cell">
-    <!-- <div v-for="(file, key) in files" class="file-listing">{{ file.name }} <span class="remove-file" v-on:click="removeFile( key )">Remove</span></div>   -->
-    </div>
-    <button @click='addItem'>new item</button>
-    <button @click="onUploadFile" class="upload-button" :disabled="!this.selectedFile">Upload file</button>
+  <div>
+    <div class="container">
+        <form @submit.prevent="handleSubmit">
+            <p v-for="(item, index) in inputs" :key='index'>
+              <input type="inputs" v-model="inputs[index]">
+            </p>
+            {{inputs}}
+            <div class="form-group">
+                <input type="file" @change="uploadFile" multiple>
+            </div>
+       <div v-for="file in files" :key="file.id" class="large-4 medium-4 small-6 cell file-listing">
+          {{ file.name }}
+          
+        </div>
+            <div class="form-group">
+                <button class="btn btn-success btn-block btn-lg">Отправить</button>
+            </div>
+        </form>
+    </div>    
   </div>
 </template>
 
 <script>
 import axios from "axios";
-/* eslint-disable */
+
 export default {
-    name: 'FileUpload.vue',
   data() {
-    return {
-      selectedFile: "",
-      progress: 0
-    };
-  },
-  methods: {
-    onFileChange(e) {
-      const selectedFile = e.target.files[0]; // accessing file
-      this.selectedFile = selectedFile;
-      this.progress = 0;
+      return {
+        inputs: {
+          input1: '',
+          input2: '',
+          input3: ''
+        },
+        files: null
+      };
     },
-    onUploadFile() {
-      const formData = new FormData();
-      formData.append("file", this.selectedFile); // appending file
-      // sending file to backend
-      axios
-        .post("http://localhost:4500/upload", formData, {
-          onUploadProgress: ProgressEvent => {
-            let progress =
-              Math.round((ProgressEvent.loaded / ProgressEvent.total) * 100) +
-              "%";
-            this.progress = progress;
+    methods: {
+        uploadFile (event) {
+        this.files = event.target.files
+        },
+        handleSubmit() {
+          
+          const formData = new FormData();
+          for (const i of Object.keys(this.files)) {
+            formData.append('files', this.files[i])
           }
-        })
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-    handleFilesUpload(){
-    this.files = this.$refs.files.files;
-    },
-    addItem() {
-      this.files.push({file: null});
-      console.log(this.files)
-    },
-    removeItem(index) {
-      this.files.splice(index,1);
-    },
-    // handleChange(file, event){
-    //   files.file = event.target.files["0"];
-    // }
-  }
-};
+          formData.append('inputs', JSON.stringify(this.inputs)) // Данные с инпутов
+          axios.post('http://localhost:8081/upload', formData, {
+          }).then((res) => {
+            console.log(res)
+          })
+        }  
+    }
+
+}
 </script>
+
+<style scoped lang="scss">
+.container {
+  max-width: 600px;
+}
+</style>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
@@ -105,6 +103,6 @@ button {
 }
 .upload-button:disabled {
   background-color: #b3bcc4;
-  cursor: no-drop;
+  /* cursor: no-drop; */
 }
 </style>
