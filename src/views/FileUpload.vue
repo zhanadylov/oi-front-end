@@ -1,59 +1,101 @@
 <template>
   <div>
     <div class="container">
-        <form @submit.prevent="handleSubmit">
-            <p v-for="(item, index) in inputs" :key='index'>
-              <input type="inputs" v-model="inputs[index]">
-            </p>
-            {{inputs}}
-            <div class="form-group">
-                <input type="file" @change="uploadFile" multiple>
-            </div>
-       <div v-for="file in files" :key="file.id" class="large-4 medium-4 small-6 cell file-listing">
-          {{ file.name }}
-          
+      <form @submit.prevent="handleSubmit">
+        <p v-for="(item, index) in inputs" :key="index">
+          <input type="inputs" v-model="inputs[index]" />
+        </p>
+        {{ inputs }}
+        <div class="form-group">
+          <b-form-file
+            v-model="files"
+            multiple
+            ref="file-input"
+            class="mb-2"
+          ></b-form-file>
+          <p v-for="(value, name, index) in files" :key="index" class="mt-2">
+            {{ name + ' ' + value.name }}
+            <button @click="removeFile(name)">Remove file</button>
+          </p>
+          <!-- <input type="file" ref="file-input" v-model="files" @change="uploadFile" multiple> -->
         </div>
-            <div class="form-group">
-                <button class="btn btn-success btn-block btn-lg">Отправить</button>
-            </div>
-        </form>
-    </div>    
+        <!-- <div
+          v-for="(value, name, index) in files"
+          :key="index"
+          class="large-4 medium-4 small-6 cell file-listing"
+        >
+          {{ name + ' ' + value.name }}
+          <button @click="removeFile(name)">Remove file</button>
+        </div> -->
+        <div class="form-group">
+          <button class="btn btn-success btn-block btn-lg">Отправить</button>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios';
 
 export default {
   data() {
-      return {
-        inputs: {
-          input1: '',
-          input2: '',
-          input3: ''
-        },
-        files: null
+    return {
+      inputs: {
+        input1: '',
+        input2: '',
+        input3: '',
+      },
+      files: null,
+    };
+  },
+  methods: {
+    uploadFile(event) {
+      this.files = event.target.files;
+    },
+    removeFile(id) {
+      var newFileList = Array.from(this.files);
+      newFileList.splice(id, 1);
+      //console.log(newFileList);
+      this.files = newFileList
+    },
+    handleSubmit() {
+      const formData = new FormData();
+      // let objects = {
+      //   inputs: this.inputs,
+
+      // }
+      for (const i of Object.keys(this.files)) {
+        formData.append('files', this.files[i]);
+        //objects.file.files[i].name
+      }
+      formData.append('inputs', JSON.stringify(this.inputs)); // Данные с инпутов
+      axios.post('http://localhost:8081/upload', formData, {}).then((res) => {
+        console.log(res);
+      });
+    },
+
+    filelisttoarray() {
+      FileList.prototype.toArray = function () {
+        return Array.from(this).map(function (file) {
+          return file.toObject();
+        });
       };
     },
-    methods: {
-        uploadFile (event) {
-        this.files = event.target.files
-        },
-        handleSubmit() {
-          
-          const formData = new FormData();
-          for (const i of Object.keys(this.files)) {
-            formData.append('files', this.files[i])
-          }
-          formData.append('inputs', JSON.stringify(this.inputs)) // Данные с инпутов
-          axios.post('http://localhost:8081/upload', formData, {
-          }).then((res) => {
-            console.log(res)
-          })
-        }  
-    }
 
-}
+    filelisttoobject() {
+      File.prototype.toObject = function () {
+        return Object({
+          lastModified: parseInt(this.lastModified),
+          lastModifiedDate: String(this.lastModifiedDate),
+          name: String(this.name),
+          size: parseInt(this.size),
+          type: String(this.type),
+        });
+      };
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">

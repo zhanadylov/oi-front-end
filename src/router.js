@@ -205,7 +205,13 @@ export const router = new Router({
        name: 'FileUpload',
        meta: { layout: 'main' },
        component: () => import('./views/FileUpload.vue')
-    }
+    },
+    {
+      path: '/gettest',
+      name: 'TestGet',
+      meta: { layout: 'main' },
+      component: () => import('./views/TestGet.vue')
+   }
   ]
 });
 
