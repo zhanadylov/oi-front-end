@@ -5,30 +5,25 @@
         <p v-for="(item, index) in inputs" :key="index">
           <input type="inputs" v-model="inputs[index]" />
         </p>
-        {{ inputs }}
+        <!-- {{ inputs }} -->
         <div class="form-group">
           <b-form-file
             v-model="files"
             multiple
             ref="file-input"
             class="mb-2"
+            id="clean"
           ></b-form-file>
           <p v-for="(value, name, index) in files" :key="index" class="mt-2">
-            {{ name + ' ' + value.name }}
+            {{ (name+1) + ' ' + value.name }}
             <button @click="removeFile(name)">Remove file</button>
           </p>
           <!-- <input type="file" ref="file-input" v-model="files" @change="uploadFile" multiple> -->
         </div>
-        <!-- <div
-          v-for="(value, name, index) in files"
-          :key="index"
-          class="large-4 medium-4 small-6 cell file-listing"
-        >
-          {{ name + ' ' + value.name }}
-          <button @click="removeFile(name)">Remove file</button>
-        </div> -->
         <div class="form-group">
-          <button class="btn btn-success btn-block btn-lg">Отправить</button>
+           <p v-if="progress">{{progress}}</p>
+           <button v-on:click="addFiles()">Добавить файл</button>
+          <button class="btn btn-success btn-block btn-lg" @click="inputClean()">Отправить</button>
         </div>
       </form>
     </div>
@@ -47,11 +42,20 @@ export default {
         input3: '',
       },
       files: null,
+      progress: ''
+  
     };
   },
-  methods: {
+  methods: { 
+    addFiles(){
+        this.files = event.target.files;
+      }, 
+    inputClean(){
+      this.files = [];
+    },
+
     uploadFile(event) {
-      this.files = event.target.files;
+      this.files = event.target.files;  
     },
     removeFile(id) {
       var newFileList = Array.from(this.files);
@@ -71,8 +75,13 @@ export default {
       }
       formData.append('inputs', JSON.stringify(this.inputs)); // Данные с инпутов
       axios.post('http://localhost:8081/upload', formData, {}).then((res) => {
-        console.log(res);
-      });
+        
+       
+
+        this.progress = res.data.message;
+        console.log(res.data)
+     
+      })
     },
 
     filelisttoarray() {
