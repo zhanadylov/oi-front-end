@@ -23,7 +23,7 @@
         <div class="form-group">
            <p v-if="progress">{{progress}}</p>
            <button v-on:click="addFiles()">Добавить файл</button>
-          <button class="btn btn-success btn-block btn-lg" @click="inputClean()">Отправить</button>
+          <button class="btn btn-success btn-block btn-lg" @click="handleSubmit()" >Отправить</button>
         </div>
       </form>
     </div>
@@ -41,6 +41,7 @@ export default {
         input2: '',
         input3: '',
       },
+      falinames: {},
       files: null,
       progress: ''
   
@@ -58,30 +59,44 @@ export default {
       this.files = event.target.files;  
     },
     removeFile(id) {
-      var newFileList = Array.from(this.files);
+      let newFileList = Array.from(this.files);
       newFileList.splice(id, 1);
       //console.log(newFileList);
       this.files = newFileList
     },
     handleSubmit() {
-      const formData = new FormData();
+      let FileList = [];
+      //const formData = new FormData();
       // let objects = {
       //   inputs: this.inputs,
 
       // }
-      for (const i of Object.keys(this.files)) {
-        formData.append('files', this.files[i]);
-        //objects.file.files[i].name
-      }
-      formData.append('inputs', JSON.stringify(this.inputs)); // Данные с инпутов
-      axios.post('http://localhost:8081/upload', formData, {}).then((res) => {
+      // for (const i of Object.keys(this.files)) {
+      //   formData.append('files', this.files[i]);
+      //   FileList.push(this.files[i].name)
+      // }
+      //formData.append('inputs', JSON.stringify(this.inputs)); // Данные с инпутов
+      // axios.post('http://localhost:8081/upload', formData, {}).then((res) => {
         
-       
-
-        this.progress = res.data.message;
-        console.log(res.data)
+      //     this.progress = res.data.message;
+      //     console.log(res.data)
      
-      })
+      // })
+      //this.falinames = FileList.join()
+      let typedoc = 'test';
+      let xmldoc = JSON.stringify(this.inputs);
+      let sender = 'test';
+      let status = 1; // Статус 1 - можно отправить на сервер
+      let kvartal = ';'
+      console.log(xmldoc)
+      // this.$store
+      //   .dispatch('report/insert', { typedoc, xmldoc, sender, status, kvartal })
+      //   .then(response => {
+      //     this.$router.push('/reporting');
+      //   })
+      //   .catch(function(error) {
+      //     console.log(error);
+      //   });
     },
 
     filelisttoarray() {
