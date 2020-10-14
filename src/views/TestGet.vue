@@ -1,5 +1,10 @@
 <template>
+<div>
   <button @click="onClick()">Скачать файл</button>
+<br>
+<br>
+  <button>Открыть файл</button>
+</div>
 </template>
 <script>
 import axios from 'axios';
@@ -40,6 +45,10 @@ export default {
           console.log(error);
         });
     },
+
+    showFile(){
+      
+    }
   },
 };
 </script>

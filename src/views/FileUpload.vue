@@ -18,11 +18,10 @@
             {{ (name+1) + ' ' + value.name }}
             <button @click="removeFile(name)">Remove file</button>
           </p>
-          <!-- <input type="file" ref="file-input" v-model="files" @change="uploadFile" multiple> -->
         </div>
         <div class="form-group">
            <p v-if="progress">{{progress}}</p>
-           <button v-on:click="addFiles()">Добавить файл</button>
+           <button>Добавить файл</button>
           <button class="btn btn-success btn-block btn-lg" @click="handleSubmit()" >Отправить</button>
         </div>
       </form>
@@ -41,14 +40,14 @@ export default {
         input2: '',
         input3: '',
       },
-      falinames: {},
+      file_names: {},
       files: null,
       progress: ''
   
     };
   },
   methods: { 
-    addFiles(){
+    addFiles(event){
         this.files = event.target.files;
       }, 
     inputClean(){
@@ -65,38 +64,38 @@ export default {
       this.files = newFileList
     },
     handleSubmit() {
-      let FileList = [];
-      //const formData = new FormData();
-      // let objects = {
-      //   inputs: this.inputs,
+      const formData = new FormData();
+      let objects = {
+        inputs: this.inputs,
 
-      // }
-      // for (const i of Object.keys(this.files)) {
-      //   formData.append('files', this.files[i]);
-      //   FileList.push(this.files[i].name)
-      // }
+      }
+      for (const i of Object.keys(this.files)) {
+        formData.append('files', this.files[i]);
+      }
       //formData.append('inputs', JSON.stringify(this.inputs)); // Данные с инпутов
-      // axios.post('http://localhost:8081/upload', formData, {}).then((res) => {
+      axios.post('http://localhost:8081/upload', formData, {}).then((res) => {
         
-      //     this.progress = res.data.message;
-      //     console.log(res.data)
+          this.progress = res.data.message;
+          console.log(res.data.files)
+          // this.file_names=res.data.files
+          // //this.falinames = FileList.join()
+          // let typedoc = 'test';
+          // let xmldoc = JSON.stringify(this.file_names);
+          // let sender = 'test_test';
+          // let status = 1; // Статус 1 - можно отправить на сервер
+          // let kvartal = ';'
+          // console.log(xmldoc)
+          // this.$store
+          //   .dispatch('report/insert', { typedoc, xmldoc, sender, status, kvartal })
+          //   .then(response => {
+          //     this.$router.push('/reporting');
+          //   })
+          //   .catch(function(error) {
+          //     console.log(error);
+          //   });
      
-      // })
-      //this.falinames = FileList.join()
-      let typedoc = 'test';
-      let xmldoc = JSON.stringify(this.inputs);
-      let sender = 'test';
-      let status = 1; // Статус 1 - можно отправить на сервер
-      let kvartal = ';'
-      console.log(xmldoc)
-      // this.$store
-      //   .dispatch('report/insert', { typedoc, xmldoc, sender, status, kvartal })
-      //   .then(response => {
-      //     this.$router.push('/reporting');
-      //   })
-      //   .catch(function(error) {
-      //     console.log(error);
-      //   });
+      })
+      
     },
 
     filelisttoarray() {
