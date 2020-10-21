@@ -37,6 +37,9 @@
            <li class="nav-item">
             <router-link to="/acts" class="nav-link">Нормативные акты</router-link>
           </li>
+          <li>
+            <a target="_blank" href="https://drive.google.com/file/d/1zriC0IQPGTGqjO1ifmeJydF0TDI0cEtQ/view?usp=sharing">Руководство использование</a>
+          </li>
         </ul>
       </div>
     </nav>

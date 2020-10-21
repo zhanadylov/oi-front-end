@@ -211,6 +211,12 @@ export const router = new Router({
       name: 'TestGet',
       meta: { layout: 'main' },
       component: () => import('./views/TestGet.vue')
+    },
+    {
+      path: '/show',
+      name: 'ShowFile',
+      meta: { layout: 'main' },
+      component: () => import('./views/ShowFile.vue')
    }
   ]
 });
