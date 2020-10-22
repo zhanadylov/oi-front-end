@@ -1,20 +1,32 @@
 <template>
     <div>
       <form>
-        {{message}}
          <button @click="setinfo()">Открыть файл</button>
          <br>
          <br>
-         <p v-for="(item, index) in inputs" :key="index">
-          <input type="inputs" v-model="inputs[index]" />
-        </p>
-        <p v-for="(value, name, index) in files" :key="index" class="mt-2">
-            {{ (name+1) + ' ' + value.name}}
-            <button @click="deleteReport(name)">Remove file</button>
-          </p>
-          <div class="form-group">
-          <button class="btn btn-success btn-block btn-lg" @click="handleSubmit()" >Отправить</button>
+         <div v-if="inputs.length">
+            <p v-for="(item, index) in inputs" :key="index">
+            <input type="inputs" v-model="inputs[index]" />
+            </p>
         </div>
+        <div v-else>
+        </div>
+<!-- 
+        <div v-if="files.length">
+           <p  v-for="(item)in files" :key="item">
+            {{item}}
+            <button @click="removeFile(name)">Remove file</button>
+          </p>
+        </div>
+        <div v-else>
+        </div>
+       -->
+           
+          <!-- <button @click="deleteReport(index)">Remove file</button> -->
+     
+          <!-- <div class="form-group">
+          <button class="btn btn-success btn-block btn-lg" @click="handleSubmit()" >Отправить</button>
+        </div> -->
         </form>
     </div>
  
@@ -29,14 +41,23 @@ export default {
   data() {
     return {
       message: {},
-      inputs: {
-        input1: '',
-        input2: '',
-        input3: '',
-      },
+      inputs: [
+      ]
+      ,
+      files:[]
     };
   },
   methods: {
+    
+     removeFile(id) {
+      let newFileList = Array.from(this.files);
+      newFileList.splice(id, 1);
+      console.log(newFileList);
+      this.files = newFileList
+    }
+,
+
+
      handleSubmit() {
       const formData = new FormData();
       let objects = {
@@ -72,13 +93,29 @@ export default {
       
     },
     setinfo() {
-      return Queries.getReportById(352)
+      return Queries.getReportById(372)
         .then((response) => {
           console.log(response)
-          this.inputs.input1 = response.data.doc.input1
-          this.inputs.input2 = response.data.doc.input2
-          this.inputs.input3 = response.data.doc.input3
-          this.files = response.data.doc.files
+          if (response.data.doc.input1)
+          {
+              this.inputs.push(response.data.doc.input1) 
+          }
+          if (response.data.doc.input2)
+          {
+              this.inputs.push(response.data.doc.input2) 
+          }
+          if (response.data.doc.input3)
+          {
+              this.inputs.push(response.data.doc.input3) 
+          }
+       
+          //his.files.push(response.data.doc.files)
+          
+          // this.files.forEach(element => {
+          //   console.log(element)
+          // });
+          console.log(response.data.doc.files)
+          
         })
         .catch(function (error) {
           console.log(error);

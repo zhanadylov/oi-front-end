@@ -42,7 +42,9 @@ export default {
         input2: '',
         input3: '',
       },
-      file_names: {},
+     
+      file_names: [],
+     
       files: null,
       progress: ''
   
@@ -71,19 +73,18 @@ export default {
     },
     handleSubmit() {
       const formData = new FormData();
-      let objects = {
-        inputs: this.inputs,
-
-      }
+ 
       for (const i of Object.keys(this.files)) {
         formData.append('files', this.files[i]);
       }
       //formData.append('inputs', JSON.stringify(this.inputs)); // Данные с инпутов
       axios.post('http://localhost:8081/upload', formData, {}).then((res) => {
         
+        
           this.progress = res.data.message;
           console.log(res.data.files)
           this.file_names=res.data.files
+    
           //this.falinames = FileList.join()
           let typedoc = 'test';
           let xmldoc = JSON.stringify(this.file_names);
@@ -91,14 +92,14 @@ export default {
           let status = 1; // Статус 1 - можно отправить на сервер
           let kvartal = ';'
           console.log(xmldoc)
-          // this.$store
-          //   .dispatch('report/insert', { typedoc, xmldoc, sender, status, kvartal })
-          //   .then(response => {
-          //     this.$router.push('/reporting');
-          //   })
-          //   .catch(function(error) {
-          //     console.log(error);
-          //   });
+          this.$store
+            .dispatch('report/insert', { typedoc, xmldoc, sender, status, kvartal })
+            .then(response => {
+              this.$router.push('/reporting');
+            })
+            .catch(function(error) {
+              console.log(error);
+            });
      
       })
       

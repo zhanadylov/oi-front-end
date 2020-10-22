@@ -12,7 +12,9 @@
       <button class="btn btn-primary btn-block btn-save hide-print" v-show="btnView" v-if="!$route.params.idreport" @click="submit">
         <span>Сохранить</span>
       </button>
-      <button v-else class="btn btn-primary btn-block hide-print"  @click="update">Обновить</button> 
+      
+      <button v-else class="btn btn-primary btn-block hide-print"  @click="update">Обновить</button>
+     
     </template>
   </div>
 </template>
@@ -20,7 +22,6 @@
 <script>
 export default {
   name: 'Report',
-
   data() {
     return {
       report: [],
@@ -52,11 +53,9 @@ export default {
       else if (this.$route.query.type.indexOf('kse') >= 0 || this.$route.query.type.indexOf('form') >= 0) {
         return 'FromKSEComponent'
       }
-
       else if (this.$route.query.type.indexOf('broker') >= 0) {
         return 'BrokerReports'
       }
-
       return 'ReportComponent';
     }
     ,
@@ -74,9 +73,7 @@ export default {
       let typedoc = this.report.typedoc;
       let xmldoc = JSON.stringify(this.report);
       let sender = this.report.reportHead.kod;
-
       let status = 1; // Статус 1 - можно отправить на сервер
-
       if (typedoc[0] == 'R') {
         // Для квартального и годового отчетов
         let textareas = this.report.reportFooter;
@@ -103,10 +100,12 @@ export default {
     },
     update() {
       let id = this.$route.params.idreport;
-      let doc = JSON.stringify(this.report);
+      let doc
       let status = 1;
-
+      let kvartal = this.report.kvartal;
+      let typedoc = this.report.typedoc;
       if (this.$route.query.type.indexOf('RKV') >= 0) {
+        doc = JSON.stringify(this.report); // квартальные и годовой
         let textareas = this.report.reportFooter;
         if (
           textareas.placement == '' ||
@@ -119,10 +118,9 @@ export default {
       } else {
         doc = JSON.stringify(this.report.reportbody); // существенные факты, отчеты для брокерский компаний
       }
-
       if (doc.length != 0) {
         this.$store
-          .dispatch('report/updateReport', { id, doc, status })
+          .dispatch('report/updateReport', { id, doc, status, kvartal, typedoc })
           .then(response => {
             this.$router.push('/reporting');
           })
