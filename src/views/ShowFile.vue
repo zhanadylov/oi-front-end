@@ -84,21 +84,7 @@ export default {
           console.log(error);
         });
     },
-    deleteReport(id, typedoc, doc) {
-      let isBoss = confirm("Вы действительно хотите удалить отчет?");
-      if(isBoss == true) {
-        this.$store
-        .dispatch('report/deleteReport', id)
-        .then(response => {
-          this.deleteReportInKSE(doc, typedoc)
-          this.getReportList();
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-        
-      }
-    },
+   
   },
 };
 </script>

@@ -33,7 +33,7 @@ import axios from 'axios';
 import Queries from '../services/report.service'; // axios запросы на бэк энд
 export default {
   created() {
-    this.setinfo()
+    // this.setinfo()
   },
   data() {
     return {
@@ -66,7 +66,7 @@ export default {
     removeFile(id) {
       let newFileList = Array.from(this.files);
       newFileList.splice(id, 1);
-      //console.log(newFileList);
+      console.log(newFileList);
       this.files = newFileList
     },
     handleSubmit() {
