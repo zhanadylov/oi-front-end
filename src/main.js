@@ -8,11 +8,13 @@ import { BootstrapVue } from 'bootstrap-vue';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import './assets/style.css'
+import { IconsPlugin } from 'bootstrap-vue'
 
 
 
 // Install BootstrapVue
 Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
 // Optionally install the BootstrapVue icon components plugin
 //Vue.use(IconsPlugin)
 

@@ -26,8 +26,8 @@ export const report = {
       );
     },
 
-    updateReport({ commit }, {id, doc, status}) {
-      return ReportService.updateReport(id, doc, status).then(
+    updateReport({ commit }, {id, doc, status, kvartal, typedoc}) {
+      return ReportService.updateReport(id, doc, status, kvartal, typedoc).then(
         () => {
           commit('updateReportStatus');
           return true;

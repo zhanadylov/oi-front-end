@@ -144,13 +144,23 @@
       <template #cell(refer)="row">
         <p v-if="isadmin">
           <span v-if="row.item.typedoc !== 'KVIT01' && row.item.typedoc">
-            <b-button
-              variant="success"
-              v-if="row.item.refer == null"
-              @click="confirm(row.item.id, row.item.sender, row.item.doc, row.item.name, row.item.typedoc, row.item.kvartal)"
-            >Подтвердить</b-button>
-            <b-button variant="outline-primary" v-else>Подтверждено</b-button> <br>
-            <b-button variant="outline-primary" @click="deleteReport(row.item.id, row.item.typedoc, row.item.linkkse)">Удалить</b-button>
+            <template v-if="isFin">
+              <b-button
+                variant="success"
+                v-if="row.item.refer == null"
+                @click="confirm(row.item.id, row.item.sender, row.item.doc, row.item.name, row.item.typedoc, row.item.kvartal)"
+              >Подтвердить</b-button>
+              <b-button variant="outline-primary" v-else>Подтверждено</b-button> <br>
+              <b-button variant="outline-primary" @click="deleteReport(row.item.id, row.item.typedoc, row.item.linkkse)">Удалить</b-button>
+            </template>
+            <template v-else>
+              <b-button
+                variant="success"
+                v-if="row.item.refer == null && row.item.typedoc == 'fin'"
+                @click="confirm(row.item.id, row.item.sender, row.item.doc, row.item.name, row.item.typedoc, row.item.kvartal)"
+              >Подтвердить</b-button>
+              <b-button variant="outline-primary" v-else>Подтверждено</b-button> <br>
+            </template>
           </span>
         </p>
         <p v-else>
@@ -380,6 +390,12 @@ export default {
     };
   },
   computed: {
+    isFin() {
+      if (localStorage.getItem('fin') ) {
+        return false
+      }
+      return true
+    },
     ...mapState({ items: store => store.report.list }), // Список отчетов
     isadmin() {
       if (localStorage.getItem('role') === 'admin') {
