@@ -19,6 +19,9 @@
         </div>
         <div v-else>
         </div>
+        <b-button variant="success" v-on:click="update()"
+          >Обновить</b-button
+        >
       </form>
     </div>
    </div>
@@ -61,8 +64,36 @@ export default {
     },
     removeFile( key ){
         this.files.splice( key, 1 );
+    },
+    update() {
+      let id = this.$route.params.idreport;
+      let sender = 'test_test';
+      let status = 1;
+      let kvartal = ';'
+      let typedoc = this.report.typedoc;
+      if (this.$route.query.type.indexOf('test') >= 0) {
+        
+      if (doc.length != 0) {
+        this.$store
+          .dispatch('report/insert', { typedoc,
+            xmldoc,
+            sender,
+            status,
+            kvartal, })
+          .then(response => {
+            this.$router.push('/reporting');
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+        console.log(doc)
+      }
+      else {
+        this.$router.push('/reporting')
+      }
+      }
     }
-  },
+    },
 };
 </script>
 
