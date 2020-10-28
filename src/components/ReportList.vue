@@ -385,7 +385,7 @@ export default {
           headerTitle: 'Тип документа',
           label: 'Тип документа'
         },
-        { key: 'refer', headerTitle: 'Подтвердить', label: 'Подтвердить' }
+        { key: 'refer', headerTitle: 'Подтвердить', label: '' }
       ]
     };
   },

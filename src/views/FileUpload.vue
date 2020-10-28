@@ -61,7 +61,7 @@ export default {
       this.$refs.files.click();
       this.progress = null;
     },
-    submitFiles() {
+    submitFiles() { //Отправка загруженных файлов в БД
       let formData = new FormData();
       for (const i of Object.keys(this.files)) {
         formData.append('files', this.files[i]);

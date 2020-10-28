@@ -19,7 +19,7 @@
         </div>
         <div v-else>
         </div>
-        <b-button variant="success" v-on:click="update()"
+         <b-button variant="success" @click="update"
           >Обновить</b-button
         >
       </form>
@@ -42,7 +42,7 @@ export default {
     };
   },
   methods: {
-    setinfo() {
+    setinfo() {  // Вывод отправленных файлов из БД
       return Queries.getReportById(420)
         .then((response) => {
           console.log(response)
@@ -50,11 +50,6 @@ export default {
           {
               this.inputs=response.data.doc.inputs
           }
-          //his.files.push(response.data.doc.files)
-          
-          // this.files.forEach(element => {
-          //   console.log(element)
-          // });
           this.files=response.data.doc.files
 
         })
@@ -67,13 +62,16 @@ export default {
     },
     update() {
       let id = this.$route.params.idreport;
+      let doc
       let sender = 'test_test';
       let status = 1;
       let kvartal = ';'
-      let typedoc = this.report.typedoc;
-      if (this.$route.query.type.indexOf('test') >= 0) {
+      let typedoc = 'test';
+      let xmldoc = JSON.stringify(data);
+      let data = { files: this.file_names, inputs: this.inputs };
+      if (this.$route.query.type.sender('test') >= 0) {
         
-      if (doc.length != 0) {
+      if (doc != 0) {
         this.$store
           .dispatch('report/insert', { typedoc,
             xmldoc,
@@ -86,7 +84,7 @@ export default {
           .catch(function(error) {
             console.log(error);
           });
-        console.log(doc)
+        console.log(sender)
       }
       else {
         this.$router.push('/reporting')
