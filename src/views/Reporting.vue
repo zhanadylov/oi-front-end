@@ -2,9 +2,8 @@
   <div class="container">
     <header class="jumbotron" >
       <!-- <h4 v-if="whoAmI">Наименование компании: {{info}}</h4> -->
-      <h4 v-if="whoAmI">Реестр входящих отчетов и информации компаний</h4>  
+      <h4 v-if="whoAmI">{{info}}</h4>  
       <h4 v-else>Государственная служба регулирования и надзора за финансовым рынком при Правительстве КР</h4>
-      <h4>{{info}}</h4>
     </header>
 
     <ReportList/>
