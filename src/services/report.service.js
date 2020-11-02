@@ -1,9 +1,11 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: 'https://m.kse.kg/api',
+   baseURL: 'https://m.kse.kg/api',
+   // baseURL: 'http://localhost:8081/api',
     timeout: 1000
 });
+
 
 instance.interceptors.request.use(
     (response) => {
@@ -95,6 +97,9 @@ class ReportService {
 
     deleteReportInKSE(id, type) {
         return axios.post('https://www.kse.kg/modules/Blog/delReport.php', {id, type})
+    }
+    selectDelReports(){
+        return instance.get('/reports/allDelreports')
     }
     
 }

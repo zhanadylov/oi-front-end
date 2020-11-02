@@ -217,7 +217,13 @@ export const router = new Router({
       name: 'ShowFile',
       meta: { layout: 'main' },
       component: () => import('./views/ShowFile.vue')
-   }
+   },
+   {
+    path: '/cart',
+    name: 'cart',
+    meta: { layout: 'main' },
+    component: () => import('./views/Cart.vue')
+ }
   ]
 });
 

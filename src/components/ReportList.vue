@@ -58,7 +58,7 @@
     >
       <!-- Номер документа или имя компании -->
       <template #cell(id)="row">
-        <p v-if="isadmin">{{row.id}} {{row.item.name}}</p>
+        <p v-if="isadmin">{{row.item.name}}</p>
         <p v-else>
           <template>{{row.index + 1}}</template>
         </p>

@@ -1,11 +1,13 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'https://m.kse.kg/api/users/',
+ baseURL: 'https://m.kse.kg/api/users/',
+  //baseURL: 'http://localhost:8081/api/users/',
   timeout: 1000
 });
 
 const API_URL = 'https://m.kse.kg/api/users/';
+//const API_URL = 'http://localhost:8081/api/users/'
 
 instance.interceptors.request.use(
   (response) => {
