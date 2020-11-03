@@ -368,7 +368,7 @@ export default {
         {
           key: 'id',
           headerTitle: '№',
-          label: '№'
+          label: 'Наименование компании'
         },
         // {
         //   key: 'id',
