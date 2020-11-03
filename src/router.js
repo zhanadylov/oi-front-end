@@ -201,6 +201,7 @@ export const router = new Router({
       component: () => import('./views/Forms.vue')
     },
     {
+<<<<<<< HEAD
        path: '/upload',
        name: 'FileUpload',
        meta: { layout: 'main' },
@@ -224,6 +225,13 @@ export const router = new Router({
     meta: { layout: 'main' },
     component: () => import('./views/Cart.vue')
  }
+=======
+      path: '/balance',
+      name: 'Balance',
+      meta: {layout: 'main'},
+      component: () => import('./views/Balance.vue')
+    }
+>>>>>>> 303bb49... kse listing
   ]
 });
 
