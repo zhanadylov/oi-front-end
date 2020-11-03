@@ -199,6 +199,13 @@ export const router = new Router({
       meta: { layout: 'main' },
       // lazy-loaded
       component: () => import('./views/Forms.vue')
+    },
+    {
+      path: '/cart',
+      name: 'Cart',
+      meta: { layout: 'main' },
+      // lazy-loaded
+      component: () => import('./views/Cart.vue')
     }
   ]
 });

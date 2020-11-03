@@ -1,7 +1,13 @@
 <template>
  <div class="container">
-   
- 
+   <b-table
+      :fields="reportList"
+      bordered
+      hover
+      class="reportList"
+      head-variant="light"
+    >
+   </b-table>
    </div>
 </template>
 <script>
@@ -14,7 +20,36 @@ export default {
   
   data() {
     return {
-  
+      companyname: '', // Модальное окно квитанции
+      result: [],
+      reportList: [
+        {
+          key: 'id',
+          headerTitle: '№',
+          label: 'Наименование компании'
+        },
+        // {
+        //   key: 'id',
+        //   headerTitle: 'Название компании',
+        //   label: 'Название компании'
+        // },
+        {
+          key: 'status',
+          headerTitle: 'Статус документа',
+          label: 'Статус документа'
+        },
+        {
+          key: 'createdate',
+          headerTitle: 'Дата регистрации',
+          label: 'Дата регистрации'
+        },
+        {
+          key: 'typedoc',
+          headerTitle: 'Тип документа',
+          label: 'Тип документа'
+        },
+        { key: 'refer', headerTitle: 'Подтвердить', label: '' }
+      ]
     };
   },
   methods: {
