@@ -199,12 +199,6 @@ export const router = new Router({
       meta: { layout: 'main' },
       // lazy-loaded
       component: () => import('./views/Forms.vue')
-    },
-    {
-      path: '/balance',
-      name: 'Balance',
-      meta: {layout: 'main'},
-      component: () => import('./views/Balance.vue')
     }
   ]
 });
