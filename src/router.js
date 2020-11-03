@@ -201,37 +201,11 @@ export const router = new Router({
       component: () => import('./views/Forms.vue')
     },
     {
-<<<<<<< HEAD
-       path: '/upload',
-       name: 'FileUpload',
-       meta: { layout: 'main' },
-       component: () => import('./views/FileUpload.vue')
-    },
-    {
-      path: '/gettest',
-      name: 'TestGet',
-      meta: { layout: 'main' },
-      component: () => import('./views/TestGet.vue')
-    },
-    {
-      path: '/show',
-      name: 'ShowFile',
-      meta: { layout: 'main' },
-      component: () => import('./views/ShowFile.vue')
-   },
-   {
-    path: '/cart',
-    name: 'cart',
-    meta: { layout: 'main' },
-    component: () => import('./views/Cart.vue')
- }
-=======
       path: '/balance',
       name: 'Balance',
       meta: {layout: 'main'},
       component: () => import('./views/Balance.vue')
     }
->>>>>>> 303bb49... kse listing
   ]
 });
 
