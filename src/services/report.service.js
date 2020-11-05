@@ -94,14 +94,24 @@ class ReportService {
     deleteReport(id) {
         return instance.delete('/reports/' + id)
     }
+    //del report 
+    // delReports(id) {
+    //     return instance.delete('/reports/' + id)
+        
+    // }
+    deleting(id){
+        return instance.delete('/reports/deletingForever/' + id)
+    }
+    recoverDoc(id){
+        return instance.delete('/reports/recoverDoc/' + id)
+    }
 
     deleteReportInKSE(id, type) {
         return axios.post('https://www.kse.kg/modules/Blog/delReport.php', {id, type})
     }
-    selectDelReports(){
+    selectDelReports(){ //Список удаленных отчетов
         return instance.get('/reports/allDelreports')
-    }
-    
+    }  
 }
 
 export default new ReportService();

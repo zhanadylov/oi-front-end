@@ -201,6 +201,24 @@ export const router = new Router({
       component: () => import('./views/Forms.vue')
     },
     {
+      path: '/upload',
+      name: 'FileUpload',
+      meta: { layout: 'main' },
+      component: () => import('./views/FileUpload.vue')
+    },
+    {
+      path: '/gettest',
+      name: 'TestGet',
+      meta: { layout: 'main' },
+      component: () => import('./views/TestGet.vue')
+    },
+    {
+      path: '/show',
+      name: 'ShowFile',
+      meta: { layout: 'main' },
+      component: () => import('./views/ShowFile.vue')
+    },
+    {
       path: '/cart',
       name: 'Cart',
       meta: { layout: 'main' },
