@@ -41,11 +41,9 @@
           <li>
             <a target="_blank" href="https://drive.google.com/file/d/1zriC0IQPGTGqjO1ifmeJydF0TDI0cEtQ/view?usp=sharing">Руководство</a>
           </li>
-          <div v-show="isadminCart">
              <li class="nav-item">
             <router-link to="/cart" class="nav-link">Корзина</router-link>
           </li>
-          </div>
         </ul>
       </div>
     </nav>
