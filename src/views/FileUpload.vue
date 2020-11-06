@@ -1,4 +1,5 @@
 <template>
+<!-- Загрузка файла -->
   <div class="container">
     <p v-for="(input, key) in inputs" :key="key">
       <b-form-input style="width: 70%" v-model="inputs[key]"></b-form-input>

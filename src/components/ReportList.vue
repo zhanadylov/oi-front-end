@@ -333,11 +333,58 @@
           </template>
         </b-form-checkbox-group>
       </b-form-group>
+
+      <!-- Загрузка файла по кнопке Сфорвировать  -->
+      <b-from-group>
+        <hr>   
+        <p v-for="(input, key) in inputs" :key="key">
+      <b-form-input style="width: 70%" v-model="inputs[key]"></b-form-input>
+    </p>
+    <label>
+      <input
+        type="file"
+        id="files"
+        ref="files"
+        multiple
+        v-on:change="handleFilesUpload()"
+      />
+    </label>
+    <table style="width: 70%">
+      <tr v-for="(file, key) in files" :key="key">
+        <td>{{ file.name }}</td>
+        <td class="button">
+          <b-button
+            variant="danger"
+            class="remove-file"
+            v-on:click="removeFile(key)"
+            >Удалить</b-button
+          >
+        </td>
+      </tr>
+    </table>
+    <div class="box">
+      <div class="box-2">
+        <b-button variant="outline-primary" v-on:click="addFiles()">
+          <b-icon class="icon-upload" icon="upload"></b-icon>Добавить файлы
+        </b-button>
+      </div>
+      <div class="box-2" style="color: green; font-size: 20px">
+        <p v-if="progress">
+          <strong>{{ progress }}</strong>
+        </p>
+      </div>
+      <div class="box-2">
+        <b-button variant="success" v-on:click="submitFiles()"
+          >Отправить</b-button>
+      </div>
+    </div>
+      </b-from-group>
     </b-modal>
-  </div>
+  </div> 
 </template>
 <script>
 import { mapState } from 'vuex';
+import axios from 'axios';
 import Queries from '../services/report.service';
 import facts from '../mixins/facts.js';
 export default {
@@ -348,6 +395,10 @@ export default {
   mixins: [facts],
   data() {
     return {
+      inputs: ['', '', ''],
+      files: [],
+      progress: '',
+      file_names: [],
       filter: null,
       filterRow: ['name'],
       selectedKvartal: 'sss', // Для модального окна формирования отчета финнадзору
@@ -360,7 +411,7 @@ export default {
         //{ value: '', text: 'Все' },
         { value: 'RKV01', text: 'Квартальный отчет' },
         { value: 'RKV02', text: 'Годовой отчет' },
-        { value: 'fact', text: 'Существенные факты' }
+        { value: 'fact', text: 'Существенные факты' },
       ],
       companyname: '', // Модальное окно квитанции
       result: [],
@@ -368,7 +419,7 @@ export default {
         {
           key: 'id',
           headerTitle: '№',
-          label: 'Наименование компании'
+          label: 'Наименование компании',
         },
         // {
         //   key: 'id',
@@ -378,30 +429,30 @@ export default {
         {
           key: 'status',
           headerTitle: 'Статус документа',
-          label: 'Статус документа'
+          label: 'Статус документа',
         },
         {
           key: 'createdate',
           headerTitle: 'Дата регистрации',
-          label: 'Дата регистрации'
+          label: 'Дата регистрации',
         },
         {
           key: 'typedoc',
           headerTitle: 'Тип документа',
-          label: 'Тип документа'
+          label: 'Тип документа',
         },
-        { key: 'refer', headerTitle: 'Подтвердить', label: '' }
-      ]
+        { key: 'refer', headerTitle: 'Подтвердить', label: '' },
+      ],
     };
   },
   computed: {
     isFin() {
-      if (localStorage.getItem('fin') ) {
-        return false
+      if (localStorage.getItem('fin')) {
+        return false;
       }
-      return true
+      return true;
     },
-    ...mapState({ items: store => store.report.list }), // Список отчетов
+    ...mapState({ items: (store) => store.report.list }), // Список отчетов
     isadmin() {
       if (localStorage.getItem('role') === 'admin') {
         return true;
@@ -413,7 +464,7 @@ export default {
       let kvartal = '';
       let arr = [];
       if (localStorage.getItem('role') != 'admin') {
-        this.items.forEach(item => {
+        this.items.forEach((item) => {
           if (item.kvartal != kvartal) {
             // Если текущий квартал не равен переменной
             let titleKvartal = item.kvartal.split(';');
@@ -421,7 +472,7 @@ export default {
               // Добавляеться разделитель т.е номер текущего квартала
               title: titleKvartal[1] + ' ' + titleKvartal[0],
               typedoc: '',
-              _rowVariant: 'info'
+              _rowVariant: 'info',
             });
             kvartal = item.kvartal; // Перезаписываем переменную для следующей проверки
           }
@@ -429,7 +480,7 @@ export default {
         });
       } else {
         arr = this.items;
-        arr.sort(function(a, b) {
+        arr.sort(function (a, b) {
           let dateA = new Date(a.datesend),
             dateB = new Date(b.datesend);
           return dateB - dateA; //сортировка по убывающей дате
@@ -437,12 +488,60 @@ export default {
       }
 
       return arr;
-    }
+    },
   },
 
   methods: {
     hideModal() {
       this.$refs['my-modal'].hide();
+    },
+    addFiles() {
+      this.$refs.files.click();
+      this.progress = null;
+    },
+    submitFiles() {
+      //Отправка загруженных файлов в БД
+      let formData = new FormData();
+      for (const i of Object.keys(this.files)) {
+        formData.append('files', this.files[i]);
+      }
+      axios.post('http://localhost:8081/upload', formData, {}).then((res) => {
+        this.progress = res.data.message;
+        this.files = [];
+        this.file_names = res.data.files;
+        let data = { files: this.file_names, inputs: this.inputs };
+        console.log(this.file_names);
+        let typedoc = 'test';
+        let xmldoc = JSON.stringify(data);
+        let sender = 'test_test';
+        let status = 1; // Статус 1 - можно отправить на сервер
+        let kvartal = ';';
+        console.log(xmldoc);
+        this.$store
+          .dispatch('report/insert', {
+            typedoc,
+            xmldoc,
+            sender,
+            status,
+            kvartal,
+          })
+          .then((response) => {
+            this.$router.push('/reporting');
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      });
+    },
+    handleFilesUpload() {
+      let uploadedFiles = this.$refs.files.files;
+      for (var i = 0; i < uploadedFiles.length; i++) {
+        this.files.push(uploadedFiles[i]);
+      }
+    },
+    removeFile(key) {
+      //удаление загруженных файлов
+      this.files.splice(key, 1);
     },
     finnadzor() {
       // Отправка сформированного отчета в финнадзор
@@ -471,10 +570,10 @@ export default {
 
       this.$store
         .dispatch('report/insert', { typedoc, xmldoc, sender, status, kvartal })
-        .then(response => {
+        .then((response) => {
           this.getReportList();
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
           alert('Отчет не отправлен');
         });
@@ -497,10 +596,10 @@ export default {
 
       this.$store
         .dispatch('report/confirm', { id, interrefer })
-        .then(response => {
+        .then((response) => {
           this.getReportList();
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
@@ -508,10 +607,10 @@ export default {
       // Отправка отчета на проверку (в админку)
       this.$store
         .dispatch('report/sendReport', { id, type })
-        .then(response => {
+        .then((response) => {
           this.getReportList(); // Обновить список отчетов
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
@@ -526,27 +625,26 @@ export default {
       // Отменить отправку
       this.$store
         .dispatch('report/backReport', id)
-        .then(response => {
+        .then((response) => {
           this.getReportList();
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
 
     deleteReport(id, type, kseId) {
-      let isBoss = confirm("Вы действительно хотите удалить отчет?");
-      if(isBoss == true) {
+      let isBoss = confirm('Вы действительно хотите удалить отчет?');
+      if (isBoss == true) {
         this.$store
-        .dispatch('report/deleteReport', id)
-        .then(response => {
-          this.deleteReportInKSE(kseId, type)
-          this.getReportList();
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-        
+          .dispatch('report/deleteReport', id)
+          .then((response) => {
+            this.deleteReportInKSE(kseId, type);
+            this.getReportList();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
       }
     },
 
@@ -556,11 +654,10 @@ export default {
 
       this.$store
         .dispatch('report/getList', type)
-        .then(response => {})
-        .catch(function(error) {
+        .then((response) => {})
+        .catch(function (error) {
           console.log(error);
         });
-      
     },
 
     sendToKSE(mEntryText, mEntryName, mEntryCompany, title, idfact) {
@@ -573,33 +670,33 @@ export default {
         mEntryText,
         mEntryName,
         mEntryCompany,
-        title
+        title,
       })
-        .then(response => {
+        .then((response) => {
           let link = response.data;
           this.$store
             .dispatch('report/addLink', { idfact, link })
-            .then(response => {})
-            .catch(function(error) {
+            .then((response) => {})
+            .catch(function (error) {
               console.log(error);
             });
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
 
     sendReportKse(doc, idfact, kvartal) {
       // Отправка квартального/годового отчета в kse.kg
-      return Queries.addReportInKSE(doc, kvartal).then(response => {
+      return Queries.addReportInKSE(doc, kvartal).then((response) => {
         console.log(response);
         let link = response.data;
         this.$store
           .dispatch('report/addLink', { idfact, link })
-          .then(response => {
+          .then((response) => {
             console.log(response);
           })
-          .catch(function(error) {
+          .catch(function (error) {
             console.log(error);
           });
       });
@@ -611,7 +708,7 @@ export default {
         var options = {
           day: 'numeric',
           month: 'numeric',
-          year: 'numeric'
+          year: 'numeric',
         };
 
         let newDate = new Date(date);
@@ -621,22 +718,53 @@ export default {
 
     deleteReportInKSE(id, type) {
       // Удаление квартального/годового отчета в kse.kg
-      return Queries.deleteReportInKSE({id, type}).then(response => {
+      return Queries.deleteReportInKSE({ id, type }).then((response) => {
         console.log(response);
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style>
+/* Начало стилей для загрузки файла */
+input[type='file'] {
+  position: absolute;
+  top: -500px;
+  margin-bottom: 30px;
+}
+table,
+th,
+td {
+  border: 1px solid #eee;
+  border-collapse: collapse;
+  margin-top: -15px;
+  margin-bottom: 15px;
+}
+th,
+td {
+  padding: 5px;
+  text-align: left;
+}
+.button {
+  text-align: center;
+}
+.box-2 {
+  padding-top: 5px;
+}
+.box {
+  margin-top: 15px;
+}
+.icon-upload {
+  margin-right: 10px;
+}
+/* конец стилей для  загрузки файла*/ 
+
 table button {
   width: 100%;
 }
 
-
 @media print {
-  
   @page {
     orientation: portrait;
   }
@@ -674,23 +802,23 @@ table button {
 
   .bold {
     font-weight: 700;
-  }  
+  }
 }
-.kvitancia{
-     float: right; 
-    /* margin-left: 400px; */
-    color: blue;
-    border: 2px solid blue;
-    line-height: 0.3;
-    padding-top: 10px;
-    width: 260px;
-    padding-left: 5px;
-    font-size: 15px;
-  }
-  .otchet{
-    text-align: center;
-  }
-  .for{
-    font-size: 25px;
-  }
+.kvitancia {
+  float: right;
+  /* margin-left: 400px; */
+  color: blue;
+  border: 2px solid blue;
+  line-height: 0.3;
+  padding-top: 10px;
+  width: 260px;
+  padding-left: 5px;
+  font-size: 15px;
+}
+.otchet {
+  text-align: center;
+}
+.for {
+  font-size: 25px;
+}
 </style>

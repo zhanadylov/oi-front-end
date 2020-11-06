@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- Карзина -->
     <b-table
       bordered
       hover
@@ -81,7 +82,7 @@
     </b-table>
   </div>
 </template>
-<script>
+<script>//Скрипт Карзины
 import { mapState } from 'vuex';
 import axios from 'axios';
 import Queries from '../services/report.service';
@@ -160,7 +161,7 @@ export default {
         return newDate.toLocaleString('ru', options);
       }
     },
- 
+
     deletingForever(id) {
       let isBoss = confirm('Вы действительно хотите удалить отчет навсегда?');
       if (isBoss == true) {
@@ -173,7 +174,7 @@ export default {
           });
       }
     },
-    recoverDoc(id) {
+    recoverDoc(id) {//востонавление удаленного отчета
       let isBoss = confirm('Вы действительно хотите восстановить отчет?');
       if (isBoss == true) {
         return Queries.recoverDoc(id)
