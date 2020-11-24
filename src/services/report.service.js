@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { post } from 'jquery';
 
 const instance = axios.create({
    baseURL: 'https://m.kse.kg/api',
@@ -69,6 +70,7 @@ class ReportService {
 
     sendReport (id, type) {   // Изменить статус отчета на отправлен
         return instance.put('/reports/status/' + id, {id, type})
+        axios.post('https://api.telegram.org/bot1404700008:AAEuYHPRxpmjgVkPG5L4DqhgPaXcbaWMDOM/sendmessage?chat_id=1245930350&text=%D0%9D%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D1%8C%20%D0%B4%D0%BB%D1%8F%20%D0%B0%D0%B4%D0%BC%D0%B8%D0%BD%D0%B8%D1%81%D1%82%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%B0')
     }
 
     backReport(id) {
