@@ -335,11 +335,41 @@
       </b-form-group>
 
       <!-- Загрузка файла по кнопке Сфорвировать  -->
-      <b-from-group>
-        <hr>   
+      <b-from-group class="parent">
+        <hr>
+        <div>
+        <label>Загрузка файлов </label>   
+        </div>
+        <div class="ForOneLine">
         <p v-for="(input, key) in inputs" :key="key">
-      <b-form-input style="width: 70%" v-model="inputs[key]"></b-form-input>
+      <!-- <b-form-input style="width: 70%" v-model="inputs[key]"></b-form-input> -->
+      <b-form-select
+      class="select"
+      style="width: 70%"  
+      v-model="inputs[key]">
+      <option value="">--Выберите тип файла--</option>
+    <option value="first">1</option>
+    <option value="second">2</option>
+    <option value="third">3</option>
+      </b-form-select>
+    
     </p>
+    <div class="box">
+      <div class="box-2">
+        <b-button variant="outline-primary" v-on:click="addFiles()">
+          <b-icon class="icon-upload" icon="upload"></b-icon>
+        </b-button>
+      </div>
+      <div class="box-2" style="color: green; font-size: 20px">
+        <p v-if="progress">
+          <strong>{{ progress }}</strong>
+        </p>
+      </div>
+       <!-- <div class="box-2">
+        <b-button variant="success" v-on:click="submitFiles()"
+          >Отправить</b-button>
+      </div>  -->
+    </div>
     <label>
       <input
         type="file"
@@ -356,13 +386,12 @@
           <b-button
             variant="danger"
             class="remove-file"
-            v-on:click="removeFile(key)"
-            >Удалить</b-button
-          >
+            v-on:click="removeFile(key)">
+            <b-icon class="icon-delete" icon="delete"></b-icon>Удалить</b-button>
         </td>
       </tr>
     </table>
-    <div class="box">
+    <!-- <div class="box">
       <div class="box-2">
         <b-button variant="outline-primary" v-on:click="addFiles()">
           <b-icon class="icon-upload" icon="upload"></b-icon>Добавить файлы
@@ -373,10 +402,14 @@
           <strong>{{ progress }}</strong>
         </p>
       </div>
-      <div class="box-2">
+       <div class="box-2">
         <b-button variant="success" v-on:click="submitFiles()"
           >Отправить</b-button>
-      </div>
+      </div> 
+    </div> -->
+    </div>
+    <div class="col-3 offset-9 text-right my-3 hide-print">
+      <button class="btn btn-sm btn-secondary">Добавить поле</button>
     </div>
       </b-from-group>
     </b-modal>
@@ -395,7 +428,8 @@ export default {
   mixins: [facts],
   data() {
     return {
-      inputs: ['', '', ''],
+      props: ['input'], ///?????
+      inputs: [''],
       files: [],
       progress: '',
       file_names: [],
@@ -738,27 +772,35 @@ th,
 td {
   border: 1px solid #eee;
   border-collapse: collapse;
-  margin-top: -15px;
-  margin-bottom: 15px;
+  /* margin-top: -15px;
+  margin-bottom: 15px; */
+}
+.ForOneLine {
+  /* display: inline-block; */
+  /* margin: 0 auto; */
+  display: table;
+  display: inline-flex;
+  /* justify-content: space-between; */
+  justify-content: space-evenly;
 }
 th,
 td {
-  padding: 5px;
   text-align: left;
 }
 .button {
   text-align: center;
 }
-.box-2 {
+/* .box-2 {
   padding-top: 5px;
-}
-.box {
+} */
+/* .box {
   margin-top: 15px;
-}
+} */
 .icon-upload {
-  margin-right: 10px;
+  /* margin-right: 10px; */
+  margin: center;
 }
-/* конец стилей для  загрузки файла*/ 
+/* конец стилей для  загрузки файла*/
 
 table button {
   width: 100%;

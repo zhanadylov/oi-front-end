@@ -14,15 +14,26 @@ export default {
         this.setinfo()
     },
   data() {
-    return { filename: 'files-1602568797759.doc' };
+    return { filename: 'files-1603773571772.doc' };
   },
   methods: {
     onClick() {
-      axios({
-        url: 'http://localhost:8081/file?filename=' + this.filename,
-        method: 'GET',
-        responseType: 'blob',
-      }).then((response) => {
+      // axios({
+      //   url: 'https://m.kse.kg/api/uploads/' + this.filename ,
+      //   method: 'GET',
+      //   responseType: 'blob',
+      // })
+       let token = localStorage.getItem('token')
+       console.log(token)
+        
+
+      axios.get('https://m.kse.kg/api/uploads/?fileName=' + this.filename,{headers:{ "Authorization": `Bearer ${token}` , "Accept": "application/json",
+  "Access-Control-Allow-Origin": "*",
+
+  "X-Requested-With": "XMLHttpRequest",
+  "Access-Control-Allow-Methods" : "GET,POST,PUT,DELETE,OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"}})
+      .then((response) => {
         var fileURL = window.URL.createObjectURL(new Blob([response.data]));
         var fileLink = document.createElement('a');
         console.log(response);

@@ -1,8 +1,16 @@
 <template>
-<!-- Загрузка файла -->
+<!-- Загрузка файла DEMO-->
   <div class="container">
     <p v-for="(input, key) in inputs" :key="key">
-      <b-form-input style="width: 70%" v-model="inputs[key]"></b-form-input>
+      <!-- <b-form-input style="width: 70%" v-model="inputs[key]"></b-form-input> -->
+      <b-form-select 
+      style="width: 30%" 
+      v-model="inputs[key]">
+      <option value="">--Выберите тип файла--</option>
+    <option value="first">1</option>
+    <option value="second">2</option>
+    <option value="third">3</option>
+      </b-form-select>
     </p>
     <label>
       <input
@@ -39,8 +47,7 @@
       </div>
       <div class="box-2">
         <b-button variant="success" v-on:click="submitFiles()"
-          >Отправить</b-button
-        >
+          >Отправить</b-button>
       </div>
     </div>
   </div>
@@ -67,32 +74,45 @@ export default {
       for (const i of Object.keys(this.files)) {
         formData.append('files', this.files[i]);
       }
-      axios.post('http://localhost:8081/upload', formData, {}).then((res) => {
+
+
+let token = localStorage.getItem('token')
+      axios.post('https://m.kse.kg/api/uploads/', formData, {
+    headers: {
+       "Authorization": `Bearer ${token}` ,
+        'Content-Type': 'multipart/form-data',
+        "Access-Control-Allow-Origin": "*",
+
+  "X-Requested-With": "XMLHttpRequest",
+  "Access-Control-Allow-Methods" : "GET,POST,PUT,DELETE,OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
+    }
+  }).then((res) => {
         this.progress = res.data.message;
         this.files = [];
         this.file_names = res.data.files;
         let data = { files: this.file_names, inputs: this.inputs };
         console.log(this.file_names);
-        let typedoc = 'test';
-        let xmldoc = JSON.stringify(data);
-        let sender = 'test_test';
-        let status = 1; // Статус 1 - можно отправить на сервер
-        let kvartal = ';';
-        console.log(xmldoc);
-        this.$store
-          .dispatch('report/insert', {
-            typedoc,
-            xmldoc,
-            sender,
-            status,
-            kvartal,
-          })
-          .then((response) => {
-            this.$router.push('/reporting');
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+        // let typedoc = 'test';
+        // let xmldoc = JSON.stringify(data);
+        // let sender = 'test_test';
+        // let status = 1; // Статус 1 - можно отправить на сервер
+        // let kvartal = ';';
+        // console.log(xmldoc);
+        // this.$store
+        //   .dispatch('report/insert', {
+        //     typedoc,
+        //     xmldoc,
+        //     sender,
+        //     status,
+        //     kvartal,
+        //   })
+        //   .then((response) => {
+        //     this.$router.push('/reporting');
+        //   })
+        //   .catch(function (error) {
+        //     console.log(error);
+        //   });
       });
     },
     handleFilesUpload() {
