@@ -344,8 +344,7 @@
         <p v-for="(input, key) in inputs" :key="key">
       <!-- <b-form-input style="width: 70%" v-model="inputs[key]"></b-form-input> -->
       <b-form-select
-      class="select"
-      style="width: 70%"  
+      class="select"  
       v-model="inputs[key]">
       <option value="">--Выберите тип файла--</option>
     <option value="first">1</option>
@@ -767,6 +766,9 @@ input[type='file'] {
   top: -500px;
   margin-bottom: 30px;
 }
+select{
+  width: 200px;
+}
 table,
 th,
 td {
@@ -775,13 +777,11 @@ td {
   /* margin-top: -15px;
   margin-bottom: 15px; */
 }
+.parent{
+   grid-template-columns: 1fr 1fr 50px;
+}
 .ForOneLine {
-  /* display: inline-block; */
-  /* margin: 0 auto; */
-  display: table;
   display: inline-flex;
-  /* justify-content: space-between; */
-  justify-content: space-evenly;
 }
 th,
 td {

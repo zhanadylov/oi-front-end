@@ -224,6 +224,13 @@ export const router = new Router({
       meta: { layout: 'main' },
       // lazy-loaded
       component: () => import('./views/Cart.vue')
+    },
+    {
+      path: '/testupload',
+      name: 'TESTUpload',
+      meta: { layout: 'main' },
+      // lazy-loaded
+      component: () => import('./views/TESTUPload.vue')
     }
   ]
 });
