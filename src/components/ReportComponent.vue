@@ -2,7 +2,7 @@
   <div class="reportcomponent">
     <div id="load-div"></div>
     <div class="col-5 text-left my-3 hide-print" v-if="$route.params.idreport" style="z-index: 40">
-      <b-button variant="outline-success" id="export_btn" @click="exportReport">
+      <!-- <b-button variant="outline-success" id="export_btn" @click="exportReport">
         Экспортировать в новый отчет
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: transparent; visibility: hidden" width="20px" height="20px" id="load" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
           <g transform="translate(50,50)"><circle cx="0" cy="0" r="5" fill="none" stroke="#eb7f19" stroke-width="9.4" stroke-dasharray="15.707963267948966 15.707963267948966">
@@ -25,7 +25,7 @@
           <animateTransform attributeName="transform" type="rotate" values="0 0 0;360 0 0" times="0;1" dur="2.3255813953488373s" calcMode="spline" keySplines="0.2 0 0.8 1" begin="-1.6330749354005167" repeatCount="indefinite"></animateTransform>
           </circle></g>
         </svg> 
-      </b-button>
+      </b-button> -->
       <br />
     </div>
 
